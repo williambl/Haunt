@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour {
 	public float moveSpeed;
 	public float rotateSpeed;
 
+	RaycastHit ground;
+	public float HoverHeight = 1;
+
 	public bool isPossessing;
 	GameObject target = null;
 	public Camera cam;
@@ -40,6 +43,15 @@ public class PlayerController : MonoBehaviour {
 				Unposess ();
 			} else {
 				Posess ();
+			}
+		}
+
+		//Hovering
+		if (Physics.Raycast (transform.position, Vector3.down, out ground)) 
+		{
+			if (ground.transform.gameObject.layer == 8)
+			{
+				transform.position = new Vector3(transform.position.x, ground.point.y + HoverHeight, transform.position.z);
 			}
 		}
 	}
