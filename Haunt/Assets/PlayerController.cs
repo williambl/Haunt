@@ -9,10 +9,11 @@ public class PlayerController : MonoBehaviour {
 	public bool isPossessing;
 	GameObject target = null;
 	public Camera cam;
+	public CameraFollow camFollow;
 
 	// Use this for initialization
 	void Start () {
-	
+		camFollow.target = gameObject;
 	}
 	
 	// Update is called once per frame
@@ -63,16 +64,16 @@ public class PlayerController : MonoBehaviour {
 		if (target != null)
 		{
 			target.tag = "Possessed";
+			camFollow.target = target;
 			isPossessing = true;
-			cam.transform.parent = target.transform;
 		}
 	}
 
 	void Unposess ()
 	{
 		target.tag = "Possessable";
+		camFollow.target = gameObject;
 		target = null;
 		isPossessing = false;
-		cam.transform.parent = gameObject.transform;
 	}
 }
