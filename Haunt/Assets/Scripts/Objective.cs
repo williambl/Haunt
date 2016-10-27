@@ -3,11 +3,11 @@ using System.Collections;
 
 public class Objective : MonoBehaviour {
 
-	Manager manager;
+	GameManager manager;
 
 	// Use this for initialization
 	void Start () {
-		manager = FindObjectOfType<Manager> ();
+		manager = FindObjectOfType<GameManager> ();
 	}
 	
 	// Update is called once per frame
