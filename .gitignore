@@ -1,0 +1,10 @@
+.ds_store
+*.swp
+*.Trashes
+Library
+Temp
+*.csproj
+*pidb
+*.unityproj
+*sln
+*.userprefs
