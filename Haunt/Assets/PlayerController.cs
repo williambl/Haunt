@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour {
 	public float moveSpeed;
 	public float rotateSpeed;
 
-	public bool isPosessing;
+	public bool isPossessing;
 	GameObject target = null;
 	public Camera cam;
 
@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour {
 		//Movement
 		var x = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;
 		var z = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
-		if (isPosessing) {
+		if (isPossessing) {
 			Debug.Log ("moving " + target.name);
 			target.transform.Translate (0, 0, z);
 			target.transform.Rotate (0, x, 0);
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButtonDown("Posess"))
 		{
 			Debug.Log ("got button");
-			if (isPosessing) {
+			if (isPossessing) {
 				Unposess ();
 			} else {
 				Posess ();
@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour {
 		foreach(Collider potentialTarget in potentialTargets)
 		{
 			Debug.Log (potentialTarget.gameObject.name);
-			if ((potentialTarget.transform.position - transform.position).sqrMagnitude < maxDist) {
+			if ((potentialTarget.transform.position - transform.position).sqrMagnitude < maxDist && potentialTarget.gameObject.tag == "Possessable") {
 				maxDist = (potentialTarget.transform.position - transform.position).sqrMagnitude;
 				target = potentialTarget.gameObject;
 				Debug.Log (target.name);
@@ -62,17 +62,17 @@ public class PlayerController : MonoBehaviour {
 		Debug.Log("Final Target is: " + target.name);
 		if (target != null)
 		{
-			target.tag = "Posessed";
-			isPosessing = true;
+			target.tag = "Possessed";
+			isPossessing = true;
 			cam.transform.parent = target.transform;
 		}
 	}
 
 	void Unposess ()
 	{
-		target.tag = "Posessable";
+		target.tag = "Possessable";
 		target = null;
-		isPosessing = false;
+		isPossessing = false;
 		cam.transform.parent = gameObject.transform;
 	}
 }
