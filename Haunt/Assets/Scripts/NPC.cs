@@ -6,9 +6,16 @@ public class NPC : MonoBehaviour {
 	RaycastHit ground;
 	public float HoverHeight = 2;
 
+	NavMeshAgent agent;
+	public Transform[] points;
+	private int destPoint = 0;
+	Vector3 currentWaypoint;
+
 	// Use this for initialization
 	void Start () {
-	
+		agent = GetComponent<NavMeshAgent> ();
+		agent.autoBraking = false;
+		GotoNextPoint ();
 	}
 	
 	// Update is called once per frame
@@ -21,5 +28,22 @@ public class NPC : MonoBehaviour {
 				transform.position = new Vector3(transform.position.x, ground.point.y + HoverHeight, transform.position.z);
 			}
 		}
+
+		//Patrolling
+		if (agent.remainingDistance < 0.5f)
+			GotoNextPoint ();
+	}
+
+	void GotoNextPoint() {
+		// Returns if no points have been set up
+		if (points.Length == 0)
+			return;
+
+		// Set the agent to go to the currently selected destination.
+		agent.destination = points[destPoint].position;
+
+		// Choose the next point in the array as the destination,
+		// cycling to the start if necessary.
+		destPoint = Random.Range(1,10) % points.Length;
 	}
 }
