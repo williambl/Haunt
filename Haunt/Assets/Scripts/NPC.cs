@@ -11,11 +11,14 @@ public class NPC : MonoBehaviour {
 	private int destPoint = 0;
 	Vector3 currentWaypoint;
 
+	Rigidbody rigid;
+
 	// Use this for initialization
 	void Start () {
 		agent = GetComponent<NavMeshAgent> ();
 		agent.autoBraking = false;
 		GotoNextPoint ();
+		rigid = GetComponent<Rigidbody> ();
 	}
 	
 	// Update is called once per frame
@@ -30,8 +33,14 @@ public class NPC : MonoBehaviour {
 		}
 
 		//Patrolling
-		if (agent.remainingDistance < 0.5f)
+		if (agent.enabled && agent.remainingDistance < 0.5f)
 			GotoNextPoint ();
+
+		if (gameObject.tag == "Possessed"){
+			agent.enabled = false;
+			rigid.velocity = Vector3.zero;
+		} else
+			agent.enabled = true;
 	}
 
 	void GotoNextPoint() {
