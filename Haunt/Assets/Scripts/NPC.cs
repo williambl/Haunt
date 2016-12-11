@@ -6,7 +6,7 @@ public class NPC : MonoBehaviour {
 	RaycastHit ground;
 	public float HoverHeight = 2;
 
-	NavMeshAgent agent;
+	UnityEngine.AI.NavMeshAgent agent;
 	public Transform[] points;
 	private int destPoint = 0;
 	Vector3 currentWaypoint;
@@ -15,7 +15,7 @@ public class NPC : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		agent = GetComponent<NavMeshAgent> ();
+		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.autoBraking = false;
 		GotoNextPoint ();
 		rigid = GetComponent<Rigidbody> ();

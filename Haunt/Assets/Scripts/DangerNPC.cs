@@ -8,12 +8,12 @@ public class DangerNPC : MonoBehaviour {
 
 	Rigidbody rigid;
 
-	NavMeshAgent agent;
+	UnityEngine.AI.NavMeshAgent agent;
 	public Transform player;
 
 	// Use this for initialization
 	void Start () {
-		agent = GetComponent<NavMeshAgent> ();
+		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.autoBraking = false;
 		rigid = GetComponent<Rigidbody> ();
 	}
