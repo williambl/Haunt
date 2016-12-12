@@ -15,11 +15,16 @@ public class DangerNPC : MonoBehaviour {
 
 	LineRenderer line;
 
+	bool isAttacking;
+	bool wasAttacking;
+	float cooldownTimestamp = 0;
+
 	//These variables are dependent on difficulty level
 	public float attackStrength;
+	public float attackCooldown;
 	public float fov;
 
-	// Use this for initialization
+
 	void Start () {
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.autoBraking = false;
@@ -41,20 +46,38 @@ public class DangerNPC : MonoBehaviour {
 		}
 
 		//Patrolling and attacking
+		wasAttacking = isAttacking;
 		if (Vector3.Distance (transform.position, player.position) < 5 && LineOfSight(player)) {
-			Attack (player.gameObject);
-			agent.enabled = false;
-			rigid.velocity = Vector3.zero;
-			playerController.isBeingAttacked = true;
+			if (wasAttacking) {
+				Attack (player.gameObject);
+				agent.enabled = false;
+				rigid.velocity = Vector3.zero;
+				playerController.isBeingAttacked = true;
+				isAttacking = true;
+			} else if (Time.time > cooldownTimestamp + attackCooldown) {
+				Attack (player.gameObject);
+				agent.enabled = false;
+				rigid.velocity = Vector3.zero;
+				playerController.isBeingAttacked = true;
+				isAttacking = true;
+			} else {
+				agent.enabled = false;
+				rigid.velocity = Vector3.zero;
+				playerController.isBeingAttacked = false;
+				isAttacking = false;
+			}
 		} else if (Vector3.Distance (transform.position, player.position) < 10) {
 			GotoPlayer ();
 			playerController.isBeingAttacked = false;
 			line.enabled = false;
+			isAttacking = false;
+
 		} else {
 			agent.enabled = false;
 			rigid.velocity = Vector3.zero;
 			playerController.isBeingAttacked = false;
 			line.enabled = false;
+			isAttacking = false;
 		}
 	}
 
@@ -64,6 +87,7 @@ public class DangerNPC : MonoBehaviour {
 	}
 
 	void Attack(GameObject target) {
+		cooldownTimestamp = Time.time;
 		line.enabled = true;
 		line.SetPositions (new Vector3[2]{ transform.position, player.transform.position });
 
