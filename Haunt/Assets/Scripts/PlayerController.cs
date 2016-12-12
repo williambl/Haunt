@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
 	GameObject target = null;
 	public Camera cam;
 	public CameraFollow camFollow;
+	public EffectManager effectManager;
 
 	public bool isBeingAttacked;
 
@@ -51,12 +52,6 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		if (!isBeingAttacked)
-		{
-			rigid.velocity = Vector3.zero;
-			rigid.angularVelocity = Vector3.zero;
-		}
-
 		//Hovering
 		if (Physics.Raycast (transform.position, Vector3.down, out ground)) 
 		{
@@ -65,6 +60,14 @@ public class PlayerController : MonoBehaviour {
 				transform.position = new Vector3(transform.position.x, ground.point.y + HoverHeight, transform.position.z);
 			}
 		}
+
+		//Stops player from being pushed away after attacking ends
+		if (!isBeingAttacked)
+		{
+			rigid.velocity = Vector3.zero;
+			rigid.angularVelocity = Vector3.zero;
+		}
+		effectManager.attacked = isBeingAttacked;
 	}
 
 	void Posess ()

@@ -13,6 +13,8 @@ public class DangerNPC : MonoBehaviour {
 
 	PlayerController playerController;
 
+	LineRenderer line;
+
 	//These variables are dependent on difficulty level
 	public float attackStrength;
 	public float fov;
@@ -23,6 +25,8 @@ public class DangerNPC : MonoBehaviour {
 		agent.autoBraking = false;
 		rigid = GetComponent<Rigidbody> ();
 		playerController = player.GetComponent<PlayerController> ();
+		line = GetComponent<LineRenderer> ();
+		line.enabled = false;
 	}
 
 	// Update is called once per frame
@@ -45,10 +49,12 @@ public class DangerNPC : MonoBehaviour {
 		} else if (Vector3.Distance (transform.position, player.position) < 10) {
 			GotoPlayer ();
 			playerController.isBeingAttacked = false;
+			line.enabled = false;
 		} else {
 			agent.enabled = false;
 			rigid.velocity = Vector3.zero;
 			playerController.isBeingAttacked = false;
+			line.enabled = false;
 		}
 	}
 
@@ -58,6 +64,9 @@ public class DangerNPC : MonoBehaviour {
 	}
 
 	void Attack(GameObject target) {
+		line.enabled = true;
+		line.SetPositions (new Vector3[2]{ transform.position, player.transform.position });
+
 		Rigidbody targetRigid = target.GetComponent<Rigidbody> ();
 		Vector3 attackForce = (transform.position - target.transform.position) * Random.value * attackStrength;
 		targetRigid.AddForce (attackForce);
