@@ -14,9 +14,14 @@ public class PlayerController : MonoBehaviour {
 	public Camera cam;
 	public CameraFollow camFollow;
 
+	public bool isBeingAttacked;
+
+	Rigidbody rigid;
+
 	// Use this for initialization
 	void Start () {
 		camFollow.target = gameObject;
+		rigid = GetComponent<Rigidbody> ();
 	}
 	
 	// Update is called once per frame
@@ -44,6 +49,12 @@ public class PlayerController : MonoBehaviour {
 			} else {
 				Posess ();
 			}
+		}
+
+		if (!isBeingAttacked)
+		{
+			rigid.velocity = Vector3.zero;
+			rigid.angularVelocity = Vector3.zero;
 		}
 
 		//Hovering

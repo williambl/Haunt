@@ -15,3 +15,7 @@
 /Users/william/Documents/unity projects/haunt/Haunt/Temp/bin/Debug/Assembly-CSharp.dll
 /Users/william/Documents/unity projects/haunt/Haunt/obj/Debug/Assembly-CSharp.dll
 /Users/william/Documents/unity projects/haunt/Haunt/obj/Debug/Assembly-CSharp.dll.mdb
+/Users/william/Documents/unity projects/haunt/Haunt/Temp/bin/Debug/UnityEngine.PlaymodeTestsRunner.dll
+/Users/william/Documents/unity projects/haunt/Haunt/Temp/bin/Debug/UnityEngine.Analytics.dll
+/Users/william/Documents/unity projects/haunt/Haunt/Temp/bin/Debug/UnityEngine.HoloLens.dll
+/Users/william/Documents/unity projects/haunt/Haunt/Temp/bin/Debug/UnityEngine.VR.dll
