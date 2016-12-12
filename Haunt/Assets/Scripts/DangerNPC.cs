@@ -8,6 +8,8 @@ public class DangerNPC : MonoBehaviour {
 
 	Rigidbody rigid;
 
+	GameManager manager;
+
 	UnityEngine.AI.NavMeshAgent agent;
 	public Transform player;
 
@@ -23,6 +25,8 @@ public class DangerNPC : MonoBehaviour {
 	public float attackStrength;
 	public float attackCooldown;
 	public float fov;
+	public float sightReach;
+	public float attackReach;
 
 
 	void Start () {
@@ -32,6 +36,31 @@ public class DangerNPC : MonoBehaviour {
 		playerController = player.GetComponent<PlayerController> ();
 		line = GetComponent<LineRenderer> ();
 		line.enabled = false;
+		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+
+		switch (manager.difficultyLevel) {
+		case Difficulty.EASY:
+			attackStrength = 2;
+			attackCooldown = 7;
+			fov = 90;
+			sightReach = 7;
+			attackReach = 4;
+			break;
+		case Difficulty.NORMAL:
+			attackStrength = 5;
+			attackCooldown = 5;
+			fov = 120;
+			sightReach = 10;
+			attackReach = 5;
+			break;
+		case Difficulty.HARD:
+			attackStrength = 7;
+			attackCooldown = 2;
+			fov = 270;
+			sightReach = 15;
+			attackReach = 8;
+			break;
+		}
 	}
 
 	// Update is called once per frame
@@ -47,7 +76,7 @@ public class DangerNPC : MonoBehaviour {
 
 		//Patrolling and attacking
 		wasAttacking = isAttacking;
-		if (Vector3.Distance (transform.position, player.position) < 5 && LineOfSight(player)) {
+		if (Vector3.Distance (transform.position, player.position) < attackReach && LineOfSight(player)) {
 			if (wasAttacking) {
 				Attack (player.gameObject);
 				agent.enabled = false;
@@ -66,7 +95,7 @@ public class DangerNPC : MonoBehaviour {
 				playerController.isBeingAttacked = false;
 				isAttacking = false;
 			}
-		} else if (Vector3.Distance (transform.position, player.position) < 10) {
+		} else if (Vector3.Distance (transform.position, player.position) < sightReach) {
 			GotoPlayer ();
 			playerController.isBeingAttacked = false;
 			line.enabled = false;
