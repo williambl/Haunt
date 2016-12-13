@@ -16,13 +16,19 @@ public class PlayerController : MonoBehaviour {
 	public EffectManager effectManager;
 
 	public bool isBeingAttacked;
+	public bool isBeingCaught;
 
 	Rigidbody rigid;
+
+	public bool dead;
+
+	GameManager manager;
 
 	// Use this for initialization
 	void Start () {
 		camFollow.target = gameObject;
 		rigid = GetComponent<Rigidbody> ();
+		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 	}
 	
 	// Update is called once per frame
@@ -35,16 +41,15 @@ public class PlayerController : MonoBehaviour {
 			Debug.Log ("moving " + target.name);
 			target.transform.Translate (0, 0, z);
 			target.transform.Rotate (0, x, 0);
-		} else {
+		} else if (!isBeingCaught && !dead) {
 			transform.Translate (0, 0, z);
 			transform.Rotate (0, x, 0);
 		}
 
 
 		//Possesion
-		if (Input.GetButtonDown("Posess"))
+		if (Input.GetButtonDown("Posess") && !isBeingAttacked && !isBeingCaught && !dead)
 		{
-			Debug.Log ("got button");
 			if (isPossessing) {
 				Unposess ();
 			} else {
@@ -68,6 +73,12 @@ public class PlayerController : MonoBehaviour {
 			rigid.angularVelocity = Vector3.zero;
 		}
 		effectManager.attacked = isBeingAttacked;
+		effectManager.dead = dead;
+	
+		if (isBeingCaught) {
+			Die();
+		}
+
 	}
 
 	void Posess ()
@@ -101,5 +112,11 @@ public class PlayerController : MonoBehaviour {
 		camFollow.target = gameObject;
 		target = null;
 		isPossessing = false;
+	}
+
+	void Die ()
+	{
+		dead = true;
+		manager.lost = true;
 	}
 }

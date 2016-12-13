@@ -6,6 +6,7 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 	
 	public bool won;
+	public bool lost;
 	public GameObject text;
 	public Difficulty difficultyLevel;
 
@@ -34,8 +35,19 @@ public class GameManager : MonoBehaviour {
 			difficultyLevel = (Difficulty)diffSlider.value;
 		} 
 		else if (SceneManager.GetActiveScene ().name == "game") {
-			text.SetActive (won);
+			win (won);
+			lose (lost);
 		}
+	}
+
+	void win (bool value) {
+		text.SetActive (value);
+		text.GetComponent<Text> ().text = "You win!";
+	}
+
+	void lose (bool value) {
+		text.SetActive (value);
+		text.GetComponent<Text> ().text = "You lose!";
 	}
 
 	void OnDisable()

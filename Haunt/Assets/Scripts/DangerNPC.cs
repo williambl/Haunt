@@ -76,28 +76,39 @@ public class DangerNPC : MonoBehaviour {
 
 		//Patrolling and attacking
 		wasAttacking = isAttacking;
-		if (Vector3.Distance (transform.position, player.position) < attackReach && LineOfSight(player)) {
+		if (Vector3.Distance (transform.position, player.position) < 0.3) {
+			Catch (player.gameObject);
+			agent.enabled = false;
+			rigid.velocity = Vector3.zero;
+			playerController.isBeingAttacked = false;
+			playerController.isBeingCaught = true;
+			isAttacking = true;
+		} else if (Vector3.Distance (transform.position, player.position) < attackReach && LineOfSight(player)) {
 			if (wasAttacking) {
 				Attack (player.gameObject);
 				agent.enabled = false;
 				rigid.velocity = Vector3.zero;
 				playerController.isBeingAttacked = true;
+				playerController.isBeingCaught = false;
 				isAttacking = true;
 			} else if (Time.time > cooldownTimestamp + attackCooldown) {
 				Attack (player.gameObject);
 				agent.enabled = false;
 				rigid.velocity = Vector3.zero;
 				playerController.isBeingAttacked = true;
+				playerController.isBeingCaught = false;
 				isAttacking = true;
 			} else {
 				agent.enabled = false;
 				rigid.velocity = Vector3.zero;
 				playerController.isBeingAttacked = false;
+				playerController.isBeingCaught = false;
 				isAttacking = false;
 			}
 		} else if (Vector3.Distance (transform.position, player.position) < sightReach) {
 			GotoPlayer ();
 			playerController.isBeingAttacked = false;
+			playerController.isBeingCaught = false;
 			line.enabled = false;
 			isAttacking = false;
 
@@ -105,6 +116,7 @@ public class DangerNPC : MonoBehaviour {
 			agent.enabled = false;
 			rigid.velocity = Vector3.zero;
 			playerController.isBeingAttacked = false;
+			playerController.isBeingCaught = false;
 			line.enabled = false;
 			isAttacking = false;
 		}
@@ -123,6 +135,10 @@ public class DangerNPC : MonoBehaviour {
 		Rigidbody targetRigid = target.GetComponent<Rigidbody> ();
 		Vector3 attackForce = (transform.position - target.transform.position) * Random.value * attackStrength;
 		targetRigid.AddForce (attackForce);
+	}
+
+	void Catch(GameObject target) {
+		line.enabled = false;
 	}
 
 	//Based on http://answers.unity3d.com/answers/20007/view.html
