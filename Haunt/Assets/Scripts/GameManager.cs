@@ -7,7 +7,13 @@ public class GameManager : MonoBehaviour {
 	
 	public bool won;
 	public bool lost;
-	public GameObject text;
+
+	public GameObject endText;
+	public GameObject endMenu;
+	public GameObject progressButton;
+
+	public GameObject pauseMenu;
+
 	public Difficulty difficultyLevel;
 
 	public Slider diffSlider;
@@ -26,7 +32,9 @@ public class GameManager : MonoBehaviour {
 			diffSlider = GameObject.Find ("difficultySlider").GetComponent<Slider> ();
 		} 
 		else if (SceneManager.GetActiveScene ().name == "game") {
-			text = GameObject.Find ("Canvas/winText");
+			endText = GameObject.Find ("Canvas/End Menu/endText");
+			endMenu = GameObject.Find ("Canvas/End Menu");
+			progressButton = GameObject.Find("Canvas/End Menu/Progress");
 		}
 	}
 	
@@ -41,13 +49,17 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void win (bool value) {
-		text.SetActive (value);
-		text.GetComponent<Text> ().text = "You win!";
+		endMenu.SetActive (value);
+		endText.SetActive (value);
+		endText.GetComponent<Text> ().text = "You win!";
+		progressButton.GetComponentInChildren<Text> ().text = "Next Level";
 	}
 
 	void lose (bool value) {
-		text.SetActive (value);
-		text.GetComponent<Text> ().text = "You lose!";
+		endMenu.SetActive (value);
+		endText.SetActive (value);
+		endText.GetComponent<Text> ().text = "You lose!";
+		progressButton.GetComponentInChildren<Text> ().text = "Restart Level";
 	}
 
 	void OnDisable()
