@@ -7,7 +7,7 @@ public class Objective : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		manager = FindObjectOfType<GameManager> ();
+		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 	}
 	
 	// Update is called once per frame

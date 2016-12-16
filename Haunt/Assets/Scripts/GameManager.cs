@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void win (bool value) {
+		Debug.Log ("won");
 		endMenu.SetActive (value);
 		endText.SetActive (value);
 		endText.GetComponent<Text> ().text = "You win!";
@@ -56,6 +57,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void lose (bool value) {
+		Debug.Log ("lost");
 		endMenu.SetActive (value);
 		endText.SetActive (value);
 		endText.GetComponent<Text> ().text = "You lose!";
