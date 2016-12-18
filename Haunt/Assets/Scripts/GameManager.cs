@@ -43,26 +43,18 @@ public class GameManager : MonoBehaviour {
 			difficultyLevel = (Difficulty)diffSlider.value;
 		} 
 		else if (SceneManager.GetActiveScene ().name == "game") {
-			win (won);
-			lose (lost);
+			WinOrLose (won, lost);
 		}
 	}
 
-	void win (bool value) {
-		Debug.Log ("won:" + value.ToString());
-		endMenu.SetActive (value);
-		endText.SetActive (value);
-		if (value) {
+	void WinOrLose (bool hasWon, bool hasLost) {
+		//Debug.Log ("lost:" + value.ToString());
+		endMenu.SetActive (hasWon || hasLost);
+		endText.SetActive (hasWon || hasLost);
+		if (hasWon) {
 			endText.GetComponent<Text> ().text = "You win!";
 			progressButton.GetComponentInChildren<Text> ().text = "Next Level";
-		}
-	}
-
-	void lose (bool value) {
-		Debug.Log ("lost:" + value.ToString());
-		endMenu.SetActive (value);
-		endText.SetActive (value);
-		if (value) {
+		} else if (hasLost){
 			endText.GetComponent<Text> ().text = "You lose!";
 			progressButton.GetComponentInChildren<Text> ().text = "Restart Level";
 		}
