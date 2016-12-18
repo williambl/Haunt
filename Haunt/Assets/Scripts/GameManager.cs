@@ -49,19 +49,23 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void win (bool value) {
-		Debug.Log ("won");
+		Debug.Log ("won:" + value.ToString());
 		endMenu.SetActive (value);
 		endText.SetActive (value);
-		endText.GetComponent<Text> ().text = "You win!";
-		progressButton.GetComponentInChildren<Text> ().text = "Next Level";
+		if (value) {
+			endText.GetComponent<Text> ().text = "You win!";
+			progressButton.GetComponentInChildren<Text> ().text = "Next Level";
+		}
 	}
 
 	void lose (bool value) {
-		Debug.Log ("lost");
+		Debug.Log ("lost:" + value.ToString());
 		endMenu.SetActive (value);
 		endText.SetActive (value);
-		endText.GetComponent<Text> ().text = "You lose!";
-		progressButton.GetComponentInChildren<Text> ().text = "Restart Level";
+		if (value) {
+			endText.GetComponent<Text> ().text = "You lose!";
+			progressButton.GetComponentInChildren<Text> ().text = "Restart Level";
+		}
 	}
 
 	void OnDisable()
