@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour {
 
 	GameManager manager;
 
+	public Item holding;
+
 	// Use this for initialization
 	void Start () {
 		camFollow.target = gameObject;
@@ -55,6 +57,13 @@ public class PlayerController : MonoBehaviour {
 			} else {
 				Posess ();
 			}
+		}
+
+
+		//Picking up/dropping
+		if (Input.GetButtonDown ("PickUp")) {
+			if (holding != null)
+				
 		}
 
 		//Hovering
@@ -118,5 +127,15 @@ public class PlayerController : MonoBehaviour {
 	{
 		dead = true;
 		manager.lost = true;
+	}
+
+	void PickUp (GameObject target)
+	{
+		target.transform.parent = transform;
+	}
+
+	void Drop (GameObject target)
+	{
+		target.transform.parent = null;
 	}
 }
