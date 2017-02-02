@@ -27,14 +27,12 @@ public class PlayerController : MonoBehaviour {
 	public GameObject holding;
 	public Item holdingitem;
 
-	// Use this for initialization
 	void Start () {
 		camFollow.target = gameObject;
 		rigid = GetComponent<Rigidbody> ();
 		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 	}
 	
-	// Update is called once per frame
 	void Update () {
 
 		//Movement
@@ -54,9 +52,9 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButtonDown("Posess") && !isBeingAttacked && !isBeingCaught && !dead)
 		{
 			if (isPossessing) {
-				Unposess ();
+				UnposessTarget ();
 			} else {
-				Posess ();
+				PosessTarget ();
 			}
 		}
 
@@ -95,7 +93,10 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-	void Posess ()
+	/// <summary>
+	/// Posesses the closest target, taking control of it.
+	/// </summary>
+	void PosessTarget ()
 	{
 		//Getting target
 		Debug.Log("looking for targets");
@@ -120,7 +121,10 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void Unposess ()
+	/// <summary>
+	/// Unposesses the currently possessed target, releasing it from control.
+	/// </summary>
+	void UnposessTarget ()
 	{
 		target.tag = "Possessable";
 		camFollow.target = gameObject;
@@ -128,13 +132,19 @@ public class PlayerController : MonoBehaviour {
 		isPossessing = false;
 	}
 
+	/// <summary>
+	/// Makes the player die and loses the game.
+	/// </summary>
 	void Die ()
 	{
 		dead = true;
 		manager.lost = true;
 	}
 
-	//Pick up an object
+	/// <summary>
+	/// Picks up a target.
+	/// </summary>
+	/// <param name="target">Target to pick up.</param>
 	void PickUp (GameObject target)
 	{
 		target.transform.parent = transform;
@@ -143,7 +153,9 @@ public class PlayerController : MonoBehaviour {
 		target.transform.position = transform.position;
 	}
 
-	//Drop the current held object
+	/// <summary>
+	/// Drop the currently held object.
+	/// </summary>
 	void Drop ()
 	{
 		holding.transform.parent = null;

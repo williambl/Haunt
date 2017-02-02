@@ -63,7 +63,6 @@ public class DangerNPC : MonoBehaviour {
 		}
 	}
 
-	// Update is called once per frame
 	void Update () {
 		//Hovering
 		if (Physics.Raycast (transform.position, Vector3.down, out ground)) 
@@ -122,11 +121,18 @@ public class DangerNPC : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// Set the nav agent destination to the player and enable the nav agent.
+	/// </summary>
 	void GotoPlayer() {
 		agent.enabled = true;
 		agent.destination = player.position;
 	}
 
+	/// <summary>
+	/// Attack the specified target.
+	/// </summary>
+	/// <param name="target">Target to attack.</param>
 	void Attack(GameObject target) {
 		cooldownTimestamp = Time.time;
 		line.enabled = true;
@@ -137,11 +143,20 @@ public class DangerNPC : MonoBehaviour {
 		targetRigid.AddForce (attackForce);
 	}
 
+	/// <summary>
+	/// Catch the specified target. Currently just disables the line
+	/// </summary>
+	/// <param name="target">Target to catch.</param>
 	void Catch(GameObject target) {
 		line.enabled = false;
 	}
 
 	//Based on http://answers.unity3d.com/answers/20007/view.html
+	/// <summary>
+	/// Checks the line of sight to the target.
+	/// </summary>
+	/// <returns><c>true</c>, if there is line of sight to the target, <c>false</c> otherwise.</returns>
+	/// <param name="target">Target.</param>
 	bool LineOfSight(Transform target) {
 		RaycastHit hit;
 		if (Vector3.Angle (target.position - transform.position, transform.forward) <= fov &&

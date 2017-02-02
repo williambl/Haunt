@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
 	public Slider diffSlider;
 
 	void OnEnable () {
+		//Subscribes to the scene loading event
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
 	}
 		
@@ -27,6 +28,9 @@ public class GameManager : MonoBehaviour {
 		Init ();
 	}
 
+	/// <summary>
+	/// Initialise.
+	/// </summary>
 	void Init () {
 		if (SceneManager.GetActiveScene ().name == "menu") {
 			diffSlider = GameObject.Find ("difficultySlider").GetComponent<Slider> ();
@@ -47,6 +51,12 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// If the player has won, this will bring up the win screen.
+	/// If the player has lost, it will bring up the lose screen.
+	/// </summary>
+	/// <param name="hasWon">If set to <c>true</c>, the player has won.</param>
+	/// <param name="hasLost">If set to <c>true</c>, the player has lost.</param>
 	void WinOrLose (bool hasWon, bool hasLost) {
 		//Debug.Log ("lost:" + value.ToString());
 		endMenu.SetActive (hasWon || hasLost);
@@ -62,17 +72,30 @@ public class GameManager : MonoBehaviour {
 
 	void OnDisable()
 	{
+		//Unsubscibe from the scene loading event
 		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	}
 
+	/// <summary>
+	/// Starts the game.
+	/// </summary>
 	public void StartGame () {
 		SceneManager.LoadScene("game");
 	}
 		
+	/// <summary>
+	/// Changes the difficulty.
+	/// </summary>
+	/// <param name="value">Difficulty value.</param>
 	public void ChangeDifficulty (int value) {
 		difficultyLevel = (Difficulty)value;
 	}
 
+	/// <summary>
+	/// When the level loads, initialises.
+	/// </summary>
+	/// <param name="scene">Scene loaded.</param>
+	/// <param name="mode">LoadSceneMode.</param>
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
 		Init ();

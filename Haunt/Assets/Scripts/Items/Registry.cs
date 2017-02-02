@@ -6,6 +6,10 @@ using UnityEngine;
 public class Registry {
 	private static List<Item> itemRegistry = new List<Item>();
 
+	/// <summary>
+	/// Registers an item.
+	/// </summary>
+	/// <param name="item">Item to register.</param>
 	public static void RegisterItem (Item item) 
 	{
 		if (!itemRegistry.Contains (item))

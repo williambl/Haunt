@@ -13,7 +13,6 @@ public class NPC : MonoBehaviour {
 
 	Rigidbody rigid;
 
-	// Use this for initialization
 	void Start () {
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.autoBraking = false;
@@ -21,7 +20,6 @@ public class NPC : MonoBehaviour {
 		rigid = GetComponent<Rigidbody> ();
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		//Hovering
 		if (Physics.Raycast (transform.position, Vector3.down, out ground)) 
@@ -43,6 +41,10 @@ public class NPC : MonoBehaviour {
 			agent.enabled = true;
 	}
 
+	/// <summary>
+	/// Sets the agent's destination to a random point on an array of points.
+	/// Does nothing if no points exists in the array.
+	/// </summary>
 	void GotoNextPoint() {
 		// Returns if no points have been set up
 		if (points.Length == 0)

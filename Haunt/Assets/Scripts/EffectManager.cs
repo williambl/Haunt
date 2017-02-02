@@ -11,16 +11,18 @@ public class EffectManager : MonoBehaviour {
 	Color vignetteColour = new Color(0.372f, 0.039f, 0.086f); 
 	Color chromAbbColour = new Color(0f, 1f, 0f);
 
-	// Use this for initialization
 	void Start () {
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		AttackedEffect (attacked);
 		DeadEffect (dead);
 	}
 
+	/// <summary>
+	/// Enables or Disables the attacked effect.
+	/// </summary>
+	/// <param name="enabled">If set to <c>true</c>, the effect will be enabled. If false, it will be disabled.</param>
 	void AttackedEffect (bool enabled) {
 		lensAbb.vignette.enabled = enabled;
 		lensAbb.chromaticAberration.enabled = enabled;
@@ -36,6 +38,10 @@ public class EffectManager : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// Enables or Disables the dead effect.
+	/// </summary>
+	/// <param name="enabled">If set to <c>true</c>, the effect will be enabled. If false, it will be disabled.</param>
 	void DeadEffect (bool enabled) {
 		lensAbb.vignette.enabled = enabled;
 

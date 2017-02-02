@@ -6,7 +6,6 @@ public class CameraFollow : MonoBehaviour {
 	public GameObject target;
 	Vector3 offset;
 
-	// Use this for initialization
 	void Start () {
 		offset = target.transform.position - transform.position;
 	}
