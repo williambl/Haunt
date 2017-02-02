@@ -24,7 +24,8 @@ public class PlayerController : MonoBehaviour {
 
 	GameManager manager;
 
-	public Item holding;
+	public GameObject holding;
+	public Item holdingitem;
 
 	// Use this for initialization
 	void Start () {
@@ -59,13 +60,6 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-
-		//Picking up/dropping
-		if (Input.GetButtonDown ("PickUp")) {
-			if (holding != null)
-				
-		}
-
 		//Hovering
 		if (Physics.Raycast (transform.position, Vector3.down, out ground)) 
 		{
@@ -84,8 +78,19 @@ public class PlayerController : MonoBehaviour {
 		effectManager.attacked = isBeingAttacked;
 		effectManager.dead = dead;
 	
+		//Dying
 		if (isBeingCaught) {
 			Die();
+		}
+
+		//Picking up/dropping
+		if (Input.GetButtonDown ("PickUp")) {
+			if (GetNearestHoldable (5f) != null) {
+				if (holding == null) 
+					PickUp (GetNearestHoldable (5f));
+				else
+					Drop ();
+			}
 		}
 
 	}
@@ -129,13 +134,38 @@ public class PlayerController : MonoBehaviour {
 		manager.lost = true;
 	}
 
+	//Pick up an object
 	void PickUp (GameObject target)
 	{
 		target.transform.parent = transform;
+		holding = target;
+		holdingitem = target.GetComponent<ItemComponent> ().item;
+		target.transform.position = transform.position;
 	}
 
-	void Drop (GameObject target)
+	//Drop the current held object
+	void Drop ()
 	{
-		target.transform.parent = null;
+		holding.transform.parent = null;
+		holding = null;
+	}
+		
+	/// <summary>
+	/// Gets the nearest holdable GameObject in the radius.
+	/// Returns null if no holdable GameObjects are found in the radius specified.
+	/// </summary>
+	/// <param name="radius">Radius to search within.</param>
+	GameObject GetNearestHoldable (float radius)
+	{
+		float dist = Mathf.Infinity;
+		GameObject closest = null;
+
+		foreach (Collider coll in Physics.OverlapSphere(transform.position, radius)) {
+			if (Vector3.Distance (transform.position, coll.transform.position) < dist && coll.gameObject.layer == 11) {
+				dist = Vector3.Distance (transform.position, coll.transform.position);
+				closest = coll.gameObject;
+			}
+		}
+		return closest;
 	}
 }

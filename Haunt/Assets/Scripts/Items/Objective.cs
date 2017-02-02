@@ -5,10 +5,14 @@ public class Objective : MonoBehaviour {
 
 	GameManager manager;
 
+	ItemComponent itemC;
+
 	// Use this for initialization
 	void Start () {
+		itemC = GetComponent<ItemComponent> ();
+		itemC.item = new Item ("objective", gameObject);
 		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
-		Registry.RegisterItem (new Item("objective", "objective", 0, "the objective"));
+		Registry.RegisterItem (itemC.item);
 	}
 	
 	// Update is called once per frame
@@ -18,8 +22,8 @@ public class Objective : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other)
 	{
-		if (other.gameObject.tag == "Player") {
-			manager.won = true;
-		}
+		//if (other.gameObject.tag == "Player") {
+		//	manager.won = true;
+		//}
 	}
 }
