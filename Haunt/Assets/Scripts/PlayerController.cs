@@ -173,7 +173,7 @@ public class PlayerController : MonoBehaviour {
 		GameObject closest = null;
 
 		foreach (Collider coll in Physics.OverlapSphere(transform.position, radius)) {
-			if (Vector3.Distance (transform.position, coll.transform.position) < dist && coll.gameObject.layer == 11) {
+			if (Vector3.Distance (transform.position, coll.transform.position) < dist && coll.gameObject.layer == 11 && coll.gameObject.GetComponent<ItemComponent> ().isHeld == false) {
 				dist = Vector3.Distance (transform.position, coll.transform.position);
 				closest = coll.gameObject;
 			}
