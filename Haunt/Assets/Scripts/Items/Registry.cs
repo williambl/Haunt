@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 
 public class Registry {
-	private static List<Item> itemRegistry = new List<Item>();
+	public static List<Item> itemRegistry = new List<Item>();
 
 	/// <summary>
 	/// Registers an item.

@@ -25,12 +25,14 @@ public class PlayerController : MonoBehaviour {
 	GameManager manager;
 
 	public GameObject holding;
-	public Item holdingitem;
+
+	InventoryComponent invComponent;
 
 	void Start () {
 		camFollow.target = gameObject;
 		rigid = GetComponent<Rigidbody> ();
 		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+		invComponent = GetComponent<InventoryComponent> ();
 	}
 	
 	void Update () {
@@ -83,11 +85,11 @@ public class PlayerController : MonoBehaviour {
 
 		//Picking up/dropping
 		if (Input.GetButtonDown ("PickUp")) {
-			if (GetNearestHoldable (5f) != null) {
-				if (holding == null) 
-					PickUp (GetNearestHoldable (5f));
-				else
-					Drop ();
+			if (holding == null) {
+				if (GetNearestHoldable (2f) != null)
+					PickUp (GetNearestHoldable (2f));
+			} else {
+				Drop ();
 			}
 		}
 
@@ -149,7 +151,8 @@ public class PlayerController : MonoBehaviour {
 	{
 		target.transform.parent = transform;
 		holding = target;
-		holdingitem = target.GetComponent<ItemComponent> ().item;
+		invComponent.holdingitem = holding.GetComponent<ItemComponent> ().item;
+		holding.GetComponent<ItemComponent> ().isHeld = true;
 		target.transform.position = transform.position;
 	}
 
@@ -159,6 +162,8 @@ public class PlayerController : MonoBehaviour {
 	void Drop ()
 	{
 		holding.transform.parent = null;
+		holding.GetComponent<ItemComponent> ().isHeld = false;
+		invComponent.holdingitem = null;
 		holding = null;
 	}
 		
