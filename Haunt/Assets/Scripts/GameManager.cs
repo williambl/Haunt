@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour {
 	/// </summary>
 	public void StartGame () {
 		level = 0;
-		SceneManager.LoadScene("level0");
+		GotoLobby ();
 	}
 		
 	/// <summary>
@@ -120,10 +120,25 @@ public class GameManager : MonoBehaviour {
 	}
 
 	/// <summary>
+	/// Goes to the specified level.
+	/// </summary>
+	/// <param name="level">Level to go to.</param>
+	public void GotoLevel (int targetLevel) {
+		SceneManager.LoadScene ("level" + targetLevel);
+	}
+
+	/// <summary>
 	/// Exits to the main menu.
 	/// </summary>
 	public void ExitToMainMenu () {
 		SceneManager.LoadScene ("menu");
+	}
+
+	/// <summary>
+	/// Goes to the lobby.
+	/// </summary>
+	public void GotoLobby () {
+		SceneManager.LoadScene ("lobby");
 	}
 
 	/// <summary>
