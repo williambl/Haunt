@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour {
 
 	InventoryComponent invComponent;
 
+	Abilities abilities;
+
 	void Start () {
 		camFollow.target = gameObject;
 		rigid = GetComponent<Rigidbody> ();
@@ -51,7 +53,7 @@ public class PlayerController : MonoBehaviour {
 
 
 		//Possesion
-		if (Input.GetButtonDown("Posess") && !isBeingAttacked && !isBeingCaught && !dead)
+		if (Input.GetButtonDown("Posess") && !isBeingAttacked && !isBeingCaught && !dead && abilities.possess)
 		{
 			if (isPossessing) {
 				UnposessTarget ();

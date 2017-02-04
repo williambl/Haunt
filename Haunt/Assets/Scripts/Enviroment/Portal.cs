@@ -13,7 +13,7 @@ public class Portal : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject.layer == 9) {
+		if (other.gameObject.layer == 9 || other.gameObject.layer == 12) {
 			manager.GotoLevel (0);
 		}
 	}
