@@ -44,6 +44,11 @@ public class GameManager : MonoBehaviour {
 			endMenu = GameObject.Find ("Canvas/End Menu");
 			progressButton = GameObject.Find("Canvas/End Menu/Progress");
 			endButton = GameObject.Find("Canvas/End Menu/End");
+			progressButton.GetComponent<Button> ().onClick.RemoveAllListeners ();
+			endButton.GetComponent<Button> ().onClick.AddListener (ExitToMainMenu);
+
+			won = false;
+			lost = false;
 		}
 	}
 	
@@ -63,15 +68,17 @@ public class GameManager : MonoBehaviour {
 	/// <param name="hasWon">If set to <c>true</c>, the player has won.</param>
 	/// <param name="hasLost">If set to <c>true</c>, the player has lost.</param>
 	void WinOrLose (bool hasWon, bool hasLost) {
-		//Debug.Log ("lost:" + value.ToString());
+		Debug.Log ("lost:" + hasLost.ToString());
 		endMenu.SetActive (hasWon || hasLost);
 		endText.SetActive (hasWon || hasLost);
 		if (hasWon) {
 			endText.GetComponent<Text> ().text = "You win!";
 			progressButton.GetComponentInChildren<Text> ().text = "Next Level";
+			progressButton.GetComponent<Button> ().onClick.AddListener (NextLevel);
 		} else if (hasLost){
 			endText.GetComponent<Text> ().text = "You lose!";
 			progressButton.GetComponentInChildren<Text> ().text = "Restart Level";
+			progressButton.GetComponent<Button> ().onClick.AddListener (RestartLevel);
 		}
 	}
 
@@ -103,6 +110,20 @@ public class GameManager : MonoBehaviour {
 	public void NextLevel () {
 		level++;
 		SceneManager.LoadScene ("level" + level);
+	}
+
+	/// <summary>
+	/// Restarts the level.
+	/// </summary>
+	public void RestartLevel () {
+		SceneManager.LoadScene ("level" + level);
+	}
+
+	/// <summary>
+	/// Exits to the main menu.
+	/// </summary>
+	public void ExitToMainMenu () {
+		SceneManager.LoadScene ("menu");
 	}
 
 	/// <summary>
