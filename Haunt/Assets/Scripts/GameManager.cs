@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviour {
 
 	public Slider diffSlider;
 
+	public GameObject endButton;
+
+	public int level = -1;
+
 	void OnEnable () {
 		//Subscribes to the scene loading event
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -35,10 +39,11 @@ public class GameManager : MonoBehaviour {
 		if (SceneManager.GetActiveScene ().name == "menu") {
 			diffSlider = GameObject.Find ("difficultySlider").GetComponent<Slider> ();
 		} 
-		else if (SceneManager.GetActiveScene ().name == "game") {
+		else if (SceneManager.GetActiveScene ().name.StartsWith ("level")) {
 			endText = GameObject.Find ("Canvas/End Menu/endText");
 			endMenu = GameObject.Find ("Canvas/End Menu");
 			progressButton = GameObject.Find("Canvas/End Menu/Progress");
+			endButton = GameObject.Find("Canvas/End Menu/End");
 		}
 	}
 	
@@ -46,7 +51,7 @@ public class GameManager : MonoBehaviour {
 		if (SceneManager.GetActiveScene ().name == "menu") {
 			difficultyLevel = (Difficulty)diffSlider.value;
 		} 
-		else if (SceneManager.GetActiveScene ().name == "game") {
+		else if (SceneManager.GetActiveScene ().name.StartsWith ("level")) {
 			WinOrLose (won, lost);
 		}
 	}
@@ -80,7 +85,8 @@ public class GameManager : MonoBehaviour {
 	/// Starts the game.
 	/// </summary>
 	public void StartGame () {
-		SceneManager.LoadScene("game");
+		level = 0;
+		SceneManager.LoadScene("level0");
 	}
 		
 	/// <summary>
@@ -89,6 +95,14 @@ public class GameManager : MonoBehaviour {
 	/// <param name="value">Difficulty value.</param>
 	public void ChangeDifficulty (int value) {
 		difficultyLevel = (Difficulty)value;
+	}
+
+	/// <summary>
+	/// Switches to the next level.
+	/// </summary>
+	public void NextLevel () {
+		level++;
+		SceneManager.LoadScene ("level" + level);
 	}
 
 	/// <summary>
