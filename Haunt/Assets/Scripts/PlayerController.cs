@@ -92,6 +92,9 @@ public class PlayerController : MonoBehaviour {
 				Drop ();
 			}
 		}
+
+		if (energy.energy == 0 && !dead)
+			Die ();
 	}
 
 	/// <summary>
@@ -138,6 +141,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		dead = true;
 		manager.lost = true;
+		energy.energy = 0;
 	}
 
 	/// <summary>
