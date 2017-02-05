@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour {
 	InventoryComponent invComponent;
 
 	public Abilities abilities;
+	public PlayerEnergy energy;
 
 	void Start () {
 		camFollow.target = gameObject;
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour {
 		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 		invComponent = GetComponent<InventoryComponent> ();
 		abilities = GetComponent<Abilities> ();
+		energy = GetComponent<PlayerEnergy> ();
 	}
 	
 	void Update () {
@@ -90,7 +92,6 @@ public class PlayerController : MonoBehaviour {
 				Drop ();
 			}
 		}
-
 	}
 
 	/// <summary>
@@ -99,7 +100,6 @@ public class PlayerController : MonoBehaviour {
 	void PosessTarget ()
 	{
 		//Getting target
-		Debug.Log("looking for targets");
 		Collider[] potentialTargets = Physics.OverlapSphere (transform.position, 5, 1 << 10);
 		Debug.Log(potentialTargets.Length.ToString());
 		float maxDist = Mathf.Infinity;
@@ -112,7 +112,6 @@ public class PlayerController : MonoBehaviour {
 				Debug.Log (target.name);
 			}
 		}
-		Debug.Log("Final Target is: " + target.name);
 		if (target != null)
 		{
 			target.tag = "Possessed";
@@ -124,7 +123,7 @@ public class PlayerController : MonoBehaviour {
 	/// <summary>
 	/// Unposesses the currently possessed target, releasing it from control.
 	/// </summary>
-	void UnposessTarget ()
+	public void UnposessTarget ()
 	{
 		target.tag = "Possessable";
 		camFollow.target = gameObject;
@@ -145,7 +144,7 @@ public class PlayerController : MonoBehaviour {
 	/// Picks up a target.
 	/// </summary>
 	/// <param name="target">Target to pick up.</param>
-	void PickUp (GameObject target)
+	public void PickUp (GameObject target)
 	{
 		target.transform.parent = transform;
 		holding = target;
@@ -157,7 +156,7 @@ public class PlayerController : MonoBehaviour {
 	/// <summary>
 	/// Drop the currently held object.
 	/// </summary>
-	void Drop ()
+	public void Drop ()
 	{
 		holding.transform.parent = null;
 		holding.GetComponent<ItemComponent> ().isHeld = false;
