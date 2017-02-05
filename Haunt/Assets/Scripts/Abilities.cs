@@ -6,6 +6,7 @@ public class Abilities : MonoBehaviour {
 
 	public bool desolidify;
 	public bool possess;
+	public bool invisibility;
 
 	GameManager manager;
 
@@ -17,6 +18,8 @@ public class Abilities : MonoBehaviour {
 			desolidify = true;
 		if (manager.level > 1)
 			possess = true;
+		if (manager.level > 2)
+			invisibility = true;
 
 		if (desolidify)
 			gameObject.layer = 9;

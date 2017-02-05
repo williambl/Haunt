@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour {
 	public Abilities abilities;
 	public PlayerEnergy energy;
 
+	public bool isInvisible;
+	MeshRenderer rend;
+
 	void Start () {
 		camFollow.target = gameObject;
 		rigid = GetComponent<Rigidbody> ();
@@ -38,6 +41,7 @@ public class PlayerController : MonoBehaviour {
 		invComponent = GetComponent<InventoryComponent> ();
 		abilities = GetComponent<Abilities> ();
 		energy = GetComponent<PlayerEnergy> ();
+		rend = GetComponent<MeshRenderer> ();
 	}
 	
 	void Update () {
@@ -95,6 +99,16 @@ public class PlayerController : MonoBehaviour {
 
 		if (energy.energy == 0 && !dead)
 			Die ();
+
+		//Invisibility
+		if (Input.GetButtonDown("Invisibility") && !dead && abilities.invisibility)
+		{
+			if (isInvisible) {
+				BecomeVisible ();
+			} else {
+				BecomeInvisible ();
+			}
+		}
 	}
 
 	/// <summary>
@@ -200,5 +214,23 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (attackers.Contains (attacker))
 			attackers.Remove (attacker);
+	}
+
+	/// <summary>
+	/// Makes the player invisible.
+	/// </summary>
+	public void BecomeInvisible ()
+	{
+		isInvisible = true;
+		rend.enabled = false;
+	}
+
+	/// <summary>
+	/// Makes the player visible.
+	/// </summary>
+	public void BecomeVisible ()
+	{
+		isInvisible = false;
+		rend.enabled = true;
 	}
 }
