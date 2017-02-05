@@ -54,48 +54,43 @@ public class PullNPC : HostileNPC {
 		Hover (HoverHeight);
 
 		//Patrolling and attacking
+		//TODO: rewrite and make more readable
 		wasAttacking = isAttacking;
 		if (Vector3.Distance (transform.position, player.position) < 0.3) {
 			Catch (player.gameObject);
 			agent.enabled = false;
 			rigid.velocity = Vector3.zero;
-			playerController.isBeingAttacked = false;
-			playerController.isBeingCaught = true;
+			playerController.removeAttacker (gameObject);
+			playerController.Die();
 			isAttacking = true;
 		} else if (Vector3.Distance (transform.position, player.position) < attackReach && LineOfSight(player)) {
 			if (wasAttacking) {
 				Attack (player.gameObject);
 				agent.enabled = false;
 				rigid.velocity = Vector3.zero;
-				playerController.isBeingAttacked = true;
-				playerController.isBeingCaught = false;
+				playerController.addAttacker (gameObject);
 				isAttacking = true;
 			} else if (Time.time > cooldownTimestamp + attackCooldown) {
 				Attack (player.gameObject);
 				agent.enabled = false;
 				rigid.velocity = Vector3.zero;
-				playerController.isBeingAttacked = true;
-				playerController.isBeingCaught = false;
+				playerController.addAttacker (gameObject);
 				isAttacking = true;
 			} else {
 				agent.enabled = false;
 				rigid.velocity = Vector3.zero;
-				playerController.isBeingAttacked = false;
-				playerController.isBeingCaught = false;
+				playerController.removeAttacker (gameObject);
 				isAttacking = false;
 			}
 		} else if (Vector3.Distance (transform.position, player.position) < sightReach) {
 			GotoPlayer ();
-			playerController.isBeingAttacked = false;
-			playerController.isBeingCaught = false;
+			playerController.removeAttacker (gameObject);
 			line.enabled = false;
 			isAttacking = false;
-
 		} else {
 			agent.enabled = false;
 			rigid.velocity = Vector3.zero;
-			playerController.isBeingAttacked = false;
-			playerController.isBeingCaught = false;
+			playerController.removeAttacker (gameObject);
 			line.enabled = false;
 			isAttacking = false;
 		}

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
 
@@ -15,8 +16,7 @@ public class PlayerController : MonoBehaviour {
 	public CameraFollow camFollow;
 	public EffectManager effectManager;
 
-	public bool isBeingAttacked;
-	public bool isBeingCaught;
+	public List<GameObject> attackers = new List<GameObject>();
 
 	Rigidbody rigid;
 
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void Update () {
-
+		
 		//Movement
 		var x = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;
 		var z = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
@@ -46,14 +46,14 @@ public class PlayerController : MonoBehaviour {
 			Debug.Log ("moving " + target.name);
 			target.transform.Translate (0, 0, z);
 			target.transform.Rotate (0, x, 0);
-		} else if (!isBeingCaught && !dead) {
+		} else if (!dead) {
 			transform.Translate (0, 0, z);
 			transform.Rotate (0, x, 0);
 		}
 
 
 		//Possesion
-		if (Input.GetButtonDown("Posess") && !isBeingAttacked && !isBeingCaught && !dead && abilities.possess)
+		if (Input.GetButtonDown("Posess") && !isBeingAttacked() && !dead && abilities.possess)
 		{
 			if (isPossessing) {
 				UnposessTarget ();
@@ -72,18 +72,13 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Stops player from being pushed away after attacking ends
-		if (!isBeingAttacked)
+		if (!isBeingAttacked())
 		{
 			rigid.velocity = Vector3.zero;
 			rigid.angularVelocity = Vector3.zero;
 		}
-		effectManager.attacked = isBeingAttacked;
+		effectManager.attacked = isBeingAttacked();
 		effectManager.dead = dead;
-	
-		//Dying
-		if (isBeingCaught) {
-			Die();
-		}
 
 		//Picking up/dropping
 		if (Input.GetButtonDown ("PickUp")) {
@@ -139,7 +134,7 @@ public class PlayerController : MonoBehaviour {
 	/// <summary>
 	/// Makes the player die and loses the game.
 	/// </summary>
-	void Die ()
+	public void Die ()
 	{
 		dead = true;
 		manager.lost = true;
@@ -186,5 +181,22 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 		return closest;
+	}
+
+	public bool isBeingAttacked ()
+	{
+		return !(attackers.Count == 0);
+	}
+
+	public void addAttacker (GameObject attacker)
+	{
+		if (!attackers.Contains (attacker))
+			attackers.Add (attacker);
+	}
+
+	public void removeAttacker (GameObject attacker)
+	{
+		if (attackers.Contains (attacker))
+			attackers.Remove (attacker);
 	}
 }

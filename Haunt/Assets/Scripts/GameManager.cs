@@ -68,7 +68,6 @@ public class GameManager : MonoBehaviour {
 	/// <param name="hasWon">If set to <c>true</c>, the player has won.</param>
 	/// <param name="hasLost">If set to <c>true</c>, the player has lost.</param>
 	void WinOrLose (bool hasWon, bool hasLost) {
-		Debug.Log ("lost:" + hasLost.ToString());
 		endMenu.SetActive (hasWon || hasLost);
 		endText.SetActive (hasWon || hasLost);
 		if (hasWon) {
@@ -124,6 +123,7 @@ public class GameManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="level">Level to go to.</param>
 	public void GotoLevel (int targetLevel) {
+		level = targetLevel;
 		SceneManager.LoadScene ("level" + targetLevel);
 	}
 
