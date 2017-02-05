@@ -73,10 +73,12 @@ public class GameManager : MonoBehaviour {
 		if (hasWon) {
 			endText.GetComponent<Text> ().text = "You win!";
 			progressButton.GetComponentInChildren<Text> ().text = "Next Level";
+			progressButton.GetComponent<Button> ().onClick.RemoveListener (NextLevel);
 			progressButton.GetComponent<Button> ().onClick.AddListener (NextLevel);
 		} else if (hasLost){
 			endText.GetComponent<Text> ().text = "You lose!";
 			progressButton.GetComponentInChildren<Text> ().text = "Restart Level";
+			progressButton.GetComponent<Button> ().onClick.RemoveListener (RestartLevel);
 			progressButton.GetComponent<Button> ().onClick.AddListener (RestartLevel);
 		}
 	}
