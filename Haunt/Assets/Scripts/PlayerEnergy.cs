@@ -48,7 +48,7 @@ public class PlayerEnergy : MonoBehaviour {
 
 		if (controller.isPossessing) {
 			if (energy < 0.5)
-				controller.UnposessTarget ();
+				controller.UnpossessTarget ();
 			else
 				energy = energy - 0.001f * drainAmount;
 		}

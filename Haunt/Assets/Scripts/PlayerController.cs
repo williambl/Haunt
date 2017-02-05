@@ -56,12 +56,12 @@ public class PlayerController : MonoBehaviour {
 
 
 		//Possesion
-		if (Input.GetButtonDown("Posess") && !isBeingAttacked() && !dead && abilities.possess)
+		if (Input.GetButtonDown("Possess") && !isBeingAttacked() && !dead && abilities.possess)
 		{
 			if (isPossessing) {
-				UnposessTarget ();
+				UnpossessTarget ();
 			} else {
-				PosessTarget ();
+				PossessTarget ();
 			}
 		}
 
@@ -98,9 +98,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Posesses the closest target, taking control of it.
+	/// Possesses the closest target, taking control of it.
 	/// </summary>
-	void PosessTarget ()
+	void PossessTarget ()
 	{
 		//Getting target
 		Collider[] potentialTargets = Physics.OverlapSphere (transform.position, 5, 1 << 10);
@@ -108,11 +108,9 @@ public class PlayerController : MonoBehaviour {
 		float maxDist = Mathf.Infinity;
 		foreach(Collider potentialTarget in potentialTargets)
 		{
-			Debug.Log (potentialTarget.gameObject.name);
 			if ((potentialTarget.transform.position - transform.position).sqrMagnitude < maxDist && potentialTarget.gameObject.tag == "Possessable") {
 				maxDist = (potentialTarget.transform.position - transform.position).sqrMagnitude;
 				target = potentialTarget.gameObject;
-				Debug.Log (target.name);
 			}
 		}
 		if (target != null)
@@ -124,9 +122,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Unposesses the currently possessed target, releasing it from control.
+	/// Unpossesses the currently possessed target, releasing it from control.
 	/// </summary>
-	public void UnposessTarget ()
+	public void UnpossessTarget ()
 	{
 		target.tag = "Possessable";
 		camFollow.target = gameObject;
