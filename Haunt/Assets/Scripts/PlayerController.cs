@@ -28,13 +28,14 @@ public class PlayerController : MonoBehaviour {
 
 	InventoryComponent invComponent;
 
-	Abilities abilities;
+	public Abilities abilities;
 
 	void Start () {
 		camFollow.target = gameObject;
 		rigid = GetComponent<Rigidbody> ();
 		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 		invComponent = GetComponent<InventoryComponent> ();
+		abilities = GetComponent<Abilities> ();
 	}
 	
 	void Update () {

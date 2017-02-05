@@ -22,6 +22,8 @@ public class Abilities : MonoBehaviour {
 			gameObject.layer = 9;
 		else
 			gameObject.layer = 12;
+
+		Debug.Log (possess.ToString ());
 	}
 
 	void Update () 
