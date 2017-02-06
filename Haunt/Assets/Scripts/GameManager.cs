@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour {
 
 	public int level;
 
+	public bool existedBefore = false;
+
 	void OnEnable () {
 		//Subscribes to the scene loading event
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -29,7 +31,6 @@ public class GameManager : MonoBehaviour {
 		
 	void Start () {
 		DontDestroyOnLoad (gameObject);
-		Init ();
 	}
 
 	/// <summary>
@@ -38,6 +39,8 @@ public class GameManager : MonoBehaviour {
 	void Init () {
 		if (SceneManager.GetActiveScene ().name == "menu") {
 			diffSlider = GameObject.Find ("difficultySlider").GetComponent<Slider> ();
+			if (existedBefore)
+				Destroy (gameObject);
 		} 
 		else if (SceneManager.GetActiveScene ().name.StartsWith ("level")) {
 			endText = GameObject.Find ("Canvas/End Menu/endText");
@@ -50,6 +53,7 @@ public class GameManager : MonoBehaviour {
 			won = false;
 			lost = false;
 		}
+		existedBefore = true;
 	}
 	
 	void Update () {
