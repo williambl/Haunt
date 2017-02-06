@@ -37,7 +37,7 @@ public class ShootingNPC : HostileNPC {
 			attackReach = 6;
 			break;
 		case Difficulty.NORMAL:
-			attackStrength = 0.1f;
+			attackStrength = 0.07f;
 			attackCooldown = 0.5f;
 			fov = 90;
 			sightReach = 10;
