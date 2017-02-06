@@ -3,8 +3,6 @@ using System.Collections;
 
 public class PullNPC : HostileNPC {
 
-	GameManager manager;
-
 	LineRenderer line;
 
 	new void Start () {
