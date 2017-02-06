@@ -7,6 +7,7 @@ public class Abilities : MonoBehaviour {
 	public bool desolidify;
 	public bool possess;
 	public bool invisibility;
+	public bool blast;
 
 	GameManager manager;
 
@@ -20,13 +21,13 @@ public class Abilities : MonoBehaviour {
 			possess = true;
 		if (manager.level > 2)
 			invisibility = true;
+		if (manager.level > -1)
+			blast = true;
 
 		if (desolidify)
 			gameObject.layer = 9;
 		else
 			gameObject.layer = 12;
-
-		Debug.Log (possess.ToString ());
 	}
 
 	void Update () 

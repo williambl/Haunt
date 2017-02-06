@@ -73,4 +73,14 @@ public class PlayerEnergy : MonoBehaviour {
 		if (manager.level > -1)
 			energy = energy - 0.00005f * drainAmount;
 	}
+
+	public void LoseEnergy (float amount)
+	{
+		if (energy - amount < 0)
+			return;
+		else if (energy - amount > 1)
+			return;
+		else
+			energy = energy - amount; 
+	}
 }

@@ -111,12 +111,18 @@ public class PlayerController : MonoBehaviour {
 				BecomeInvisible ();
 			}
 		}
+
+		//Blasting
+		if (Input.GetButtonDown("Blast") && !dead && abilities.blast && energy.energy > 0.25f)
+		{
+			Blast (20);
+		}
 	}
 
 	/// <summary>
 	/// Possesses the closest target, taking control of it.
 	/// </summary>
-	void PossessTarget ()
+	public void PossessTarget ()
 	{
 		//Getting target
 		Collider[] potentialTargets = Physics.OverlapSphere (transform.position, 5, 1 << 10);
@@ -236,5 +242,16 @@ public class PlayerController : MonoBehaviour {
 		isInvisible = false;
 		meshRend.enabled = true;
 		trailRend.enabled = true;
+	}
+
+	public void Blast (float radius)
+	{
+		foreach (Collider coll in Physics.OverlapSphere(transform.position, radius, 1 << 10)) {
+			if (Vector3.Distance (transform.position, coll.transform.position) < radius / 7)
+				coll.GetComponent<NPCHealth> ().LoseHealth (1);
+			else
+				coll.GetComponent<NPCHealth> ().LoseHealth((1 - (Vector3.Distance (transform.position, coll.transform.position) / radius)));
+		}
+		energy.LoseEnergy (0.25f);
 	}
 }

@@ -106,4 +106,11 @@ public class PullNPC : HostileNPC {
 	void Catch(GameObject target) {
 		line.enabled = false;
 	}
+
+	new void Die()
+	{
+		playerController.removeAttacker (gameObject);
+		isAttacking = false;
+		Destroy (gameObject);
+	}
 }
