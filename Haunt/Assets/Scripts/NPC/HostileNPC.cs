@@ -7,11 +7,21 @@ public class HostileNPC : NPC {
 	public Transform player;
 	protected PlayerController playerController;
 
+	//These variables are dependent on difficulty level
+	public float attackStrength;
+	public float attackCooldown;
+	public float sightReach;
+	public float attackReach;
 	protected float fov;
+
 	protected bool isAttacking;
 	protected bool wasAttacking;
 
 	public bool isMobile;
+
+	GameManager manager;
+
+	float cooldownTimestamp = 0;
 
 	//Based on http://answers.unity3d.com/answers/20007/view.html
 	/// <summary>
@@ -27,5 +37,14 @@ public class HostileNPC : NPC {
 			return true;
 		}
 		return false;
+	}
+
+
+	/// <summary>
+	/// Set the nav agent destination to the player and enable the nav agent.
+	/// </summary>
+	protected void GotoPlayer() {
+		agent.enabled = true;
+		agent.destination = player.position;
 	}
 }

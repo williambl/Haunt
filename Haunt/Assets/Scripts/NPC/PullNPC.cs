@@ -7,15 +7,6 @@ public class PullNPC : HostileNPC {
 
 	LineRenderer line;
 
-	float cooldownTimestamp = 0;
-
-	//These variables are dependent on difficulty level
-	public float attackStrength;
-	public float attackCooldown;
-	public float sightReach;
-	public float attackReach;
-
-
 	new void Start () {
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.autoBraking = false;
@@ -94,14 +85,6 @@ public class PullNPC : HostileNPC {
 			line.enabled = false;
 			isAttacking = false;
 		}
-	}
-
-	/// <summary>
-	/// Set the nav agent destination to the player and enable the nav agent.
-	/// </summary>
-	void GotoPlayer() {
-		agent.enabled = true;
-		agent.destination = player.position;
 	}
 
 	/// <summary>

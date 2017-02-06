@@ -4,19 +4,9 @@ using UnityEngine;
 
 public class ShootingNPC : HostileNPC {
 
-	GameManager manager;
-
 	LineRenderer line;
 
-	float cooldownTimestamp = 0;
-
 	PlayerEnergy playerEnergy;
-	
-	//These variables are dependent on difficulty level
-	public float attackStrength;
-	public float attackCooldown;
-	public float sightReach;
-	public float attackReach;
 
 	// Use this for initialization
 	new void Start () {
@@ -73,14 +63,6 @@ public class ShootingNPC : HostileNPC {
 			rigid.velocity = Vector3.zero;
 			isAttacking = false;
 		}
-	}
-
-	/// <summary>
-	/// Set the nav agent destination to the player and enable the nav agent.
-	/// </summary>
-	void GotoPlayer() {
-		agent.enabled = true;
-		agent.destination = player.position;
 	}
 
 	/// <summary>
