@@ -11,6 +11,8 @@ public class HostileNPC : NPC {
 	protected bool isAttacking;
 	protected bool wasAttacking;
 
+	public bool isMobile;
+
 	//Based on http://answers.unity3d.com/answers/20007/view.html
 	/// <summary>
 	/// Checks the line of sight to the target.

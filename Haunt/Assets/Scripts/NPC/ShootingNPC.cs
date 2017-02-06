@@ -63,7 +63,7 @@ public class ShootingNPC : HostileNPC {
 			agent.enabled = false;
 			rigid.velocity = Vector3.zero;
 			isAttacking = true;
-		} else if (Vector3.Distance (transform.position, player.position) < sightReach && !playerController.isInvisible && Time.time > cooldownTimestamp + attackCooldown) {
+		} else if (Vector3.Distance (transform.position, player.position) < sightReach && !playerController.isInvisible && Time.time > cooldownTimestamp + attackCooldown && isMobile) {
 			GotoPlayer ();
 			line.enabled = false;
 			isAttacking = false;

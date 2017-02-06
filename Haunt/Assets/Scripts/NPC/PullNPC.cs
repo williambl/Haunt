@@ -82,7 +82,7 @@ public class PullNPC : HostileNPC {
 				playerController.removeAttacker (gameObject);
 				isAttacking = false;
 			}
-		} else if (Vector3.Distance (transform.position, player.position) < sightReach && !playerController.isInvisible) {
+		} else if (Vector3.Distance (transform.position, player.position) < sightReach && !playerController.isInvisible && isMobile) {
 			GotoPlayer ();
 			playerController.removeAttacker (gameObject);
 			line.enabled = false;
