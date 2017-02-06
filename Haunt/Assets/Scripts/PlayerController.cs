@@ -32,7 +32,8 @@ public class PlayerController : MonoBehaviour {
 	public PlayerEnergy energy;
 
 	public bool isInvisible;
-	MeshRenderer rend;
+	MeshRenderer meshRend;
+	TrailRenderer trailRend;
 
 	void Start () {
 		camFollow.target = gameObject;
@@ -41,7 +42,8 @@ public class PlayerController : MonoBehaviour {
 		invComponent = GetComponent<InventoryComponent> ();
 		abilities = GetComponent<Abilities> ();
 		energy = GetComponent<PlayerEnergy> ();
-		rend = GetComponent<MeshRenderer> ();
+		meshRend = GetComponent<MeshRenderer> ();
+		trailRend = GetComponent<TrailRenderer> ();
 	}
 	
 	void Update () {
@@ -222,7 +224,8 @@ public class PlayerController : MonoBehaviour {
 	public void BecomeInvisible ()
 	{
 		isInvisible = true;
-		rend.enabled = false;
+		meshRend.enabled = false;
+		trailRend.enabled = false;
 	}
 
 	/// <summary>
@@ -231,6 +234,7 @@ public class PlayerController : MonoBehaviour {
 	public void BecomeVisible ()
 	{
 		isInvisible = false;
-		rend.enabled = true;
+		meshRend.enabled = true;
+		trailRend.enabled = true;
 	}
 }

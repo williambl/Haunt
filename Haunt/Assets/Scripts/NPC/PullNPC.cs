@@ -56,14 +56,14 @@ public class PullNPC : HostileNPC {
 		//Patrolling and attacking
 		//TODO: rewrite and make more readable
 		wasAttacking = isAttacking;
-		if (Vector3.Distance (transform.position, player.position) < 0.3) {
+		if (Vector3.Distance (transform.position, player.position) < 0.3 && !playerController.isInvisible) {
 			Catch (player.gameObject);
 			agent.enabled = false;
 			rigid.velocity = Vector3.zero;
 			playerController.removeAttacker (gameObject);
 			playerController.Die();
 			isAttacking = true;
-		} else if (Vector3.Distance (transform.position, player.position) < attackReach && LineOfSight(player)) {
+		} else if (Vector3.Distance (transform.position, player.position) < attackReach && LineOfSight(player) && !playerController.isInvisible) {
 			if (wasAttacking) {
 				Attack (player.gameObject);
 				agent.enabled = false;
@@ -82,7 +82,7 @@ public class PullNPC : HostileNPC {
 				playerController.removeAttacker (gameObject);
 				isAttacking = false;
 			}
-		} else if (Vector3.Distance (transform.position, player.position) < sightReach) {
+		} else if (Vector3.Distance (transform.position, player.position) < sightReach && !playerController.isInvisible) {
 			GotoPlayer ();
 			playerController.removeAttacker (gameObject);
 			line.enabled = false;

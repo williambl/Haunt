@@ -62,6 +62,12 @@ public class PlayerEnergy : MonoBehaviour {
 		if (controller.attackers.Count > 0) {
 			energy = energy - 0.001f * drainAmount;
 		}
+		if (controller.isInvisible) {
+			if (energy < 0.3)
+				controller.BecomeVisible ();
+			else
+				energy = energy - 0.005f * drainAmount;
+		}
 		energy = energy - 0.00005f * drainAmount;
 	}
 }
