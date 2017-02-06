@@ -39,6 +39,8 @@ public class PlayerEnergy : MonoBehaviour {
 			energy = 0;
 		else
 			DrainEnergy ();
+		if (energy > 1)
+			energy = 1;
 		energyBar.rectTransform.sizeDelta = new Vector2(25, energy * 250);
 		energyBar.rectTransform.localPosition = new Vector3(energyBar.rectTransform.localPosition.x, 0f - 0.5f*(250 - energyBar.rectTransform.sizeDelta.y), energyBar.rectTransform.localPosition.z);
 	}
