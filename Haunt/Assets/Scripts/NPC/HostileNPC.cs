@@ -19,9 +19,9 @@ public class HostileNPC : NPC {
 
 	public bool isMobile;
 
-	GameManager manager;
+	protected GameManager manager;
 
-	float cooldownTimestamp = 0;
+	protected float cooldownTimestamp = 0;
 
 	//Based on http://answers.unity3d.com/answers/20007/view.html
 	/// <summary>
