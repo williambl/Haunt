@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject endButton;
 
-	public int level = -1;
+	public int level;
 
 	void OnEnable () {
 		//Subscribes to the scene loading event
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour {
 	/// Starts the game.
 	/// </summary>
 	public void StartGame () {
-		level = 0;
+		level = -1;
 		GotoLobby ();
 	}
 		

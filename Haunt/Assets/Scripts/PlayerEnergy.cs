@@ -70,6 +70,7 @@ public class PlayerEnergy : MonoBehaviour {
 			else
 				energy = energy - 0.005f * drainAmount;
 		}
-		energy = energy - 0.00005f * drainAmount;
+		if (manager.level > -1)
+			energy = energy - 0.00005f * drainAmount;
 	}
 }
