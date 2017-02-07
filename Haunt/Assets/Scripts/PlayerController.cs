@@ -72,12 +72,9 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Hovering
-		if (Physics.Raycast (transform.position, Vector3.down, out ground)) 
+		if (Physics.Raycast (transform.position, Vector3.down, out ground, 100, 1 << 8)) 
 		{
-			if (ground.transform.gameObject.layer == 8)
-			{
-				transform.position = new Vector3(transform.position.x, ground.point.y + HoverHeight, transform.position.z);
-			}
+			transform.position = new Vector3 (transform.position.x, ground.point.y + HoverHeight, transform.position.z);
 		}
 
 		//Stops player from being pushed away after attacking ends
