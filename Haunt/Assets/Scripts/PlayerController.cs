@@ -251,7 +251,7 @@ public class PlayerController : MonoBehaviour {
 	public void Blast (float radius)
 	{
 		foreach (Collider coll in Physics.OverlapSphere(transform.position, radius, 1 << 10)) {
-			if (Vector3.Distance (transform.position, coll.transform.position) < radius / 5 || coll.GetComponent<NPCHealth> ().health < 0.2)
+			if (Vector3.Distance (transform.position, coll.transform.position) < radius / 2.5f || coll.GetComponent<NPCHealth> ().health < 0.2)
 				coll.GetComponent<NPCHealth> ().LoseHealth (1);
 			else
 				coll.GetComponent<NPCHealth> ().LoseHealth((1 - (Vector3.Distance (transform.position, coll.transform.position) / radius)));
