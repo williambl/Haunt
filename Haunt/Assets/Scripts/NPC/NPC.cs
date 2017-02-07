@@ -26,7 +26,7 @@ public class NPC : MonoBehaviour {
 		}
 	}
 
-	public void Die ()
+	public virtual void Die ()
 	{
 		Destroy (gameObject);
 	}
