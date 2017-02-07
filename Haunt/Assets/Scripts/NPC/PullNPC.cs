@@ -107,8 +107,9 @@ public class PullNPC : HostileNPC {
 		line.enabled = false;
 	}
 
-	new void Die()
+	new public void Die()
 	{
+		Debug.Log ("dying");
 		playerController.removeAttacker (gameObject);
 		isAttacking = false;
 		Destroy (gameObject);
