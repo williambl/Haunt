@@ -52,7 +52,6 @@ public class PlayerController : MonoBehaviour {
 		var x = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;
 		var z = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
 		if (isPossessing) {
-			Debug.Log ("moving " + target.name);
 			target.transform.Translate (0, 0, z);
 			target.transform.Rotate (0, x, 0);
 		} else if (!dead) {
@@ -123,7 +122,6 @@ public class PlayerController : MonoBehaviour {
 	{
 		//Getting target
 		Collider[] potentialTargets = Physics.OverlapSphere (transform.position, 5, 1 << 10);
-		Debug.Log(potentialTargets.Length.ToString());
 		float maxDist = Mathf.Infinity;
 		foreach(Collider potentialTarget in potentialTargets)
 		{
@@ -213,7 +211,6 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (!attackers.Contains (attacker)) {
 			attackers.Add (attacker);
-			Debug.Log("added " + attacker.name + " to attackers");
 		}
 	}
 
@@ -221,7 +218,6 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (attackers.Contains (attacker)) {
 			attackers.Remove (attacker);
-			Debug.Log("removed " + attacker.name + " from attackers");
 		}
 	}
 

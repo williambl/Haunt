@@ -109,7 +109,6 @@ public class PullNPC : HostileNPC {
 
 	public override void Die()
 	{
-		Debug.Log ("dying");
 		playerController.removeAttacker (gameObject);
 		isAttacking = false;
 		Destroy (gameObject);

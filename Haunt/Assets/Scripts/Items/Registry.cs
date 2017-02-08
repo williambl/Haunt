@@ -14,6 +14,5 @@ public class Registry {
 	{
 		if (!itemRegistry.Contains (item))
 			itemRegistry.Add (item);
-		Debug.Log (((Item)itemRegistry.ToArray().GetValue(0)).id);
 	}
 }
