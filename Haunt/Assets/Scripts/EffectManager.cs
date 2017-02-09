@@ -46,7 +46,6 @@ public class EffectManager : MonoBehaviour {
 	/// <param name="enabled">If set to <c>true</c>, the effect will be enabled. If false, it will be disabled.</param>
 	void DeadEffect (bool enabled) {
 		lensAbb.vignette.enabled = enabled;
-
 		if (enabled) {
 			lensAbb.vignette.color = vignetteColour;
 			lensAbb.vignette.intensity = 2.0f;
@@ -56,9 +55,8 @@ public class EffectManager : MonoBehaviour {
 	}
 
 	void LowEnergyEffect (bool enabled) {
-		lensAbb.vignette.enabled = enabled;
-
 		if (enabled) {
+			lensAbb.vignette.enabled = enabled;
 			lensAbb.vignette.color = vignetteColour;
 			lensAbb.vignette.intensity = Mathf.Sin (Time.time * 10) * 0.5f > 0 ? Mathf.Sin (Time.time * 10) * 0.5f : 0;
 			lensAbb.vignette.smoothness = 5.0f;

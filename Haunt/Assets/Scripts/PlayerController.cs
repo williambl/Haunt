@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour {
 		transform.localScale = new Vector3(energy.energy, energy.energy, energy.energy);
 		pointLight.intensity = 2 * energy.energy;
 		pointLight.range = pointLight.intensity * 10f < 2 ? pointLight.intensity * 10 : 2;
-		effectManager.lowEnergy = energy.energy < 0.2;
+		effectManager.lowEnergy = energy.energy < 0.2 && energy.energy > 0;
 	}
 
 	/// <summary>
