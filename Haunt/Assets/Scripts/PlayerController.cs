@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour {
 	public bool isInvisible;
 	MeshRenderer meshRend;
 	TrailRenderer trailRend;
-	Light light;
+	Light pointLight;
 
 	void Start () {
 		camFollow.target = gameObject;
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour {
 		energy = GetComponent<PlayerEnergy> ();
 		meshRend = GetComponent<MeshRenderer> ();
 		trailRend = GetComponent<TrailRenderer> ();
-		light = GetComponent<Light> ();
+		pointLight = GetComponent<Light> ();
 	}
 	
 	void Update () {
@@ -115,6 +115,12 @@ public class PlayerController : MonoBehaviour {
 		{
 			Blast (20);
 		}
+
+		//Energy visual effects
+		transform.localScale = new Vector3(energy.energy, energy.energy, energy.energy);
+		pointLight.intensity = 2 * energy.energy;
+		pointLight.range = pointLight.intensity * 10f < 2 ? pointLight.intensity * 10 : 2;
+		effectManager.lowEnergy = energy.energy < 0.2;
 	}
 
 	/// <summary>
@@ -231,7 +237,7 @@ public class PlayerController : MonoBehaviour {
 		isInvisible = true;
 		meshRend.enabled = false;
 		trailRend.enabled = false;
-		light.enabled = false;
+		pointLight.enabled = false;
 	}
 
 	/// <summary>
@@ -242,7 +248,7 @@ public class PlayerController : MonoBehaviour {
 		isInvisible = false;
 		meshRend.enabled = true;
 		trailRend.enabled = true;
-		light.enabled = true;
+		pointLight.enabled = true;
 	}
 
 	public void Blast (float radius)
