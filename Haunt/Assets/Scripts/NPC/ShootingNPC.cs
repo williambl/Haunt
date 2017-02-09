@@ -25,6 +25,7 @@ public class ShootingNPC : HostileNPC {
 			fov = 60;
 			sightReach = 10;
 			attackReach = 6;
+			playerSeenCooldown = 5;
 			break;
 		case Difficulty.NORMAL:
 			attackStrength = 0.07f;
@@ -32,6 +33,7 @@ public class ShootingNPC : HostileNPC {
 			fov = 90;
 			sightReach = 10;
 			attackReach = 7;
+			playerSeenCooldown = 5;
 			break;
 		case Difficulty.HARD:
 			attackStrength = 0.1f;
@@ -39,6 +41,7 @@ public class ShootingNPC : HostileNPC {
 			fov = 100;
 			sightReach = 15;
 			attackReach = 10;
+			playerSeenCooldown = 10;
 			break;
 		}
 	}
@@ -47,16 +50,23 @@ public class ShootingNPC : HostileNPC {
 	void Update () {
 		Hover (HoverHeight);
 
-		if (Vector3.Distance (transform.position, player.position) < attackReach && LineOfSight(player) && !playerController.isInvisible && Time.time > cooldownTimestamp + attackCooldown) {
+		if (Vector3.Distance (transform.position, player.position) < attackReach && LineOfSight(player, fov) && !playerController.isInvisible && Time.time > cooldownTimestamp + attackCooldown) {
 			Attack (player.gameObject);
 			line.enabled = true;
 			agent.enabled = false;
 			rigid.velocity = Vector3.zero;
 			isAttacking = true;
-		} else if (Vector3.Distance (transform.position, player.position) < sightReach && !playerController.isInvisible && Time.time > cooldownTimestamp + attackCooldown && isMobile) {
+			playerSeenTimestamp = Time.time;
+		} else if (Vector3.Distance (transform.position, player.position) < sightReach && !playerController.isInvisible && Time.time > cooldownTimestamp + attackCooldown && HasSeenPlayer() && isMobile) {
 			GotoPlayer ();
 			line.enabled = false;
 			isAttacking = false;
+			playerSeenTimestamp = Time.time;
+		} else if (Vector3.Distance (transform.position, player.position) < sightReach && !playerController.isInvisible && Time.time > cooldownTimestamp + attackCooldown && LineOfSight(player, fov) && isMobile) {
+			GotoPlayer ();
+			line.enabled = false;
+			isAttacking = false;
+			playerSeenTimestamp = Time.time;
 		} else {
 			line.enabled = false;
 			agent.enabled = false;

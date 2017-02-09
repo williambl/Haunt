@@ -12,7 +12,8 @@ public class HostileNPC : NPC {
 	public float attackCooldown;
 	public float sightReach;
 	public float attackReach;
-	protected float fov;
+	public float fov;
+	public float playerSeenCooldown;
 
 	protected bool isAttacking;
 	protected bool wasAttacking;
@@ -23,15 +24,18 @@ public class HostileNPC : NPC {
 
 	protected float cooldownTimestamp = 0;
 
+	public float playerSeenTimestamp;
+
 	//Based on http://answers.unity3d.com/answers/20007/view.html
 	/// <summary>
 	/// Checks the line of sight to the target.
 	/// </summary>
 	/// <returns><c>true</c>, if there is line of sight to the target, <c>false</c> otherwise.</returns>
 	/// <param name="target">Target.</param>
-	protected bool LineOfSight(Transform target) {
+	/// <param name="fieldOfView">Field of view.</param>
+	protected bool LineOfSight(Transform target, float fieldOfView) {
 		RaycastHit hit;
-		if (Vector3.Angle (target.position - transform.position, transform.forward) <= fov &&
+		if (Vector3.Angle (target.position - transform.position, transform.forward) <= fieldOfView &&
 			Physics.Linecast (transform.position, target.position, out hit) &&
 			hit.collider.transform == target) {
 			return true;
@@ -39,6 +43,21 @@ public class HostileNPC : NPC {
 		return false;
 	}
 
+	/// <summary>
+	/// Determines whether this instance has seen the player.
+	/// </summary>
+	/// <returns><c>true</c> if this instance has seen the player; otherwise, <c>false</c>.</returns>
+	protected bool HasSeenPlayer ()
+	{
+		if (LineOfSight(player, 360)) {
+			playerSeenTimestamp = Time.time;
+			return true;
+		}
+		if (playerSeenTimestamp + playerSeenCooldown > Time.time) {
+			return true;
+		}
+		return false;
+	}
 
 	/// <summary>
 	/// Set the nav agent destination to the player and enable the nav agent.

@@ -21,6 +21,7 @@ public class PullNPC : HostileNPC {
 			fov = 90;
 			sightReach = 7;
 			attackReach = 4;
+			playerSeenCooldown = 5;
 			break;
 		case Difficulty.NORMAL:
 			attackStrength = 5;
@@ -28,6 +29,7 @@ public class PullNPC : HostileNPC {
 			fov = 120;
 			sightReach = 10;
 			attackReach = 5;
+			playerSeenCooldown = 5;
 			break;
 		case Difficulty.HARD:
 			attackStrength = 7;
@@ -35,6 +37,7 @@ public class PullNPC : HostileNPC {
 			fov = 270;
 			sightReach = 15;
 			attackReach = 8;
+			playerSeenCooldown = 10;
 			break;
 		}
 	}
@@ -52,7 +55,8 @@ public class PullNPC : HostileNPC {
 			playerController.removeAttacker (gameObject);
 			playerController.Die();
 			isAttacking = true;
-		} else if (Vector3.Distance (transform.position, player.position) < attackReach && LineOfSight(player) && !playerController.isInvisible) {
+			playerSeenTimestamp = Time.time;
+		} else if (Vector3.Distance (transform.position, player.position) < attackReach && LineOfSight(player, fov) && !playerController.isInvisible) {
 			if (wasAttacking) {
 				Attack (player.gameObject);
 				agent.enabled = false;
@@ -71,11 +75,19 @@ public class PullNPC : HostileNPC {
 				playerController.removeAttacker (gameObject);
 				isAttacking = false;
 			}
-		} else if (Vector3.Distance (transform.position, player.position) < sightReach && !playerController.isInvisible && isMobile) {
+			playerSeenTimestamp = Time.time;
+		} else if (Vector3.Distance (transform.position, player.position) < sightReach && !playerController.isInvisible && HasSeenPlayer() && isMobile) {
 			GotoPlayer ();
 			playerController.removeAttacker (gameObject);
 			line.enabled = false;
 			isAttacking = false;
+			playerSeenTimestamp = Time.time;
+		} else if (Vector3.Distance (transform.position, player.position) < sightReach && !playerController.isInvisible && LineOfSight (player, fov) && isMobile) {
+			GotoPlayer ();
+			playerController.removeAttacker (gameObject);
+			line.enabled = false;
+			isAttacking = false;
+			playerSeenTimestamp = Time.time;
 		} else {
 			agent.enabled = false;
 			rigid.velocity = Vector3.zero;
