@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour {
 	public bool isInvisible;
 	MeshRenderer meshRend;
 	TrailRenderer trailRend;
+	Light light;
 
 	void Start () {
 		camFollow.target = gameObject;
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour {
 		energy = GetComponent<PlayerEnergy> ();
 		meshRend = GetComponent<MeshRenderer> ();
 		trailRend = GetComponent<TrailRenderer> ();
+		light = GetComponent<Light> ();
 	}
 	
 	void Update () {
@@ -229,6 +231,7 @@ public class PlayerController : MonoBehaviour {
 		isInvisible = true;
 		meshRend.enabled = false;
 		trailRend.enabled = false;
+		light.enabled = false;
 	}
 
 	/// <summary>
@@ -239,6 +242,7 @@ public class PlayerController : MonoBehaviour {
 		isInvisible = false;
 		meshRend.enabled = true;
 		trailRend.enabled = true;
+		light.enabled = true;
 	}
 
 	public void Blast (float radius)
