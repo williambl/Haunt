@@ -50,6 +50,12 @@ public class ShootingNPC : HostileNPC {
 	void Update () {
 		Hover (HoverHeight);
 
+		if (manager.gameState == GameState.PAUSED || manager.gameState == GameState.WON || manager.gameState == GameState.LOST) {
+			agent.enabled = false;
+			rigid.velocity = Vector3.zero;
+			return;
+		}
+
 		if (Vector3.Distance (transform.position, player.position) < attackReach && LineOfSight(player, fov) && !playerController.isInvisible && Time.time > cooldownTimestamp + attackCooldown) {
 			Attack (player.gameObject);
 			line.enabled = true;

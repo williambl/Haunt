@@ -45,6 +45,12 @@ public class PullNPC : HostileNPC {
 	void Update () {
 		Hover (HoverHeight);
 
+		if (manager.gameState == GameState.PAUSED || manager.gameState == GameState.WON || manager.gameState == GameState.LOST) {
+			agent.enabled = false;
+			rigid.velocity = Vector3.zero;
+			return;
+		}
+
 		//Patrolling and attacking
 		//TODO: rewrite and make more readable
 		wasAttacking = isAttacking;

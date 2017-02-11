@@ -10,11 +10,15 @@ public class NPC : MonoBehaviour {
 
 	protected Rigidbody rigid;
 
+	protected GameManager manager;
+
+
 	protected void Start () 
 	{
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.autoBraking = false;
 		rigid = GetComponent<Rigidbody> ();
+		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 	}
 
 	protected void Hover (float height)

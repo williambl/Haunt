@@ -49,6 +49,16 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void Update () {
+
+		if (manager.gameState == GameState.LOST || manager.gameState == GameState.WON)
+			return;
+
+		//Pausing
+		if (Input.GetButtonDown ("Cancel"))
+			manager.TogglePause ();
+
+		if (manager.gameState == GameState.PAUSED)
+			return;
 		
 		//Movement
 		var x = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;

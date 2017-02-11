@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour {
 
 	public bool existedBefore = false;
 
+	public GameState gameState;
+	public GameState unpausedState;
+
 	void OnEnable () {
 		//Subscribes to the scene loading event
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -38,20 +41,29 @@ public class GameManager : MonoBehaviour {
 	/// </summary>
 	void Init () {
 		if (SceneManager.GetActiveScene ().name == "menu") {
+			gameState = GameState.MENU;
+
 			diffSlider = GameObject.Find ("difficultySlider").GetComponent<Slider> ();
 			if (existedBefore)
 				Destroy (gameObject);
-		} 
-		else if (SceneManager.GetActiveScene ().name.StartsWith ("level")) {
+		} else if (SceneManager.GetActiveScene ().name.StartsWith ("level")) {
+			gameState = GameState.PLAYING;
+
 			endText = GameObject.Find ("Canvas/End Menu/endText");
 			endMenu = GameObject.Find ("Canvas/End Menu");
-			progressButton = GameObject.Find("Canvas/End Menu/Progress");
-			endButton = GameObject.Find("Canvas/End Menu/End");
+			progressButton = GameObject.Find ("Canvas/End Menu/Progress");
+			endButton = GameObject.Find ("Canvas/End Menu/End");
 			progressButton.GetComponent<Button> ().onClick.RemoveAllListeners ();
 			endButton.GetComponent<Button> ().onClick.AddListener (ExitToMainMenu);
 
+			pauseMenu = GameObject.Find ("Canvas/Pause Menu");
+
 			won = false;
 			lost = false;
+		} else if (SceneManager.GetActiveScene ().name == "lobby") {
+			gameState = GameState.LOBBY;
+
+			pauseMenu = GameObject.Find ("Canvas/Pause Menu");
 		}
 		existedBefore = true;
 	}
@@ -75,11 +87,13 @@ public class GameManager : MonoBehaviour {
 		endMenu.SetActive (hasWon || hasLost);
 		endText.SetActive (hasWon || hasLost);
 		if (hasWon) {
+			gameState = GameState.WON;
 			endText.GetComponent<Text> ().text = "You win!";
 			progressButton.GetComponentInChildren<Text> ().text = "Next Level";
 			progressButton.GetComponent<Button> ().onClick.RemoveListener (NextLevel);
 			progressButton.GetComponent<Button> ().onClick.AddListener (NextLevel);
 		} else if (hasLost){
+			gameState = GameState.LOST;
 			endText.GetComponent<Text> ().text = "You lose!";
 			progressButton.GetComponentInChildren<Text> ().text = "Restart Level";
 			progressButton.GetComponent<Button> ().onClick.RemoveListener (RestartLevel);
@@ -113,6 +127,7 @@ public class GameManager : MonoBehaviour {
 	/// Switches to the next level.
 	/// </summary>
 	public void NextLevel () {
+		gameState = GameState.LOADING;
 		level++;
 		SceneManager.LoadScene ("level" + level);
 	}
@@ -121,6 +136,7 @@ public class GameManager : MonoBehaviour {
 	/// Restarts the level.
 	/// </summary>
 	public void RestartLevel () {
+		gameState = GameState.LOADING;
 		SceneManager.LoadScene ("level" + level);
 	}
 
@@ -129,6 +145,7 @@ public class GameManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="level">Level to go to.</param>
 	public void GotoLevel (int targetLevel) {
+		gameState = GameState.LOADING;
 		level = targetLevel;
 		SceneManager.LoadScene ("level" + targetLevel);
 	}
@@ -137,6 +154,7 @@ public class GameManager : MonoBehaviour {
 	/// Exits to the main menu.
 	/// </summary>
 	public void ExitToMainMenu () {
+		gameState = GameState.LOADING;
 		SceneManager.LoadScene ("menu");
 	}
 
@@ -144,6 +162,7 @@ public class GameManager : MonoBehaviour {
 	/// Goes to the lobby.
 	/// </summary>
 	public void GotoLobby () {
+		gameState = GameState.LOADING;
 		SceneManager.LoadScene ("lobby");
 	}
 
@@ -155,5 +174,23 @@ public class GameManager : MonoBehaviour {
 	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
 	{
 		Init ();
+	}
+
+	/// <summary>
+	/// Toggles the pause.
+	/// </summary>
+	/// <returns><c>true</c>, if game was paused, <c>false</c> if it was unpaused.</returns>
+	public bool TogglePause ()
+	{
+		if (gameState == GameState.PAUSED) {
+			unpausedState = gameState;
+			gameState = GameState.PAUSED;
+			pauseMenu.SetActive (true);
+			return true;
+		} else {
+			gameState = unpausedState;
+			pauseMenu.SetActive (false);
+			return false;
+		}
 	}
 }

@@ -37,8 +37,9 @@ public class PlayerEnergy : MonoBehaviour {
 	{
 		if (energy < 0)
 			energy = 0;
-		else
+		else if (manager.gameState == GameState.PLAYING) {
 			DrainEnergy ();
+		}
 		if (energy > 1)
 			energy = 1;
 		energyBar.rectTransform.sizeDelta = new Vector2(25, energy * 250);
@@ -70,8 +71,7 @@ public class PlayerEnergy : MonoBehaviour {
 			else
 				energy = energy - 0.005f * drainAmount;
 		}
-		if (manager.level > -1)
-			energy = energy - 0.00005f * drainAmount;
+		energy = energy - 0.00005f * drainAmount;
 	}
 
 	public void LoseEnergy (float amount)
