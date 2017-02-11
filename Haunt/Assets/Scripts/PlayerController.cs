@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour {
 		effectManager.dead = dead;
 
 		//Picking up/dropping
-		if (Input.GetButtonDown ("PickUp")) {
+		if (Input.GetButtonDown ("Use")) {
 			if (holding == null) {
 				if (GetNearestHoldable (2f) != null)
 					PickUp (GetNearestHoldable (2f));
