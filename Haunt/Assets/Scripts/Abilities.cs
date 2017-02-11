@@ -21,7 +21,7 @@ public class Abilities : MonoBehaviour {
 			possess = true;
 		if (manager.level > 2)
 			invisibility = true;
-		if (manager.level > -1)
+		if (manager.level > 3)
 			blast = true;
 
 		if (desolidify)
