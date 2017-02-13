@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour {
 			endButton.GetComponent<Button> ().onClick.AddListener (ExitToMainMenu);
 
 			pauseMenu = GameObject.Find ("Canvas/Pause Menu");
+			pauseMenu.SetActive (false);
 
 			won = false;
 			lost = false;
@@ -64,6 +65,7 @@ public class GameManager : MonoBehaviour {
 			gameState = GameState.LOBBY;
 
 			pauseMenu = GameObject.Find ("Canvas/Pause Menu");
+			pauseMenu.SetActive (false);
 		}
 		existedBefore = true;
 	}
@@ -179,18 +181,15 @@ public class GameManager : MonoBehaviour {
 	/// <summary>
 	/// Toggles the pause.
 	/// </summary>
-	/// <returns><c>true</c>, if game was paused, <c>false</c> if it was unpaused.</returns>
-	public bool TogglePause ()
+	public void TogglePause ()
 	{
 		if (gameState == GameState.PAUSED) {
+			gameState = unpausedState;
+			pauseMenu.SetActive (false);
+		} else {
 			unpausedState = gameState;
 			gameState = GameState.PAUSED;
 			pauseMenu.SetActive (true);
-			return true;
-		} else {
-			gameState = unpausedState;
-			pauseMenu.SetActive (false);
-			return false;
 		}
 	}
 }
