@@ -36,14 +36,14 @@ public class SettingsManager : MonoBehaviour {
 		resolutionDropdown.onValueChanged.AddListener (UpdateResolution);
 		fullscreenToggle.isOn = Screen.fullScreen;
 		fullscreenToggle.onValueChanged.AddListener (UpdateFullscreen);
+		qualitySlider.value = QualitySettings.GetQualityLevel ();
+		qualitySlider.onValueChanged.AddListener (UpdateQualityLevel);
 		settingsCanvas.SetActive (false);
 	}
 	
 	void Update () {
 		if (!settingsCanvas.activeInHierarchy)
 			return;
-
-		QualitySettings.SetQualityLevel ((int)qualitySlider.value);
 		switch (QualitySettings.GetQualityLevel ()) {
 		case 0:
 			qualityLabel.text = "FASTEST";
@@ -77,5 +77,10 @@ public class SettingsManager : MonoBehaviour {
 	public void UpdateFullscreen (bool value)
 	{
 		Screen.fullScreen = value;
+	}
+
+	public void UpdateQualityLevel (float value)
+	{
+		QualitySettings.SetQualityLevel ((int)value);
 	}
 }
