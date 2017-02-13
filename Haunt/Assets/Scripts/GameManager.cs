@@ -16,6 +16,10 @@ public class GameManager : MonoBehaviour {
 	public Difficulty difficultyLevel;
 
 	public Slider diffSlider;
+	public Button startButton;
+	public Button settingsButton;
+	public Button exitButton;
+	public Text difficultyLabel;
 
 	public int level;
 
@@ -45,7 +49,7 @@ public class GameManager : MonoBehaviour {
 		if (SceneManager.GetActiveScene ().name == "menu") {
 			gameState = GameState.MENU;
 
-			diffSlider = GameObject.Find ("difficultySlider").GetComponent<Slider> ();
+			InitMainMenu ();
 
 			if (existedBefore)
 				Destroy (gameObject);
@@ -69,6 +73,18 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 		if (SceneManager.GetActiveScene ().name == "menu") {
 			difficultyLevel = (Difficulty)diffSlider.value;
+
+			switch (difficultyLevel) {
+			case Difficulty.EASY:
+				difficultyLabel.text = "EASY";
+				break;
+			case Difficulty.NORMAL:
+				difficultyLabel.text = "NORMAL";
+				break;
+			case Difficulty.HARD:
+				difficultyLabel.text = "HARD";
+				break;
+			}
 		} 
 		else if (SceneManager.GetActiveScene ().name.StartsWith ("level")) {
 			WinOrLose (won, lost);
@@ -210,5 +226,24 @@ public class GameManager : MonoBehaviour {
 		exitToLobbyFromPauseButton.onClick.AddListener (GotoLobby);
 		exitToMenuFromPauseButton.onClick.AddListener (ExitToMainMenu);
 		pauseMenu.SetActive (false);
+	}
+
+	void InitMainMenu ()
+	{
+		diffSlider = GameObject.Find ("difficultySlider").GetComponent<Slider> ();
+		settingsButton = GameObject.Find ("Canvas/settings").GetComponent<Button> ();
+		exitButton = GameObject.Find ("Canvas/exit").GetComponent<Button> ();
+		startButton = GameObject.Find ("Canvas/start").GetComponent<Button> ();
+		difficultyLabel = GameObject.Find ("Canvas/difficultySlider/Handle Slide Area/Handle/difficultyLabel").GetComponent<Text> ();
+		startButton.onClick.AddListener (StartGame);
+		exitButton.onClick.AddListener (ExitGame);
+	}
+
+	/// <summary>
+	/// Exits the game.
+	/// </summary>
+	public void ExitGame ()
+	{
+		Application.Quit ();
 	}
 }
