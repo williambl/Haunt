@@ -8,15 +8,14 @@ public class GameManager : MonoBehaviour {
 	public bool won;
 	public bool lost;
 
-	public GameObject endText;
+	public Text endText;
 	public GameObject endMenu;
-	public GameObject progressButton;
+	public Button progressButton;
+	public Button endButton;
 
 	public Difficulty difficultyLevel;
 
 	public Slider diffSlider;
-
-	public GameObject endButton;
 
 	public int level;
 
@@ -26,9 +25,9 @@ public class GameManager : MonoBehaviour {
 	public GameState unpausedState;
 
 	public GameObject pauseMenu;
-	public GameObject unpauseButton;
-	public GameObject exitToLobbyFromPauseButton;
-	public GameObject exitToMenuFromPauseButton;
+	public Button unpauseButton;
+	public Button exitToLobbyFromPauseButton;
+	public Button exitToMenuFromPauseButton;
 
 	void OnEnable () {
 		//Subscribes to the scene loading event
@@ -43,39 +42,26 @@ public class GameManager : MonoBehaviour {
 	/// Initialise.
 	/// </summary>
 	void Init () {
-		//TODO: make more readable
 		if (SceneManager.GetActiveScene ().name == "menu") {
 			gameState = GameState.MENU;
 
 			diffSlider = GameObject.Find ("difficultySlider").GetComponent<Slider> ();
+
 			if (existedBefore)
 				Destroy (gameObject);
 		} else if (SceneManager.GetActiveScene ().name.StartsWith ("level")) {
 			gameState = GameState.PLAYING;
-
-			endText = GameObject.Find ("Canvas/End Menu/endText");
-			endMenu = GameObject.Find ("Canvas/End Menu");
-			progressButton = GameObject.Find ("Canvas/End Menu/Progress");
-			endButton = GameObject.Find ("Canvas/End Menu/End");
-			progressButton.GetComponent<Button> ().onClick.RemoveAllListeners ();
-			endButton.GetComponent<Button> ().onClick.AddListener (ExitToMainMenu);
-
-			pauseMenu = GameObject.Find ("Canvas/Pause Menu");
-			unpauseButton = GameObject.Find ("Canvas/Pause Menu/Unpause");
-			exitToLobbyFromPauseButton = GameObject.Find ("Canvas/Pause Menu/ExitToLobby");
-			exitToMenuFromPauseButton = GameObject.Find ("Canvas/Pause Menu/ExitToMainMenu");
-			unpauseButton.GetComponent<Button> ().onClick.AddListener (TogglePause);
-			exitToLobbyFromPauseButton.GetComponent<Button> ().onClick.AddListener (GotoLobby);
-			exitToMenuFromPauseButton.GetComponent<Button> ().onClick.AddListener (ExitToMainMenu);
-			pauseMenu.SetActive (false);
-
 			won = false;
 			lost = false;
+
+			InitPauseMenu ();
+			InitEndMenu ();
 		} else if (SceneManager.GetActiveScene ().name == "lobby") {
 			gameState = GameState.LOBBY;
+			won = false;
+			lost = false;
 
-			pauseMenu = GameObject.Find ("Canvas/Pause Menu");
-			pauseMenu.SetActive (false);
+			InitPauseMenu ();
 		}
 		existedBefore = true;
 	}
@@ -97,7 +83,7 @@ public class GameManager : MonoBehaviour {
 	/// <param name="hasLost">If set to <c>true</c>, the player has lost.</param>
 	void WinOrLose (bool hasWon, bool hasLost) {
 		endMenu.SetActive (hasWon || hasLost);
-		endText.SetActive (hasWon || hasLost);
+		endText.gameObject.SetActive (hasWon || hasLost);
 		if (hasWon) {
 			gameState = GameState.WON;
 			endText.GetComponent<Text> ().text = "You win!";
@@ -201,5 +187,28 @@ public class GameManager : MonoBehaviour {
 			gameState = GameState.PAUSED;
 			pauseMenu.SetActive (true);
 		}
+	}
+
+	void InitEndMenu ()
+	{
+
+		endText = GameObject.Find ("Canvas/End Menu/endText").GetComponent<Text> ();
+		endMenu = GameObject.Find ("Canvas/End Menu");
+		progressButton = GameObject.Find ("Canvas/End Menu/Progress").GetComponent<Button> ();
+		endButton = GameObject.Find ("Canvas/End Menu/End").GetComponent<Button> ();
+		progressButton.onClick.RemoveAllListeners ();
+		endButton.onClick.AddListener (ExitToMainMenu);
+	}
+
+	void InitPauseMenu ()
+	{
+		pauseMenu = GameObject.Find ("Canvas/Pause Menu");
+		unpauseButton = GameObject.Find ("Canvas/Pause Menu/Unpause").GetComponent<Button> ();
+		exitToLobbyFromPauseButton = GameObject.Find ("Canvas/Pause Menu/ExitToLobby").GetComponent<Button> ();
+		exitToMenuFromPauseButton = GameObject.Find ("Canvas/Pause Menu/ExitToMainMenu").GetComponent<Button> ();
+		unpauseButton.onClick.AddListener (TogglePause);
+		exitToLobbyFromPauseButton.onClick.AddListener (GotoLobby);
+		exitToMenuFromPauseButton.onClick.AddListener (ExitToMainMenu);
+		pauseMenu.SetActive (false);
 	}
 }
