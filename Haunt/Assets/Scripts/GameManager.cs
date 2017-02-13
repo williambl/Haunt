@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject menuCanvas;
 	public GameObject settingsCanvas;
+	public Button backSettingsButton;
 
 	void OnEnable () {
 		//Subscribes to the scene loading event
@@ -240,9 +241,11 @@ public class GameManager : MonoBehaviour {
 		difficultyLabel = GameObject.Find ("Canvas/difficultySlider/Handle Slide Area/Handle/difficultyLabel").GetComponent<Text> ();
 		settingsCanvas = GameObject.Find ("SettingsCanvas");
 		menuCanvas = GameObject.Find ("Canvas");
+		backSettingsButton = GameObject.Find ("SettingsCanvas/back").GetComponent<Button> ();
 		startButton.onClick.AddListener (StartGame);
 		exitButton.onClick.AddListener (ExitGame);
 		settingsButton.onClick.AddListener (ToggleSettings);
+		backSettingsButton.onClick.AddListener (ToggleSettings);
 	}
 
 	/// <summary>
