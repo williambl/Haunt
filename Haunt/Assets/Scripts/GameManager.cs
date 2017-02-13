@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour {
 	public Button exitToLobbyFromPauseButton;
 	public Button exitToMenuFromPauseButton;
 
+	public GameObject menuCanvas;
+	public GameObject settingsCanvas;
+
 	void OnEnable () {
 		//Subscribes to the scene loading event
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -235,8 +238,11 @@ public class GameManager : MonoBehaviour {
 		exitButton = GameObject.Find ("Canvas/exit").GetComponent<Button> ();
 		startButton = GameObject.Find ("Canvas/start").GetComponent<Button> ();
 		difficultyLabel = GameObject.Find ("Canvas/difficultySlider/Handle Slide Area/Handle/difficultyLabel").GetComponent<Text> ();
+		settingsCanvas = GameObject.Find ("SettingsCanvas");
+		menuCanvas = GameObject.Find ("Canvas");
 		startButton.onClick.AddListener (StartGame);
 		exitButton.onClick.AddListener (ExitGame);
+		settingsButton.onClick.AddListener (ToggleSettings);
 	}
 
 	/// <summary>
@@ -245,5 +251,14 @@ public class GameManager : MonoBehaviour {
 	public void ExitGame ()
 	{
 		Application.Quit ();
+	}
+
+	/// <summary>
+	/// Toggles the settings menu.
+	/// </summary>
+	public void ToggleSettings ()
+	{
+		settingsCanvas.SetActive (!settingsCanvas.activeInHierarchy);
+		menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
 	}
 }
