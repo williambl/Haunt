@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour {
 	public GameObject endMenu;
 	public GameObject progressButton;
 
-	public GameObject pauseMenu;
-
 	public Difficulty difficultyLevel;
 
 	public Slider diffSlider;
@@ -26,6 +24,11 @@ public class GameManager : MonoBehaviour {
 
 	public GameState gameState;
 	public GameState unpausedState;
+
+	public GameObject pauseMenu;
+	public GameObject unpauseButton;
+	public GameObject exitToLobbyFromPauseButton;
+	public GameObject exitToMenuFromPauseButton;
 
 	void OnEnable () {
 		//Subscribes to the scene loading event
@@ -40,6 +43,7 @@ public class GameManager : MonoBehaviour {
 	/// Initialise.
 	/// </summary>
 	void Init () {
+		//TODO: make more readable
 		if (SceneManager.GetActiveScene ().name == "menu") {
 			gameState = GameState.MENU;
 
@@ -57,6 +61,12 @@ public class GameManager : MonoBehaviour {
 			endButton.GetComponent<Button> ().onClick.AddListener (ExitToMainMenu);
 
 			pauseMenu = GameObject.Find ("Canvas/Pause Menu");
+			unpauseButton = GameObject.Find ("Canvas/Pause Menu/Unpause");
+			exitToLobbyFromPauseButton = GameObject.Find ("Canvas/Pause Menu/ExitToLobby");
+			exitToMenuFromPauseButton = GameObject.Find ("Canvas/Pause Menu/ExitToMainMenu");
+			unpauseButton.GetComponent<Button> ().onClick.AddListener (TogglePause);
+			exitToLobbyFromPauseButton.GetComponent<Button> ().onClick.AddListener (GotoLobby);
+			exitToMenuFromPauseButton.GetComponent<Button> ().onClick.AddListener (ExitToMainMenu);
 			pauseMenu.SetActive (false);
 
 			won = false;
