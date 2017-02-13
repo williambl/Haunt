@@ -20,8 +20,6 @@ public class HostileNPC : NPC {
 
 	public bool isMobile;
 
-	protected GameManager manager;
-
 	protected float cooldownTimestamp = 0;
 
 	public float playerSeenTimestamp;
