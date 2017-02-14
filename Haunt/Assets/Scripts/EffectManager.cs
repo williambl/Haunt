@@ -12,7 +12,12 @@ public class EffectManager : MonoBehaviour {
 	Color vignetteColour = new Color(0.372f, 0.039f, 0.086f); 
 	Color chromAbbColour = new Color(0f, 1f, 0f);
 
+	public UnityStandardAssets.CinematicEffects.AmbientOcclusion ao;
+	public UnityStandardAssets.CinematicEffects.Bloom bloom;
+
 	void Start () {
+			ao.enabled = QualitySettings.GetQualityLevel () > 3;
+			bloom.enabled = QualitySettings.GetQualityLevel () > 2;
 	}
 	
 	void Update () {
