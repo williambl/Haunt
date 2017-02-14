@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Abilities : MonoBehaviour {
+public class PlayerAbilities : MonoBehaviour {
 
 	public bool desolidify;
 	public bool possess;
