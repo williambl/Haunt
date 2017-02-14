@@ -19,24 +19,24 @@ public class PullNPC : HostileNPC {
 			attackStrength = 2;
 			attackCooldown = 7;
 			fov = 90;
-			sightReach = 7;
-			attackReach = 4;
+			sightReach = 7 * sightReachMultiplier;
+			attackReach = 4 * attackReachMultiplier;
 			playerSeenCooldown = 5;
 			break;
 		case Difficulty.NORMAL:
 			attackStrength = 5;
 			attackCooldown = 5;
 			fov = 120;
-			sightReach = 10;
-			attackReach = 5;
+			sightReach = 10 * sightReachMultiplier;
+			attackReach = 5 * attackReachMultiplier;
 			playerSeenCooldown = 5;
 			break;
 		case Difficulty.HARD:
 			attackStrength = 7;
 			attackCooldown = 2;
 			fov = 270;
-			sightReach = 15;
-			attackReach = 8;
+			sightReach = 15 * sightReachMultiplier;
+			attackReach = 8 * attackReachMultiplier;
 			playerSeenCooldown = 10;
 			break;
 		}

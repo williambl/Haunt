@@ -24,6 +24,9 @@ public class HostileNPC : NPC {
 
 	public float playerSeenTimestamp;
 
+	public float sightReachMultiplier = 1;
+	public float attackReachMultiplier = 1;
+
 	//Based on http://answers.unity3d.com/answers/20007/view.html
 	/// <summary>
 	/// Checks the line of sight to the target.

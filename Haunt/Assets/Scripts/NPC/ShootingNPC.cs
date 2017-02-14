@@ -23,24 +23,24 @@ public class ShootingNPC : HostileNPC {
 			attackStrength = 0.07f;
 			attackCooldown = 1f;
 			fov = 60;
-			sightReach = 10;
-			attackReach = 6;
+			sightReach = 10 * sightReachMultiplier;
+			attackReach = 6 * attackReachMultiplier;
 			playerSeenCooldown = 5;
 			break;
 		case Difficulty.NORMAL:
 			attackStrength = 0.07f;
 			attackCooldown = 0.5f;
 			fov = 90;
-			sightReach = 10;
-			attackReach = 7;
+			sightReach = 10 * sightReachMultiplier;
+			attackReach = 7 * attackReachMultiplier;
 			playerSeenCooldown = 5;
 			break;
 		case Difficulty.HARD:
 			attackStrength = 0.1f;
 			attackCooldown = 0.5f;
 			fov = 100;
-			sightReach = 15;
-			attackReach = 10;
+			sightReach = 15 * sightReachMultiplier;
+			attackReach = 10 * attackReachMultiplier;
 			playerSeenCooldown = 10;
 			break;
 		}
