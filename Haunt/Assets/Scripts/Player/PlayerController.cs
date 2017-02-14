@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour {
 
 	InventoryComponent invComponent;
 
-	public Abilities abilities;
+	public PlayerAbilities abilities;
 	public PlayerEnergy energy;
 
 	public bool isInvisible;
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour {
 		rigid = GetComponent<Rigidbody> ();
 		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 		invComponent = GetComponent<InventoryComponent> ();
-		abilities = GetComponent<Abilities> ();
+		abilities = GetComponent<PlayerAbilities> ();
 		energy = GetComponent<PlayerEnergy> ();
 		meshRend = GetComponent<MeshRenderer> ();
 		trailRend = GetComponent<TrailRenderer> ();
