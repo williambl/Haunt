@@ -47,6 +47,23 @@ public class PlayerController : MonoBehaviour {
 		trailRend = GetComponent<TrailRenderer> ();
 		pointLight = GetComponent<Light> ();
 	}
+
+	void FixedUpdate ()
+	{
+		if (manager.gameState == GameState.LOST || manager.gameState == GameState.WON || manager.gameState == GameState.PAUSED)
+			return;
+
+		//Movement
+		var x = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;
+		var z = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
+		if (isPossessing) {
+			target.transform.Translate (0, 0, z);
+			target.transform.Rotate (0, x, 0);
+		} else if (!dead) {
+			transform.Translate (0, 0, z);
+			transform.Rotate (0, x, 0);
+		}
+	}
 	
 	void Update () {
 
@@ -59,18 +76,6 @@ public class PlayerController : MonoBehaviour {
 
 		if (manager.gameState == GameState.PAUSED)
 			return;
-		
-		//Movement
-		var x = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;
-		var z = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
-		if (isPossessing) {
-			target.transform.Translate (0, 0, z);
-			target.transform.Rotate (0, x, 0);
-		} else if (!dead) {
-			transform.Translate (0, 0, z);
-			transform.Rotate (0, x, 0);
-		}
-
 
 		//Possesion
 		if (Input.GetButtonDown("Possess") && !isBeingAttacked() && !dead && abilities.possess)
