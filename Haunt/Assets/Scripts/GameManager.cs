@@ -291,4 +291,17 @@ public class GameManager : MonoBehaviour {
 		startGameCanvas.SetActive (!startGameCanvas.activeInHierarchy);
 		menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
 	}
+
+	public void SaveGame (string saveName)
+	{
+		Game game = new Game (level, gameState, level);
+		SaveGame (saveName, game);
+	}
+
+	public void LoadGame (string saveName)
+	{
+		Game game = SaverLoader.Load (saveName);
+		GotoLevel (game.level);
+		gameState = game.gameState;
+	}
 }
