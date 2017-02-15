@@ -37,6 +37,11 @@ public class GameManager : MonoBehaviour {
 	public GameObject settingsCanvas;
 	public Button backSettingsButton;
 
+	public GameObject startGameCanvas;
+	public Button backStartGameButton;
+	public Button startNewButton;
+	public Button loadSavedButton;
+
 	void OnEnable () {
 		//Subscribes to the scene loading event
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -234,18 +239,31 @@ public class GameManager : MonoBehaviour {
 
 	void InitMainMenu ()
 	{
-		diffSlider = GameObject.Find ("difficultySlider").GetComponent<Slider> ();
-		settingsButton = GameObject.Find ("Canvas/settings").GetComponent<Button> ();
-		exitButton = GameObject.Find ("Canvas/exit").GetComponent<Button> ();
-		startButton = GameObject.Find ("Canvas/start").GetComponent<Button> ();
-		difficultyLabel = GameObject.Find ("Canvas/difficultySlider/Handle Slide Area/Handle/difficultyLabel").GetComponent<Text> ();
+		menuCanvas = GameObject.Find ("MainMenuCanvas");
+		settingsButton = GameObject.Find ("MainMenuCanvas/settings").GetComponent<Button> ();
+		exitButton = GameObject.Find ("MainMenuCanvas/exit").GetComponent<Button> ();
+		startButton = GameObject.Find ("MainMenuCanvas/start").GetComponent<Button> ();
+
 		settingsCanvas = GameObject.Find ("SettingsCanvas");
-		menuCanvas = GameObject.Find ("Canvas");
 		backSettingsButton = GameObject.Find ("SettingsCanvas/back").GetComponent<Button> ();
-		startButton.onClick.AddListener (StartGame);
+
+		startGameCanvas = GameObject.Find ("StartGameCanvas");
+		difficultyLabel = GameObject.Find ("StartGameCanvas/difficultySlider/Handle Slide Area/Handle/difficultyLabel").GetComponent<Text> ();
+		diffSlider = GameObject.Find ("StartGameCanvas/difficultySlider").GetComponent<Slider> ();
+		startNewButton = GameObject.Find ("StartGameCanvas/startnew").GetComponent<Button> ();
+		loadSavedButton = GameObject.Find ("StartGameCanvas/loadsaved").GetComponent<Button> ();
+		backStartGameButton = GameObject.Find ("StartGameCanvas/back").GetComponent<Button> ();
+
+		startButton.onClick.AddListener (ToggleStartCanvas);
 		exitButton.onClick.AddListener (ExitGame);
+
 		settingsButton.onClick.AddListener (ToggleSettings);
 		backSettingsButton.onClick.AddListener (ToggleSettings);
+
+		startNewButton.onClick.AddListener (StartGame);
+		backStartGameButton.onClick.AddListener (ToggleStartCanvas);
+
+		startGameCanvas.SetActive (false);
 	}
 
 	/// <summary>
@@ -262,6 +280,15 @@ public class GameManager : MonoBehaviour {
 	public void ToggleSettings ()
 	{
 		settingsCanvas.SetActive (!settingsCanvas.activeInHierarchy);
+		menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
+	}
+
+	/// <summary>
+	/// Toggles the start canvas visibility.
+	/// </summary>
+	public void ToggleStartCanvas ()
+	{
+		startGameCanvas.SetActive (!startGameCanvas.activeInHierarchy);
 		menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
 	}
 }
