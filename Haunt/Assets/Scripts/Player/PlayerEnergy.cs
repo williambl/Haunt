@@ -16,7 +16,7 @@ public class PlayerEnergy : MonoBehaviour {
 
 	void Start ()
 	{
-		energyBar = GameObject.Find ("Canvas/EnergyBackground/Energybar").GetComponent<Image> ();
+		energyBar = GameObject.Find ("EnergyCanvas/EnergyBackground/Energybar").GetComponent<Image> ();
 		controller = GetComponent<PlayerController> ();
 		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 

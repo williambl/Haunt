@@ -212,20 +212,20 @@ public class GameManager : MonoBehaviour {
 	void InitEndMenu ()
 	{
 
-		endText = GameObject.Find ("Canvas/End Menu/endText").GetComponent<Text> ();
-		endMenu = GameObject.Find ("Canvas/End Menu");
-		progressButton = GameObject.Find ("Canvas/End Menu/Progress").GetComponent<Button> ();
-		endButton = GameObject.Find ("Canvas/End Menu/End").GetComponent<Button> ();
+		endText = GameObject.Find ("EndCanvas/End Menu/endText").GetComponent<Text> ();
+		endMenu = GameObject.Find ("EndCanvas/End Menu");
+		progressButton = GameObject.Find ("EndCanvas/End Menu/Progress").GetComponent<Button> ();
+		endButton = GameObject.Find ("EndCanvas/End Menu/End").GetComponent<Button> ();
 		progressButton.onClick.RemoveAllListeners ();
 		endButton.onClick.AddListener (ExitToMainMenu);
 	}
 
 	void InitPauseMenu ()
 	{
-		pauseMenu = GameObject.Find ("Canvas/Pause Menu");
-		unpauseButton = GameObject.Find ("Canvas/Pause Menu/Unpause").GetComponent<Button> ();
-		exitToLobbyFromPauseButton = GameObject.Find ("Canvas/Pause Menu/ExitToLobby").GetComponent<Button> ();
-		exitToMenuFromPauseButton = GameObject.Find ("Canvas/Pause Menu/ExitToMainMenu").GetComponent<Button> ();
+		pauseMenu = GameObject.Find ("PauseCanvas/Pause Menu");
+		unpauseButton = GameObject.Find ("PauseCanvas/Pause Menu/Unpause").GetComponent<Button> ();
+		exitToLobbyFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/ExitToLobby").GetComponent<Button> ();
+		exitToMenuFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/ExitToMainMenu").GetComponent<Button> ();
 		unpauseButton.onClick.AddListener (TogglePause);
 		exitToLobbyFromPauseButton.onClick.AddListener (GotoLobby);
 		exitToMenuFromPauseButton.onClick.AddListener (ExitToMainMenu);
