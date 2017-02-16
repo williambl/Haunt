@@ -44,9 +44,13 @@ public class GameManager : MonoBehaviour {
 	public Button startNewButton;
 	public Button loadSavedButton;
 
-	public int maxLevelReached = -1;
+	public GameObject saveLoadMenu;
+	public Text saveLoadLabel;
+	public Button backFromSaveLoadButton;
+	public InputField saveNameField;
+	public Button saveLoadButton;
 
-	public string saveName = "ayy";
+	public int maxLevelReached = -1;
 
 	void OnEnable () {
 		//Subscribes to the scene loading event
@@ -85,6 +89,7 @@ public class GameManager : MonoBehaviour {
 
 			InitPauseMenu ();
 		}
+		InitSaveLoadMenu ();
 		existedBefore = true;
 	}
 	
@@ -242,11 +247,13 @@ public class GameManager : MonoBehaviour {
 		loadFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/Load").GetComponent<Button> ();
 		exitToLobbyFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/ExitToLobby").GetComponent<Button> ();
 		exitToMenuFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/ExitToMainMenu").GetComponent<Button> ();
+
 		unpauseButton.onClick.AddListener (TogglePause);
-		saveFromPauseButton.onClick.AddListener (SaveGame);
-		loadFromPauseButton.onClick.AddListener (LoadGame);
+		saveFromPauseButton.onClick.AddListener (ToggleSaveCanvas);
+		loadFromPauseButton.onClick.AddListener (ToggleLoadCanvas);
 		exitToLobbyFromPauseButton.onClick.AddListener (GotoLobby);
 		exitToMenuFromPauseButton.onClick.AddListener (ExitToMainMenu);
+
 		pauseMenu.SetActive (false);
 	}
 
@@ -274,9 +281,24 @@ public class GameManager : MonoBehaviour {
 		backSettingsButton.onClick.AddListener (ToggleSettings);
 
 		startNewButton.onClick.AddListener (StartGame);
+		loadSavedButton.onClick.AddListener (ToggleLoadCanvas);
 		backStartGameButton.onClick.AddListener (ToggleStartCanvas);
 
 		startGameCanvas.SetActive (false);
+	}
+
+	void InitSaveLoadMenu()
+	{
+		saveLoadMenu = GameObject.Find ("SaveLoadCanvas/SaveLoad Menu");
+		saveLoadLabel = GameObject.Find ("SaveLoadCanvas/SaveLoad Menu/SAVELOAD").GetComponent<Text> ();
+		backFromSaveLoadButton = GameObject.Find ("SaveLoadCanvas/SaveLoad Menu/Back").GetComponent<Button> ();
+		saveNameField = GameObject.Find ("SaveLoadCanvas/SaveLoad Menu/SaveName").GetComponent<InputField> ();
+		saveLoadButton = GameObject.Find ("SaveLoadCanvas/SaveLoad Menu/SaveLoad").GetComponent<Button> ();
+
+		backFromSaveLoadButton.onClick.AddListener (ToggleSaveLoadCanvas);
+		saveLoadButton.onClick.AddListener (ToggleSaveLoadCanvas);
+
+		saveLoadMenu.SetActive (false);
 	}
 
 	/// <summary>
@@ -304,17 +326,86 @@ public class GameManager : MonoBehaviour {
 		startGameCanvas.SetActive (!startGameCanvas.activeInHierarchy);
 		menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
 	}
+		
+	/// <summary>
+	/// Toggles the save canvas visibility.
+	/// </summary>
+	public void ToggleSaveCanvas ()
+	{
+		saveLoadMenu.SetActive (!saveLoadMenu.activeInHierarchy);
 
-	public void SaveGame (/*string saveName*/)
+		if (SceneManager.GetActiveScene ().name == "menu")
+			menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
+		else
+			pauseMenu.SetActive (!pauseMenu.activeInHierarchy);
+
+		if (saveLoadMenu.activeInHierarchy) {
+			saveLoadButton.onClick.RemoveListener (LoadGameFromMenu);
+			saveLoadButton.onClick.RemoveListener (SaveGameFromMenu);
+
+			saveLoadLabel.text = "SAVE";
+			saveLoadButton.GetComponentInChildren<Text> ().text = "Save";
+			saveLoadButton.onClick.AddListener (SaveGameFromMenu);
+		}
+	}
+
+	/// <summary>
+	/// Toggles the load canvas visibility.
+	/// </summary>
+	public void ToggleLoadCanvas ()
+	{
+		saveLoadMenu.SetActive (!saveLoadMenu.activeInHierarchy);
+
+		if (SceneManager.GetActiveScene ().name == "menu")
+			menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
+		else
+			pauseMenu.SetActive (!pauseMenu.activeInHierarchy);
+
+		if (saveLoadMenu.activeInHierarchy) {
+			saveLoadButton.onClick.RemoveListener (LoadGameFromMenu);
+			saveLoadButton.onClick.RemoveListener (SaveGameFromMenu);
+
+			saveLoadLabel.text = "LOAD";
+			saveLoadButton.GetComponentInChildren<Text> ().text = "Load";
+			saveLoadButton.onClick.AddListener (LoadGameFromMenu);
+		}
+	}
+
+	/// <summary>
+	/// Toggles the save or load canvas visibility.
+	/// </summary>
+	public void ToggleSaveLoadCanvas ()
+	{
+		saveLoadMenu.SetActive (!saveLoadMenu.activeInHierarchy);
+
+		if (SceneManager.GetActiveScene ().name == "menu")
+			menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
+		else
+			pauseMenu.SetActive (!pauseMenu.activeInHierarchy);
+	}
+
+	public void SaveGame (string saveName)
 	{
 		Game game = new Game (level, gameState, level);
 		SaverLoader.Save (saveName, game);
 	}
 
-	public void LoadGame (/*string saveName*/)
+	public void LoadGame (string saveName)
 	{
 		Game game = SaverLoader.Load (saveName);
 		GotoLevel (game.level);
 		gameState = game.gameState;
+	}
+
+	public void SaveGameFromMenu ()
+	{
+		string saveName = saveNameField.text + ".hsv";
+		SaveGame (saveName);
+	}
+
+	public void LoadGameFromMenu ()
+	{
+		string saveName = saveNameField.text + ".hsv";
+		LoadGame (saveName);
 	}
 }
