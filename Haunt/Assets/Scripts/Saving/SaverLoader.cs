@@ -14,7 +14,7 @@ public static class SaverLoader {
 	}
 
 	public static Game Load(string saveName) {
-		if(File.Exists(Application.persistentDataPath + "/" + saveName)) {
+		if(File.Exists(Path.Combine (Application.persistentDataPath, saveName)) {
 			XmlSerializer xmlS = new XmlSerializer(typeof(Game));
 			FileStream file = File.Open(Path.Combine (Application.persistentDataPath, saveName), FileMode.Open);
 			Game openedGame = (Game)xmlS.Deserialize(file);
