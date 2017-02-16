@@ -15,13 +15,13 @@ public class PlayerAbilities : MonoBehaviour {
 	{
 		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 
-		if (manager.level > 0)
+		if (manager.maxLevelReached > 0)
 			desolidify = true;
-		if (manager.level > 1)
+		if (manager.maxLevelReached > 1)
 			possess = true;
-		if (manager.level > 2)
+		if (manager.maxLevelReached > 2)
 			invisibility = true;
-		if (manager.level > 3)
+		if (manager.maxLevelReached > 3)
 			blast = true;
 
 		if (desolidify)

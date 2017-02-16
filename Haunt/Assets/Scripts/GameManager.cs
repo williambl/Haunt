@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour {
 	public Button startNewButton;
 	public Button loadSavedButton;
 
+	public int maxLevelReached = -1;
+
 	void OnEnable () {
 		//Subscribes to the scene loading event
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -69,6 +71,9 @@ public class GameManager : MonoBehaviour {
 
 			InitPauseMenu ();
 			InitEndMenu ();
+
+			if (level > maxLevelReached)
+				maxLevelReached = level;
 		} else if (SceneManager.GetActiveScene ().name == "lobby") {
 			gameState = GameState.LOBBY;
 			won = false;
