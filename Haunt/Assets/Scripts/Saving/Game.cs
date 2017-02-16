@@ -13,4 +13,11 @@ public class Game {
 		this.gameState = gamestate;
 		this.level = level;
 	}
+
+	public Game ()
+	{
+		this.levelReached = 0;
+		this.gameState = 0;
+		this.level = 0;
+	}
 }

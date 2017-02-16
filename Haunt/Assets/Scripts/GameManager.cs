@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour {
 
 	public GameObject pauseMenu;
 	public Button unpauseButton;
+	public Button saveFromPauseButton;
+	public Button loadFromPauseButton;
 	public Button exitToLobbyFromPauseButton;
 	public Button exitToMenuFromPauseButton;
 
@@ -43,6 +45,8 @@ public class GameManager : MonoBehaviour {
 	public Button loadSavedButton;
 
 	public int maxLevelReached = -1;
+
+	public string saveName = "ayy";
 
 	void OnEnable () {
 		//Subscribes to the scene loading event
@@ -234,9 +238,13 @@ public class GameManager : MonoBehaviour {
 	{
 		pauseMenu = GameObject.Find ("PauseCanvas/Pause Menu");
 		unpauseButton = GameObject.Find ("PauseCanvas/Pause Menu/Unpause").GetComponent<Button> ();
+		saveFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/Save").GetComponent<Button> ();
+		loadFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/Load").GetComponent<Button> ();
 		exitToLobbyFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/ExitToLobby").GetComponent<Button> ();
 		exitToMenuFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/ExitToMainMenu").GetComponent<Button> ();
 		unpauseButton.onClick.AddListener (TogglePause);
+		saveFromPauseButton.onClick.AddListener (SaveGame);
+		loadFromPauseButton.onClick.AddListener (LoadGame);
 		exitToLobbyFromPauseButton.onClick.AddListener (GotoLobby);
 		exitToMenuFromPauseButton.onClick.AddListener (ExitToMainMenu);
 		pauseMenu.SetActive (false);
@@ -297,13 +305,13 @@ public class GameManager : MonoBehaviour {
 		menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
 	}
 
-	public void SaveGame (string saveName)
+	public void SaveGame (/*string saveName*/)
 	{
 		Game game = new Game (level, gameState, level);
-		SaveGame (saveName, game);
+		SaverLoader.Save (saveName, game);
 	}
 
-	public void LoadGame (string saveName)
+	public void LoadGame (/*string saveName*/)
 	{
 		Game game = SaverLoader.Load (saveName);
 		GotoLevel (game.level);

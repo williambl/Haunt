@@ -7,16 +7,16 @@ using UnityEngine;
 public static class SaverLoader {
 	
 	public static void Save(string saveName, Game saveGame) {
-		XmlSerializer xmlS = new XmlSerializer();
-		FileStream saveFile = File.Create (Application.persistentDataPath + "/" + saveName);
+		XmlSerializer xmlS = new XmlSerializer(typeof(Game));
+		FileStream saveFile = File.Create (Path.Combine (Application.persistentDataPath, saveName));
 		xmlS.Serialize(saveFile, saveGame);
 		saveFile.Close();
 	}
 
 	public static Game Load(string saveName) {
 		if(File.Exists(Application.persistentDataPath + "/" + saveName)) {
-			XmlSerializer xmlS = new XmlSerializer();
-			FileStream file = File.Open(Application.persistentDataPath + "/" + saveName, FileMode.Open);
+			XmlSerializer xmlS = new XmlSerializer(typeof(Game));
+			FileStream file = File.Open(Path.Combine (Application.persistentDataPath, saveName), FileMode.Open);
 			Game openedGame = (Game)xmlS.Deserialize(file);
 			file.Close();
 			return openedGame;
