@@ -333,12 +333,6 @@ public class GameManager : MonoBehaviour {
 	public void ToggleSaveCanvas ()
 	{
 		saveLoadMenu.SetActive (!saveLoadMenu.activeInHierarchy);
-
-		if (SceneManager.GetActiveScene ().name == "menu")
-			menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
-		else
-			pauseMenu.SetActive (!pauseMenu.activeInHierarchy);
-
 		if (saveLoadMenu.activeInHierarchy) {
 			saveLoadButton.onClick.RemoveListener (LoadGameFromMenu);
 			saveLoadButton.onClick.RemoveListener (SaveGameFromMenu);
@@ -355,12 +349,6 @@ public class GameManager : MonoBehaviour {
 	public void ToggleLoadCanvas ()
 	{
 		saveLoadMenu.SetActive (!saveLoadMenu.activeInHierarchy);
-
-		if (SceneManager.GetActiveScene ().name == "menu")
-			menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
-		else
-			pauseMenu.SetActive (!pauseMenu.activeInHierarchy);
-
 		if (saveLoadMenu.activeInHierarchy) {
 			saveLoadButton.onClick.RemoveListener (LoadGameFromMenu);
 			saveLoadButton.onClick.RemoveListener (SaveGameFromMenu);
@@ -377,11 +365,6 @@ public class GameManager : MonoBehaviour {
 	public void ToggleSaveLoadCanvas ()
 	{
 		saveLoadMenu.SetActive (!saveLoadMenu.activeInHierarchy);
-
-		if (SceneManager.GetActiveScene ().name == "menu")
-			menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
-		else
-			pauseMenu.SetActive (!pauseMenu.activeInHierarchy);
 	}
 
 	public void SaveGame (string saveName)
