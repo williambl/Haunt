@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour {
 	TrailRenderer trailRend;
 	Light pointLight;
 
+	PlayerSound sound;
+
 	void Start () {
 		camFollow.target = gameObject;
 		rigid = GetComponent<Rigidbody> ();
@@ -46,6 +48,7 @@ public class PlayerController : MonoBehaviour {
 		meshRend = GetComponent<MeshRenderer> ();
 		trailRend = GetComponent<TrailRenderer> ();
 		pointLight = GetComponent<Light> ();
+		sound = GetComponent<PlayerSound> ();
 	}
 
 	void FixedUpdate ()
@@ -269,6 +272,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void Blast (float radius)
 	{
+		sound.Blast ();
 		foreach (Collider coll in Physics.OverlapSphere(transform.position, radius, 1 << 10)) {
 			if (Vector3.Distance (transform.position, coll.transform.position) < radius / 2.5f || coll.GetComponent<NPCHealth> ().health < 0.2)
 				coll.GetComponent<NPCHealth> ().LoseHealth (1);
