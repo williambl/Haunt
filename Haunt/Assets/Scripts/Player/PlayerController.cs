@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour {
 
 	PlayerSound sound;
 
+	public GameObject projectilePrefab;
+
 	void Start () {
 		camFollow.target = gameObject;
 		rigid = GetComponent<Rigidbody> ();
@@ -142,7 +144,7 @@ public class PlayerController : MonoBehaviour {
 		effectManager.lowEnergy = energy.energy < 0.2 && energy.energy > 0;
 
 		if (Input.GetButtonDown ("FocusedBlast") && !dead && abilities.blast && energy.energy > 0.25f) {
-			
+			FocusedBlast ();
 		}
 	}
 
@@ -283,6 +285,14 @@ public class PlayerController : MonoBehaviour {
 			else
 				coll.GetComponent<NPCHealth> ().LoseHealth((1 - (Vector3.Distance (transform.position, coll.transform.position) / radius)));
 		}
+		energy.LoseEnergy (0.25f);
+	}
+
+	public void FocusedBlast ()
+	{
+		sound.Blast ();
+		Rigidbody projectileRigid = Instantiate (projectilePrefab, transform.position, transform.rotation).GetComponent<Rigidbody> ();
+		projectileRigid.AddForce (transform.forward * 10);
 		energy.LoseEnergy (0.25f);
 	}
 }
