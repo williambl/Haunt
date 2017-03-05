@@ -140,6 +140,10 @@ public class PlayerController : MonoBehaviour {
 		pointLight.intensity = 6 * energy.energy;
 		pointLight.range = pointLight.intensity * 20f < 2 ? pointLight.intensity * 20 : 2;
 		effectManager.lowEnergy = energy.energy < 0.2 && energy.energy > 0;
+
+		if (Input.GetButtonDown ("FocusedBlast") && !dead && abilities.blast && energy.energy > 0.25f) {
+			
+		}
 	}
 
 	/// <summary>
