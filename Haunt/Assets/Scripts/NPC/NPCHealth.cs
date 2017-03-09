@@ -26,9 +26,9 @@ public class NPCHealth : MonoBehaviour {
 	public void LoseHealth (float amount)
 	{
 		if (health - amount < 0)
-			return;
+			health = 0;
 		else if (health - amount > 1)
-			return;
+			health = 1;
 		else
 			health = health - amount; 
 	}

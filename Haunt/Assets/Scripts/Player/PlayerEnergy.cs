@@ -77,9 +77,9 @@ public class PlayerEnergy : MonoBehaviour {
 	public void LoseEnergy (float amount)
 	{
 		if (energy - amount < 0)
-			return;
+			energy = 0;
 		else if (energy - amount > 1)
-			return;
+			energy = 1;
 		else
 			energy = energy - amount; 
 	}
