@@ -292,7 +292,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		sound.Blast ();
 		Rigidbody projectileRigid = Instantiate (projectilePrefab, transform.position, transform.rotation).GetComponent<Rigidbody> ();
-		projectileRigid.AddForce (transform.forward * 10);
+		projectileRigid.AddForce (transform.forward * 200);
 		energy.LoseEnergy (0.25f);
 	}
 }
