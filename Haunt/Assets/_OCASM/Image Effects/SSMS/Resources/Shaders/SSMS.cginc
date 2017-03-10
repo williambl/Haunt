@@ -1,8 +1,6 @@
-// MODIFIED TO MIMIC ATMOSPHERIC MULTIPLE SCATTERING
+// Screen Space Multiple Scattering for Unity
 //
-// Kino/Bloom v2 - Bloom filter for Unity
-//
-// Copyright (C) 2015, 2016 Keijiro Takahashi
+// Copyright (C) 2015, 2016 Keijiro Takahashi, OCASM
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -43,9 +41,11 @@ half _Intensity;
 
 // SMSS
 sampler2D _CameraDepthTexture;
-sampler2D _DistTex;
-float _Distance;
+sampler2D _FadeTex;
+sampler2D _FogTex;
 float _Radius;
+half4 _BlurTint;
+half _BlurWeight;
 
 // Brightness function
 half Brightness(half3 c)
@@ -202,9 +202,8 @@ v2f_multitex vert_multitex(appdata_img v)
 
 // SMSS
 half AdjustDepth(half d){
-	d = clamp(d * ((_ProjectionParams.z - _ProjectionParams.y) / _Distance), 0, 1);
-	d = tex2D(_DistTex, half2(d, 0.5));
-	return d;
+	d = tex2D(_FadeTex, half2(d, 0.5));
+	return saturate(d);
 }
 
 half4 frag_prefilter(v2f_img i) : SV_Target
@@ -237,13 +236,12 @@ half4 frag_prefilter(v2f_img i) : SV_Target
     // Combine and apply the brightness response curve.
     m *= max(rq, br - _Threshold) / max(br, 1e-5);
 
-    // return EncodeHDR(m);
-
     // SMSS 
-    half depth = Linear01Depth(tex2D(_CameraDepthTexture, i.uv).r);
-    depth = AdjustDepth(depth);
+    half depth = tex2D(_FogTex, i.uv); // Deferred
+    // half depth = tex2D(_FogTex, float2(i.uv.x, 1 - i.uv.y)); // Forward
+   	depth = AdjustDepth(depth);
 
-    return EncodeHDR(m * depth);
+    return EncodeHDR(m * depth) * _BlurTint;
 }
 
 half4 frag_downsample1(v2f_img i) : SV_Target
@@ -265,7 +263,7 @@ half4 frag_upsample(v2f_multitex i) : SV_Target
     half3 base = DecodeHDR(tex2D(_BaseTex, i.uvBase));
     half3 blur = UpsampleFilter(i.uvMain);
 
-	return EncodeHDR(base + blur);
+    return EncodeHDR(base + blur * (1 + _BlurWeight)) / (1 + (_BlurWeight * 0.735));
 }
 
 half4 frag_upsample_final(v2f_multitex i) : SV_Target
@@ -275,15 +273,11 @@ half4 frag_upsample_final(v2f_multitex i) : SV_Target
 #if UNITY_COLORSPACE_GAMMA
     base.rgb = GammaToLinearSpace(base.rgb);
 #endif
-    half3 cout = base.rgb + blur * _Intensity;
-#if UNITY_COLORSPACE_GAMMA
-    cout = LinearToGammaSpace(cout);
-#endif
-    // return half4(cout, base.a);
 
     // SMSS
-	half depth = Linear01Depth(tex2D(_CameraDepthTexture, i.uvBase).r);
-	depth = AdjustDepth(depth);
+    half depth = tex2D(_FogTex, i.uvBase); // Deferred
+    // half depth = tex2D(_FogTex, float2(i.uvBase.x, 1 - i.uvBase.y)); // Forward
+    depth = AdjustDepth(depth);
 
-	return lerp(base, half4(blur,1) * (1 / _Radius), clamp(depth ,0,_Intensity));
+    return lerp(base, half4(blur,1) * (1 / _Radius), clamp(depth ,0,_Intensity)) ;
 }

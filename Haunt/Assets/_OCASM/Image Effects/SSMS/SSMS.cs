@@ -1,8 +1,6 @@
-// MODIFIED TO MIMIC ATMOSPHERIC MULTIPLE SCATTERING
+// Screen Space Multiple Scattering for Unity
 //
-// Kino/Bloom v2 - Bloom filter for Unity
-//
-// Copyright (C) 2015, 2016 Keijiro Takahashi
+// Copyright (C) 2015, 2016 Keijiro Takahashi, OCASM
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +22,14 @@
 //
 using UnityEngine;
 
-namespace SMSS
-{
+namespace SSMS
+{	
     [ExecuteInEditMode]
     [RequireComponent(typeof(Camera))]
-    [AddComponentMenu("Image Effects/Screen Space Multiple Scattering")]
+    [AddComponentMenu("OCASM/Image Effects/SSMS")]
+	#if UNITY_5_4_OR_NEWER
+	[ImageEffectAllowedInSceneView]
+	#endif
     public class SSMS : MonoBehaviour
     {
         #region Public Properties
@@ -47,6 +48,7 @@ namespace SMSS
             set { _threshold = LinearToGamma(value); }
         }
 
+		[HideInInspector]
         [SerializeField]
         [Tooltip("Filters out pixels under this level of brightness.")]
         float _threshold = 0f;
@@ -58,6 +60,7 @@ namespace SMSS
             set { _softKnee = value; }
         }
 
+		[HideInInspector]
         [SerializeField, Range(0, 1)]
         [Tooltip("Makes transition between under/over-threshold gradual.")]
         float _softKnee = 0.5f;
@@ -70,10 +73,23 @@ namespace SMSS
             set { _radius = value; }
         }
 
+		[Header("Scattering")]
         [SerializeField, Range(1, 7)]
         [Tooltip("Changes extent of veiling effects\n" +
                  "in a screen resolution-independent fashion.")]
+		
         float _radius = 7f;
+
+		/// Blur Weight
+		/// Gives more strength to the blur texture during the combiner loop.
+		public float blurWeight {
+			get { return _blurWeight; }
+			set { _blurWeight = value; }
+		}
+
+		[SerializeField, Range(0.1f, 100)]
+		[Tooltip("Higher number creates a softer look but artifacts are more pronounced.")] // TODO Better description.
+		float _blurWeight = 1f;
 
         /// Bloom intensity
         /// Blend factor of the result image.
@@ -109,32 +125,27 @@ namespace SMSS
             set { _antiFlicker = value; }
         }
 
-		/// SMSS
-		/// Bloom distance range
-		[SerializeField]
-		[Tooltip("Distance at which blurriness reaches max value.")]
-		float _distance = 100;
-
-		public float distance {
-			get { return _distance; }
-			set { _distance = value; }
-		}
-
 		/// Distribution texture
 		[SerializeField]
-		[Tooltip("Distance at which blurriness reaches max value.")]
-		Texture2D _distributionTexture;
+		[Tooltip("1D gradient. Determines how the effect fades across distance.")]
+		Texture2D _fadeRamp;
 
-		public Texture2D distributionTexture {
-			get { return _distributionTexture; }
-			set { _distributionTexture = value; }
+		public Texture2D fadeRamp {
+			get { return _fadeRamp; }
+			set { _fadeRamp = value; }
 		}
 
-		/// SMSS
-		/// Camera
-		private Camera cam;
+		/// Blur tint
+		[SerializeField]
+		[Tooltip("Tints the resulting blur. ")]
+		Color _blurTint = Color.white; 
 
-        #endregion
+		public Color blurTint {
+			get { return _blurTint; }
+			set { _blurTint = value; }
+		}
+
+		#endregion
 
         #region Private Members
 
@@ -171,6 +182,8 @@ namespace SMSS
         #endif
         }
 
+		private Camera cam;
+
         #endregion
 
         #region MonoBehaviour Functions
@@ -184,9 +197,10 @@ namespace SMSS
 			// SMSS
 			cam = this.GetComponent<Camera> ();
 
-			if (distributionTexture == null) {
-				_distributionTexture = Resources.Load("Textures/linear", typeof(Texture2D)) as Texture2D;
+			if (fadeRamp == null) {
+				_fadeRamp = Resources.Load("Textures/nonLinear2", typeof(Texture2D)) as Texture2D;
 			};
+
         }
 
         void OnDisable()
@@ -194,6 +208,7 @@ namespace SMSS
             DestroyImmediate(_material);
         }
 
+		// [ImageEffectOpaque]
         void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
             var useRGBM = Application.isMobilePlatform;
@@ -208,12 +223,6 @@ namespace SMSS
                 tw /= 2;
                 th /= 2;
             }
-
-			// SMSS START
-			_material.SetTexture ("_DistTex", _distributionTexture);
-			_material.SetFloat ("_Distance", _distance);
-			_material.SetFloat ("_Radius", radius);
-			// SMSS END
 
             // blur buffer format
             var rtFormat = useRGBM ?
@@ -237,6 +246,11 @@ namespace SMSS
 
             _material.SetFloat("_SampleScale", 0.5f + logh - logh_i);
             _material.SetFloat("_Intensity", intensity);
+
+			_material.SetTexture ("_FadeTex", _fadeRamp);
+			_material.SetFloat ("_BlurWeight", _blurWeight);
+			_material.SetFloat ("_Radius", _radius);
+			_material.SetColor ("_BlurTint", _blurTint);
 
             // prefilter pass
             var prefiltered = RenderTexture.GetTemporary(tw, th, 0, rtFormat);
@@ -271,7 +285,7 @@ namespace SMSS
                 Graphics.Blit(last, _blurBuffer2[level], _material, pass);
                 last = _blurBuffer2[level];
             }
-
+				
             // finish process
             _material.SetTexture("_BaseTex", source);
             pass = _highQuality ? 8 : 7;
