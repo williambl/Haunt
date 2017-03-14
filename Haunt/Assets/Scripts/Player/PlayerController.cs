@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
 	public float HoverHeight = 1;
 
 	public bool isPossessing;
-	GameObject target = null;
+	public GameObject target = null;
 	public Camera cam;
 	public CameraFollow camFollow;
 	public EffectManager effectManager;
@@ -32,9 +32,9 @@ public class PlayerController : MonoBehaviour {
 	public PlayerEnergy energy;
 
 	public bool isInvisible;
-	MeshRenderer meshRend;
-	TrailRenderer trailRend;
-	Light pointLight;
+	public MeshRenderer meshRend;
+	public TrailRenderer trailRend;
+	public Light pointLight;
 
 	PlayerSound sound;
 
@@ -149,40 +149,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Possesses the closest target, taking control of it.
-	/// </summary>
-	public void PossessTarget ()
-	{
-		//Getting target
-		Collider[] potentialTargets = Physics.OverlapSphere (transform.position, 5, 1 << 10);
-		float maxDist = Mathf.Infinity;
-		foreach(Collider potentialTarget in potentialTargets)
-		{
-			if ((potentialTarget.transform.position - transform.position).sqrMagnitude < maxDist && potentialTarget.gameObject.tag == "Possessable") {
-				maxDist = (potentialTarget.transform.position - transform.position).sqrMagnitude;
-				target = potentialTarget.gameObject;
-			}
-		}
-		if (target != null)
-		{
-			target.tag = "Possessed";
-			camFollow.target = target;
-			isPossessing = true;
-		}
-	}
-
-	/// <summary>
-	/// Unpossesses the currently possessed target, releasing it from control.
-	/// </summary>
-	public void UnpossessTarget ()
-	{
-		target.tag = "Possessable";
-		camFollow.target = gameObject;
-		target = null;
-		isPossessing = false;
-	}
-
-	/// <summary>
 	/// Makes the player die and loses the game.
 	/// </summary>
 	public void Die ()
@@ -252,28 +218,6 @@ public class PlayerController : MonoBehaviour {
 		if (attackers.Contains (attacker)) {
 			attackers.Remove (attacker);
 		}
-	}
-
-	/// <summary>
-	/// Makes the player invisible.
-	/// </summary>
-	public void BecomeInvisible ()
-	{
-		isInvisible = true;
-		meshRend.enabled = false;
-		trailRend.enabled = false;
-		pointLight.enabled = false;
-	}
-
-	/// <summary>
-	/// Makes the player visible.
-	/// </summary>
-	public void BecomeVisible ()
-	{
-		isInvisible = false;
-		meshRend.enabled = true;
-		trailRend.enabled = true;
-		pointLight.enabled = true;
 	}
 
 	public void Blast (float radius)
