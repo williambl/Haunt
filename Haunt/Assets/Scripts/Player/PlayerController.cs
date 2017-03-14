@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour {
 			return;
 
 		//Possesion
-		if (Input.GetButtonDown("Possess") && !isBeingAttacked() && !dead && abilities.possess)
+		if (Input.GetButtonDown("Possess") && !isBeingAttacked() && !dead && (abilities.abilities & Ability.POSSESS) != 0)
 		{
 			if (isPossessing) {
 				UnpossessTarget ();
@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour {
 			Die ();
 
 		//Invisibility
-		if (Input.GetButtonDown("Invisibility") && !dead && abilities.invisibility)
+		if (Input.GetButtonDown("Invisibility") && !dead && (abilities.abilities & Ability.INVISIBILITY) != 0)
 		{
 			if (isInvisible) {
 				BecomeVisible ();
@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Blasting
-		if (Input.GetButtonDown("Blast") && !dead && abilities.blast && energy.energy > 0.25f)
+		if (Input.GetButtonDown("Blast") && !dead && (abilities.abilities & Ability.BLAST) != 0 && energy.energy > 0.25f)
 		{
 			Blast (20);
 		}
@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour {
 		pointLight.range = pointLight.intensity * 20f < 2 ? pointLight.intensity * 20 : 2;
 		effectManager.lowEnergy = energy.energy < 0.2 && energy.energy > 0;
 
-		if (Input.GetButtonDown ("FocusedBlast") && !dead && abilities.blast && energy.energy > 0.25f) {
+		if (Input.GetButtonDown ("FocusedBlast") && !dead && (abilities.abilities & Ability.FOCUSED_BLAST) != 0 && energy.energy > 0.25f) {
 			FocusedBlast ();
 		}
 	}

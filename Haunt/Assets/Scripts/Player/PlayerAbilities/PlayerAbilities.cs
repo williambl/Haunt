@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class PlayerAbilities : MonoBehaviour {
 
-	public bool desolidify;
-	public bool possess;
-	public bool invisibility;
-	public bool blast;
+	public Ability abilities;
 
 	GameManager manager;
 
@@ -16,15 +13,17 @@ public class PlayerAbilities : MonoBehaviour {
 		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 
 		if (manager.maxLevelReached > 0)
-			desolidify = true;
+			abilities |= Ability.DESOLIDIFY;
 		if (manager.maxLevelReached > 1)
-			possess = true;
+			abilities |= Ability.POSSESS;
 		if (manager.maxLevelReached > 2)
-			invisibility = true;
+			abilities |= Ability.INVISIBILITY;
 		if (manager.maxLevelReached > 3)
-			blast = true;
+			abilities |= Ability.BLAST;
+		if (manager.maxLevelReached > 4)
+			abilities |= Ability.FOCUSED_BLAST;
 
-		if (desolidify)
+		if ((abilities & Ability.DESOLIDIFY) != 0)
 			gameObject.layer = 9;
 		else
 			gameObject.layer = 12;
