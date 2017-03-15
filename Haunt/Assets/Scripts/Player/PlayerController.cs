@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour {
 	public TrailRenderer trailRend;
 	public Light pointLight;
 
-	PlayerSound sound;
+	public PlayerSound sound;
 
 	public GameObject projectilePrefab;
 
@@ -218,25 +218,5 @@ public class PlayerController : MonoBehaviour {
 		if (attackers.Contains (attacker)) {
 			attackers.Remove (attacker);
 		}
-	}
-
-	public void Blast (float radius)
-	{
-		sound.Blast ();
-		foreach (Collider coll in Physics.OverlapSphere(transform.position, radius, 1 << 10)) {
-			if (Vector3.Distance (transform.position, coll.transform.position) < radius / 2.5f || coll.GetComponent<NPCHealth> ().health < 0.2)
-				coll.GetComponent<NPCHealth> ().LoseHealth (1);
-			else
-				coll.GetComponent<NPCHealth> ().LoseHealth((1 - (Vector3.Distance (transform.position, coll.transform.position) / radius)));
-		}
-		energy.LoseEnergy (0.25f);
-	}
-
-	public void FocusedBlast ()
-	{
-		sound.Blast ();
-		Rigidbody projectileRigid = Instantiate (projectilePrefab, transform.position, transform.rotation).GetComponent<Rigidbody> ();
-		projectileRigid.AddForce (transform.forward * 200);
-		energy.LoseEnergy (0.25f);
 	}
 }
