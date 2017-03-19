@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour {
 
 	public GameObject holding;
 
-	InventoryComponent invComponent;
+	public InventoryComponent invComponent;
 
 	public PlayerAbilities abilities;
 	public PlayerEnergy energy;
@@ -86,9 +86,9 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButtonDown("Possess") && !isBeingAttacked() && !dead && (abilities.abilities & Ability.POSSESS) != 0)
 		{
 			if (isPossessing) {
-				UnpossessTarget ();
+				abilities.possess.UnpossessTarget ();
 			} else {
-				PossessTarget ();
+				abilities.possess.PossessTarget ();
 			}
 		}
 
@@ -110,10 +110,10 @@ public class PlayerController : MonoBehaviour {
 		//Picking up/dropping
 		if (Input.GetButtonDown ("Use")) {
 			if (holding == null) {
-				if (GetNearestHoldable (2f) != null)
-					PickUp (GetNearestHoldable (2f));
+				if (abilities.hold.GetNearestHoldable (2f) != null)
+					abilities.hold.PickUp (abilities.hold.GetNearestHoldable (2f));
 			} else {
-				Drop ();
+				abilities.hold.Drop ();
 			}
 		}
 
@@ -124,16 +124,16 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButtonDown("Invisibility") && !dead && (abilities.abilities & Ability.INVISIBILITY) != 0)
 		{
 			if (isInvisible) {
-				BecomeVisible ();
+				abilities.invisible.BecomeVisible ();
 			} else {
-				BecomeInvisible ();
+				abilities.invisible.BecomeInvisible ();
 			}
 		}
 
 		//Blasting
 		if (Input.GetButtonDown("Blast") && !dead && (abilities.abilities & Ability.BLAST) != 0 && energy.energy > 0.25f)
 		{
-			Blast (20);
+			abilities.blast.BlastInRadius (20);
 		}
 
 		//Energy visual effects
@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour {
 		effectManager.lowEnergy = energy.energy < 0.2 && energy.energy > 0;
 
 		if (Input.GetButtonDown ("FocusedBlast") && !dead && (abilities.abilities & Ability.FOCUSED_BLAST) != 0 && energy.energy > 0.25f) {
-			FocusedBlast ();
+			abilities.focusedBlast.Blast ();
 		}
 	}
 
@@ -156,49 +156,6 @@ public class PlayerController : MonoBehaviour {
 		dead = true;
 		manager.lost = true;
 		energy.energy = 0;
-	}
-
-	/// <summary>
-	/// Picks up a target.
-	/// </summary>
-	/// <param name="target">Target to pick up.</param>
-	public void PickUp (GameObject target)
-	{
-		target.transform.parent = transform;
-		holding = target;
-		invComponent.holdingitem = holding.GetComponent<ItemComponent> ().item;
-		holding.GetComponent<ItemComponent> ().isHeld = true;
-		target.transform.position = transform.position;
-	}
-
-	/// <summary>
-	/// Drop the currently held object.
-	/// </summary>
-	public void Drop ()
-	{
-		holding.transform.parent = null;
-		holding.GetComponent<ItemComponent> ().isHeld = false;
-		invComponent.holdingitem = null;
-		holding = null;
-	}
-		
-	/// <summary>
-	/// Gets the nearest holdable GameObject in the radius.
-	/// Returns null if no holdable GameObjects are found in the radius specified.
-	/// </summary>
-	/// <param name="radius">Radius to search within.</param>
-	GameObject GetNearestHoldable (float radius)
-	{
-		float dist = Mathf.Infinity;
-		GameObject closest = null;
-
-		foreach (Collider coll in Physics.OverlapSphere(transform.position, radius)) {
-			if (Vector3.Distance (transform.position, coll.transform.position) < dist && coll.gameObject.layer == 11 && coll.gameObject.GetComponent<ItemComponent> ().isHeld == false) {
-				dist = Vector3.Distance (transform.position, coll.transform.position);
-				closest = coll.gameObject;
-			}
-		}
-		return closest;
 	}
 
 	public bool isBeingAttacked ()

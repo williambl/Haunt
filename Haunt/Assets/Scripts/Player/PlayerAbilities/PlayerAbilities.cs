@@ -8,9 +8,18 @@ public class PlayerAbilities : MonoBehaviour {
 
 	GameManager manager;
 
+	PlayerController controller;
+
+	public Hold hold;
+	public Possess possess;
+	public Invisible invisible;
+	public Blast blast;
+	public FocusedBlast focusedBlast;
+
 	void Start ()
 	{
 		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+		controller = GetComponent<PlayerController> ();
 
 		if (manager.maxLevelReached > 0)
 			abilities |= Ability.DESOLIDIFY;
@@ -27,10 +36,17 @@ public class PlayerAbilities : MonoBehaviour {
 			gameObject.layer = 9;
 		else
 			gameObject.layer = 12;
-	}
 
-	void Update () 
-	{
-		
+		hold = GetComponent<Hold> ();
+		possess = GetComponent<Possess> ();
+		invisible = GetComponent<Invisible> ();
+		blast = GetComponent<Blast> ();
+		focusedBlast = GetComponent<FocusedBlast> ();
+
+		hold.pc = controller;
+		possess.pc = controller;
+		invisible.pc = controller;
+		blast.pc = controller;
+		focusedBlast.pc = controller;
 	}
 }

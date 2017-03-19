@@ -51,13 +51,13 @@ public class PlayerEnergy : MonoBehaviour {
 
 		if (controller.isPossessing) {
 			if (energy < 0.5)
-				controller.UnpossessTarget ();
+				controller.abilities.possess.UnpossessTarget ();
 			else
 				energy = energy - 0.001f * drainAmount;
 		}
 		if (controller.holding != null) {
 			if (energy < 0.1)
-				controller.Drop ();
+				controller.abilities.hold.Drop ();
 			else {
 				energy = energy - 0.0001f * drainAmount;
 			}
@@ -67,7 +67,7 @@ public class PlayerEnergy : MonoBehaviour {
 		}
 		if (controller.isInvisible) {
 			if (energy < 0.3)
-				controller.BecomeVisible ();
+				controller.abilities.invisible.BecomeVisible ();
 			else
 				energy = energy - 0.005f * drainAmount;
 		}
