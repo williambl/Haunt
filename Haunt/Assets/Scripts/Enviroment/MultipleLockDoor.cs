@@ -5,15 +5,18 @@ using UnityEngine;
 public class MultipleLockDoor : Door {
 
 	public List<Lock> locks;
+	public List<bool> lockBools;
 
-	public void CheckLocks () {
-		int count = 0;
-
+	public void Start ()
+	{
 		foreach (Lock l in locks) {
-			if (l.isLocked)
-				count++;
+			lockBools.Add (l.isLocked);
 		}
-		if (count == locks.Count)
+	}
+
+	public void CheckLocks ()
+	{
+		if (!lockBools.Contains (false))
 			isGoingUp = true;
 		else
 			isGoingUp = false;
