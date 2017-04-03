@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour {
 		}
 
 		if (collision.gameObject.tag == "Lock") {
-			collision.gameObject.GetComponent<Lock> ().isLocked = true;
+			collision.gameObject.GetComponent<Lock> ().ToggleLock ();
 		}
 		Destroy (gameObject);
 	}
