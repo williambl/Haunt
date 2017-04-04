@@ -20,6 +20,6 @@ public class Lock : MonoBehaviour {
 		isLocked = !isLocked;
 		door.CheckLocks ();
 
-		rend.material = /*rend.material == lockedMat ?*/ unlockedMat/* : lockedMat*/;
+		rend.material = isLocked ? lockedMat : unlockedMat;
 	}
 }
