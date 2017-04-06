@@ -33,7 +33,8 @@ public class NPC : MonoBehaviour {
 
 	public virtual void Die ()
 	{
-		Drop (dropObject);
+		if (dropObject != null)
+			Drop (dropObject);
 		Destroy (gameObject);
 	}
 
