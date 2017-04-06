@@ -12,6 +12,7 @@ public class NPC : MonoBehaviour {
 
 	protected GameManager manager;
 
+	public GameObject dropObject;
 
 	protected void Start () 
 	{
@@ -32,6 +33,12 @@ public class NPC : MonoBehaviour {
 
 	public virtual void Die ()
 	{
+		Drop (dropObject);
 		Destroy (gameObject);
+	}
+
+	public virtual void Drop (GameObject obj)
+	{
+		Instantiate (obj, transform.position, transform.rotation);
 	}
 }

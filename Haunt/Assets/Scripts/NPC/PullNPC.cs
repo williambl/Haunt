@@ -127,6 +127,7 @@ public class PullNPC : HostileNPC {
 
 	public override void Die()
 	{
+		Drop (dropObject);
 		playerController.removeAttacker (gameObject);
 		isAttacking = false;
 		Destroy (gameObject);
