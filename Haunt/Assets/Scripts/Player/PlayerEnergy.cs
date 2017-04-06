@@ -81,6 +81,16 @@ public class PlayerEnergy : MonoBehaviour {
 		else if (energy - amount > 1)
 			energy = 1;
 		else
-			energy = energy - amount; 
+			energy -= amount; 
+	}
+
+	public void GainEnergy (float amount)
+	{
+		if (energy + amount < 0)
+			energy = 0;
+		else if (energy + amount > 1)
+			energy = 1;
+		else
+			energy += amount; 
 	}
 }
