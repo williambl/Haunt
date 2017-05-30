@@ -21,3 +21,6 @@
 /Users/william/Documents/unity projects/haunt/Haunt/Temp/bin/Debug/Mono.Cecil.Mdb.dll
 /Users/william/Documents/unity projects/haunt/Haunt/Temp/bin/Debug/UnityEngine.Advertisements.dll
 /Users/william/Documents/unity projects/haunt/Haunt/Temp/bin/Debug/UnityEngine.Purchasing.dll
+/Users/william/Documents/unity projects/haunt/Haunt/Temp/bin/Debug/Facebook.Unity.Settings.dll
+/Users/william/Documents/unity projects/haunt/Haunt/Temp/bin/Debug/UnityEngine.TestRunner.dll
+/Users/william/Documents/unity projects/haunt/Haunt/Temp/bin/Debug/nunit.framework.dll

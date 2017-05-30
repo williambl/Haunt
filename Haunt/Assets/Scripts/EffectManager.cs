@@ -7,17 +7,14 @@ public class EffectManager : MonoBehaviour {
 	public bool attacked = false;
 	public bool dead = false;
 	public bool lowEnergy = false;
-	/*
-	public UnityStandardAssets.CinematicEffects.LensAberrations lensAbb;
+
+	public UnityEngine.PostProcessing.PostProcessingProfile ppp;
 	Color vignetteColour = new Color(0.372f, 0.039f, 0.086f); 
 	Color chromAbbColour = new Color(0f, 1f, 0f);
 
-	public UnityStandardAssets.CinematicEffects.AmbientOcclusion ao;
-	public UnityStandardAssets.CinematicEffects.Bloom bloom;
-
 	void Start () {
-			ao.enabled = QualitySettings.GetQualityLevel () > 3;
-			bloom.enabled = QualitySettings.GetQualityLevel () > 2;
+		ppp.ambientOcclusion.enabled = QualitySettings.GetQualityLevel () > 3;
+		ppp.bloom.enabled = QualitySettings.GetQualityLevel () > 2;
 	}
 	
 	void Update () {
@@ -31,17 +28,16 @@ public class EffectManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="enabled">If set to <c>true</c>, the effect will be enabled. If false, it will be disabled.</param>
 	void AttackedEffect (bool enabled) {
-		lensAbb.vignette.enabled = enabled;
-		lensAbb.chromaticAberration.enabled = enabled;
+		ppp.vignette.enabled = enabled;
+		ppp.chromaticAberration.enabled = enabled;
 
 		if (enabled) {
-			lensAbb.vignette.color = vignetteColour;
-			lensAbb.vignette.intensity = 1.5f;
-			lensAbb.vignette.blur = 0.1f;
-			lensAbb.vignette.smoothness = 0.8f;
+			ppp.vignette.settings.color = vignetteColour;
+			ppp.vignette.settings.intensity = 1.5f;
+			ppp.vignette.settings.smoothness = 0.8f;
 
-			lensAbb.chromaticAberration.color = chromAbbColour;
-			lensAbb.chromaticAberration.amount = Random.value * 50;	
+			ppp.chromaticAberration.settings.spectralTexture = chromAbbColour;
+			ppp.chromaticAberration.settings.intensity = Random.value * 50;	
 		}
 	}
 
@@ -50,23 +46,20 @@ public class EffectManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="enabled">If set to <c>true</c>, the effect will be enabled. If false, it will be disabled.</param>
 	void DeadEffect (bool enabled) {
-		lensAbb.vignette.enabled = enabled;
+		ppp.vignette.enabled = enabled;
 		if (enabled) {
-			lensAbb.vignette.color = vignetteColour;
-			lensAbb.vignette.intensity = 2.0f;
-			lensAbb.vignette.smoothness = 5.0f;
-			lensAbb.vignette.blur = 0.5f;
+			ppp.vignette.settings.color = vignetteColour;
+			ppp.vignette.settings.intensity = 2.0f;
+			ppp.vignette.settings.smoothness = 5.0f;
 		}
 	}
 
 	void LowEnergyEffect (bool enabled) {
 		if (enabled) {
-			lensAbb.vignette.enabled = enabled;
-			lensAbb.vignette.color = vignetteColour;
-			lensAbb.vignette.intensity = Mathf.Sin (Time.time * 10) * 0.5f > 0 ? Mathf.Sin (Time.time * 10) * 0.5f : 0;
-			lensAbb.vignette.smoothness = 5.0f;
-			lensAbb.vignette.blur = 0.5f;
+			ppp.vignette.enabled = enabled;
+			ppp.vignette.settings.color = vignetteColour;
+			ppp.vignette.settings.intensity = Mathf.Sin (Time.time * 10) * 0.5f > 0 ? Mathf.Sin (Time.time * 10) * 0.5f : 0;
+			ppp.vignette.settings.smoothness = 5.0f;
 		}
 	}
-	*/
 }
