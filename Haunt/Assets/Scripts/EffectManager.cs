@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EffectManager : MonoBehaviour {
-
+	
 	public bool attacked = false;
 	public bool dead = false;
 	public bool lowEnergy = false;
-
+	/*
 	public UnityStandardAssets.CinematicEffects.LensAberrations lensAbb;
 	Color vignetteColour = new Color(0.372f, 0.039f, 0.086f); 
 	Color chromAbbColour = new Color(0f, 1f, 0f);
@@ -68,4 +68,5 @@ public class EffectManager : MonoBehaviour {
 			lensAbb.vignette.blur = 0.5f;
 		}
 	}
+	*/
 }
