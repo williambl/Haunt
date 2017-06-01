@@ -14,15 +14,13 @@ public class EffectManager : MonoBehaviour {
 	Color vignetteColour = new Color(0.372f, 0.039f, 0.086f); 
 	Color chromAbbColour = new Color(0f, 1f, 0f);
 
-	void Start () {
-		ppb.profile.ambientOcclusion.enabled = QualitySettings.GetQualityLevel () > 3;
-		ppb.profile.bloom.enabled = QualitySettings.GetQualityLevel () > 2;
-	}
-
-	void onEnable () {
+	void OnEnable () {
 		ppb = GetComponent<UnityEngine.PostProcessing.PostProcessingBehaviour> ();
 		profile = Instantiate (ppb.profile);
 		ppb.profile = profile;
+
+		ppb.profile.ambientOcclusion.enabled = QualitySettings.GetQualityLevel () > 3;
+		ppb.profile.bloom.enabled = QualitySettings.GetQualityLevel () > 2;
 	}
 	
 	void Update () {
