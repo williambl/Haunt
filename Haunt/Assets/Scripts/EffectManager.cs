@@ -46,7 +46,7 @@ public class EffectManager : MonoBehaviour {
 
 			var chromaticAberration = profile.chromaticAberration.settings;
 			//chromaticAberration.spectralTexture = chromAbbColour;
-			chromaticAberration.intensity = Random.value * 50;
+			chromaticAberration.intensity = Random.value * 10;
 			profile.chromaticAberration.settings = chromaticAberration;
 		}
 	}
