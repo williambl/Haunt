@@ -36,6 +36,7 @@ public class EffectManager : MonoBehaviour {
 	void AttackedEffect (bool enabled) {
 		ppb.profile.vignette.enabled = enabled;
 		ppb.profile.chromaticAberration.enabled = enabled;
+		ppb.profile.grain.enabled = enabled;
 
 		if (enabled) {
 			var vignette = profile.vignette.settings;
@@ -48,6 +49,10 @@ public class EffectManager : MonoBehaviour {
 			//chromaticAberration.spectralTexture = chromAbbColour;
 			chromaticAberration.intensity = Random.value * 10;
 			profile.chromaticAberration.settings = chromaticAberration;
+
+			var grain = profile.grain.settings;
+			grain.intensity = Random.value * 0.75f;
+			profile.grain.settings = grain;
 		}
 	}
 
@@ -69,12 +74,17 @@ public class EffectManager : MonoBehaviour {
 	void LowEnergyEffect (bool enabled) {
 		if (enabled) {
 			ppb.profile.vignette.enabled = enabled;
+			ppb.profile.grain.enabled = enabled;
 
 			var vignette = profile.vignette.settings;
 			vignette.color = vignetteColour;
 			vignette.intensity = Mathf.Sin (Time.time * 10) * 0.5f > 0 ? Mathf.Sin (Time.time * 10) * 0.5f : 0;
 			vignette.smoothness = 5.0f;
 			profile.vignette.settings = vignette;
+
+			var grain = profile.grain.settings;
+			grain.intensity = Random.value * 0.75f;
+			profile.grain.settings = grain;
 		}
 	}
 }
