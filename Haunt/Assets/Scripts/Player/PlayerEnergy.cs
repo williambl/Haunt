@@ -33,7 +33,7 @@ public class PlayerEnergy : MonoBehaviour {
 		}
 	}
 
-	void Update ()
+	void FixedUpdate ()
 	{
 		if (energy < 0)
 			energy = 0;
