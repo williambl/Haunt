@@ -17,12 +17,12 @@ public class Registry {
 	}
 
 	/// <summary>
-	/// Finds an item by its name.
+	/// Finds an item by its id.
 	/// </summary>
 	/// <returns>The item.</returns>
-	/// <param name="name">The name of the item.</param>
-	public static Item FindItemByName (string name)
+	/// <param id="id">The id of the item.</param>
+	public static Item FindItemByID (string id)
 	{
-		return itemRegistry.Find (x => x.name == name);
+		return itemRegistry.Find (x => x.id == id);
 	}
 }
