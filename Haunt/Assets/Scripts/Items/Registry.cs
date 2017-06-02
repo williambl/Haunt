@@ -12,7 +12,7 @@ public class Registry {
 	/// <param name="item">Item to register.</param>
 	public static void RegisterItem (Item item)
 	{
-		if (ItemExistsFromID (item.id))
+		if (!ItemExistsFromID (item.id))
 			itemRegistry.Add (item);
 	}
 		
