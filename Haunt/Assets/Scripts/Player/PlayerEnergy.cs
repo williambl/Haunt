@@ -71,6 +71,9 @@ public class PlayerEnergy : MonoBehaviour {
 			else
 				energy = energy - 0.005f * drainAmount;
 		}
+		if (controller.isSprinting) {
+			energy -= 0.001f * drainAmount;
+		}
 		energy = energy - 0.00005f * drainAmount;
 	}
 

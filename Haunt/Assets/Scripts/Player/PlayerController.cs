@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour {
 	public float moveSpeed;
 	public float rotateSpeed;
 
+	public bool isSprinting;
+	public float sprintModifier;
+
 	RaycastHit ground;
 	public float HoverHeight = 1;
 
@@ -55,12 +58,21 @@ public class PlayerController : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
+		float adjustedRotateSpeed = rotateSpeed;
+		float adjustedMoveSpeed = moveSpeed;
+
 		if (manager.gameState == GameState.LOST || manager.gameState == GameState.WON || manager.gameState == GameState.PAUSED)
 			return;
 
 		//Movement
-		var x = Input.GetAxis("Horizontal") * Time.deltaTime * rotateSpeed;
-		var z = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
+		isSprinting = false;
+		if (Input.GetButton ("Sprint")) {
+			isSprinting = true;
+			adjustedRotateSpeed *= sprintModifier;
+			adjustedMoveSpeed *= sprintModifier;
+		}
+		var x = Input.GetAxis("Horizontal") * Time.deltaTime * adjustedRotateSpeed;
+		var z = Input.GetAxis("Vertical") * Time.deltaTime * adjustedMoveSpeed;
 		if (isPossessing) {
 			target.transform.Translate (0, 0, z);
 			target.transform.Rotate (0, x, 0);
