@@ -66,12 +66,14 @@ public class GameManager : MonoBehaviour {
 	/// </summary>
 	void Init () {
 		if (SceneManager.GetActiveScene ().name == "menu") {
+			if (existedBefore) {
+				Destroy (gameObject);
+				return;
+			}
+			
 			gameState = GameState.MENU;
 
 			InitMainMenu ();
-
-			if (existedBefore)
-				Destroy (gameObject);
 		} else if (SceneManager.GetActiveScene ().name.StartsWith ("level")) {
 			gameState = GameState.PLAYING;
 			won = false;
