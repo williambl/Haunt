@@ -6,8 +6,13 @@ public class KeyDoor : Door {
 
 	void OnTriggerEnter (Collider other)
 	{
+		Debug.Log ("ayy");
+
 		if (other.GetComponent<InventoryComponent> () != null) {
-			if (other.GetComponent<InventoryComponent> ().holdingitem == ((Item)Registry.itemRegistry.ToArray ().GetValue (0))) {
+			Debug.Log("novideo");
+
+			if (other.GetComponent<InventoryComponent> ().holdingitem.Equals (Registry.FindItemByID ("objective"))) {
+				Debug.Log ("good automod");
 				isGoingUp = true;
 			}
 		}
@@ -16,7 +21,7 @@ public class KeyDoor : Door {
 	void OnTriggerExit (Collider other)
 	{
 		if (other.GetComponent<InventoryComponent> () != null) {
-			if (other.GetComponent<InventoryComponent> ().holdingitem == ((Item)Registry.itemRegistry.ToArray ().GetValue (0))) {
+			if (other.GetComponent<InventoryComponent> ().holdingitem.Equals (Registry.FindItemByID ("objective"))) {
 				isGoingUp = false;
 			}
 		}
