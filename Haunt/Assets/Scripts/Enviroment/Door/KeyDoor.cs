@@ -6,13 +6,8 @@ public class KeyDoor : Door {
 
 	void OnTriggerEnter (Collider other)
 	{
-		Debug.Log ("ayy");
-
 		if (other.GetComponent<InventoryComponent> () != null) {
-			Debug.Log("novideo");
-
 			if (other.GetComponent<InventoryComponent> ().holdingitem.Equals (Registry.FindItemByID ("objective"))) {
-				Debug.Log ("good automod");
 				isGoingUp = true;
 			}
 		}

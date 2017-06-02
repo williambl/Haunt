@@ -11,8 +11,15 @@ public class Objective1 : MonoBehaviour {
 
 	void Start () {
 		itemC = GetComponent<ItemComponent> ();
-		itemC.item = new Item ("objective1", gameObject);
-		Registry.RegisterItem (itemC.item);
+
+		if (!Registry.ItemExistsFromID ("objective1")) {
+			itemC.item = new Item ("objective1", gameObject);
+			Registry.RegisterItem (itemC.item);
+		} else {
+			Registry.FindItemByID ("objective1").gObject = gameObject;
+			itemC.item = Registry.FindItemByID ("objective1");
+		}
+
 		rigid = GetComponent<Rigidbody> ();
 		coll = GetComponent<Collider> ();
 		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
