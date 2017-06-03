@@ -19,7 +19,6 @@ public class Projectile : MonoBehaviour {
 	{
 		if (collision.gameObject.layer == 10) {
 			collision.collider.GetComponent<NPCHealth> ().LoseHealth (collision.relativeVelocity.magnitude * 0.1f);
-			Debug.Log (collision.relativeVelocity.magnitude * 0.1f);
 		}
 
 		if (collision.gameObject.tag == "Lock") {
