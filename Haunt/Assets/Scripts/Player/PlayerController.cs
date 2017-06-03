@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour {
 	public MeshRenderer meshRend;
 	public TrailRenderer trailRend;
 	public Light pointLight;
+	public ParticleSystem particleSys;
 
 	public PlayerSound sound;
 
@@ -53,7 +54,9 @@ public class PlayerController : MonoBehaviour {
 		meshRend = GetComponent<MeshRenderer> ();
 		trailRend = GetComponent<TrailRenderer> ();
 		pointLight = GetComponent<Light> ();
+		particleSys = GetComponent<ParticleSystem> ();
 		sound = GetComponent<PlayerSound> ();
+		particleSys.Stop ();
 	}
 
 	void FixedUpdate ()
