@@ -9,6 +9,6 @@ public class HealArea : MonoBehaviour {
 	void OnTriggerStay (Collider other)
 	{
 		if (other.gameObject.tag == "Player")
-			player.energy.energy += 0.001f;
+			player.energy.GainEnergy (0.001f);
 	}
 }
