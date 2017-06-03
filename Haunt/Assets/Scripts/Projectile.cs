@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
 
+	ParticleSystem ps;
+
+	bool isExploding = false;
+
+	void Start ()
+	{
+		ps = GetComponent<ParticleSystem> ();
+		ps.Stop ();
+	}
+
+
 	void OnCollisionEnter(Collision collision)
 	{
 		if (collision.gameObject.layer == 10) {
@@ -14,6 +25,19 @@ public class Projectile : MonoBehaviour {
 		if (collision.gameObject.tag == "Lock") {
 			collision.gameObject.GetComponent<Lock> ().ToggleLock ();
 		}
-		Destroy (gameObject);
+		ps.Play ();
+		isExploding = true;
+		GetComponent<Rigidbody> ().velocity = Vector3.zero;
+		GetComponent<TrailRenderer> ().enabled = false;
+		GetComponent<Renderer> ().enabled = false;
+	}
+
+	void Update ()
+	{
+		if (isExploding) {
+			if (!ps.IsAlive ()) {
+				Destroy (gameObject);
+			}
+		}
 	}
 }
