@@ -10,7 +10,16 @@ public class FocusedBlast : MonoBehaviour {
 	{
 		pc.sound.Blast ();
 		Rigidbody projectileRigid = Instantiate (pc.projectilePrefab, transform.position, transform.rotation).GetComponent<Rigidbody> ();
-		projectileRigid.AddForce (transform.forward * 200);
+
+		Ray ray = pc.cam.ScreenPointToRay (Input.mousePosition);
+		RaycastHit hit;
+
+		if (Physics.Raycast (ray, out hit)) {
+			projectileRigid.AddForce ((hit.point - transform.position).normalized * 200);
+		} else {
+			projectileRigid.AddForce ((ray.origin - (ray.direction * 20) - transform.position).normalized * 200);
+		}
 		pc.energy.LoseEnergy (0.25f);
+
 	}
 }
