@@ -9,7 +9,7 @@ public class Blast : MonoBehaviour {
 	public void BlastInRadius (float radius)
 	{
 		pc.sound.Blast ();
-		pc.particleSys.Play ();
+		pc.particles.Blast (true);
 		foreach (Collider coll in Physics.OverlapSphere(transform.position, radius, 1 << 10)) {
 			if (Vector3.Distance (transform.position, coll.transform.position) < radius / 2.5f || coll.GetComponent<NPCHealth> ().health < 0.2)
 				coll.GetComponent<NPCHealth> ().LoseHealth (1);

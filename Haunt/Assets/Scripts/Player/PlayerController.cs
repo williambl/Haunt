@@ -38,11 +38,12 @@ public class PlayerController : MonoBehaviour {
 	public MeshRenderer meshRend;
 	public TrailRenderer trailRend;
 	public Light pointLight;
-	public ParticleSystem particleSys;
 
 	public PlayerSound sound;
+	public PlayerParticles particles;
 
 	public GameObject projectilePrefab;
+
 
 	void Start () {
 		camFollow.target = gameObject;
@@ -54,9 +55,8 @@ public class PlayerController : MonoBehaviour {
 		meshRend = GetComponent<MeshRenderer> ();
 		trailRend = GetComponent<TrailRenderer> ();
 		pointLight = GetComponent<Light> ();
-		particleSys = GetComponent<ParticleSystem> ();
 		sound = GetComponent<PlayerSound> ();
-		particleSys.Stop ();
+		particles = GetComponent<PlayerParticles> ();
 	}
 
 	void FixedUpdate ()

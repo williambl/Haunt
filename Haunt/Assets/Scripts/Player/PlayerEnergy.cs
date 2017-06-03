@@ -100,6 +100,8 @@ public class PlayerEnergy : MonoBehaviour {
 		else if (energy + amount > 1)
 			energy = 1;
 		else
-			energy += amount; 
+			energy += amount;
+
+		controller.particles.Heal (true);
 	}
 }
