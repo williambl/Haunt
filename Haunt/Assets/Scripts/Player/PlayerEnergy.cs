@@ -79,6 +79,9 @@ public class PlayerEnergy : MonoBehaviour {
 
 	public void LoseEnergy (float amount)
 	{
+		if (manager.gameState != GameState.PLAYING)
+			return;
+
 		if (energy - amount < 0)
 			energy = 0;
 		else if (energy - amount > 1)
@@ -89,6 +92,9 @@ public class PlayerEnergy : MonoBehaviour {
 
 	public void GainEnergy (float amount)
 	{
+		if (manager.gameState != GameState.PLAYING)
+			return;
+
 		if (energy + amount < 0)
 			energy = 0;
 		else if (energy + amount > 1)
