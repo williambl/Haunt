@@ -17,7 +17,7 @@ public class FocusedBlast : MonoBehaviour {
 		if (Physics.Raycast (ray, out hit)) {
 			projectileRigid.AddForce ((hit.point - transform.position).normalized * 200);
 		} else {
-			projectileRigid.AddForce ((ray.origin - (ray.direction * 20) - transform.position).normalized * 200);
+			projectileRigid.AddForce (((ray.origin + (ray.direction * 20) ) - transform.position).normalized * 200);
 		}
 		pc.energy.LoseEnergy (0.25f);
 
