@@ -29,6 +29,7 @@ public class Projectile : MonoBehaviour {
 		GetComponent<Rigidbody> ().velocity = Vector3.zero;
 		GetComponent<TrailRenderer> ().enabled = false;
 		GetComponent<Renderer> ().enabled = false;
+		GetComponent<Light> ().enabled = false;
 	}
 
 	void Update ()
