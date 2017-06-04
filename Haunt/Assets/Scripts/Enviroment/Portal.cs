@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,7 +13,8 @@ public class Portal : MonoBehaviour {
 
 	void Start ()
 	{
-		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+		if(manager == null)
+			manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 	}
 
 	void OnTriggerEnter(Collider other)
