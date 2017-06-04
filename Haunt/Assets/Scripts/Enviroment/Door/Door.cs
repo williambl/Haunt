@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour {
 
+	[Header("Door Properties")]
 	public bool isGoingUp = false; //Up = True, Down = False
 	public float speed = 0.1f;
 	public float top = 2.75f;
