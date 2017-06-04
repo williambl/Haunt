@@ -20,12 +20,13 @@ public class DepletableHealArea : MonoBehaviour {
 
 	public void Start ()
 	{
-		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
+		if(player == null)
+			player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
 	}
 
 	public void OnTriggerStay (Collider other)
 	{
-		if (other.gameObject.tag == "Player") {
+		if (other.gameObject.CompareTag("Player")) {
 			player.energy.GainEnergy (0.001f);
 			energy -= 0.001f;
 		}
@@ -38,7 +39,7 @@ public class DepletableHealArea : MonoBehaviour {
 
 		if (energy < 0) {
 			if (destroyOnDeplete)
-				Destroy (gameObject);
+				Destroy (this.gameObject);
 			energy = 0;
 		}
 	}

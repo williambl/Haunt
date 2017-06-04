@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour {
 	Vector3 offset;
 
 	void Start () {
-		offset = target.transform.position - transform.position;
+		offset = (target.transform.position - transform.position).normalized * 3;
 	}
 	
 	// LateUpdate is called once per frame, after Update

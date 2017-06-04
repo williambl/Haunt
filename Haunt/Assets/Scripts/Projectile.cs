@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour {
 
-	ParticleSystem ps;
-
-	bool isExploding = false;
+	private ParticleSystem ps;
+	
+	
+	private float damageIntensity = 0.1f;
+	private bool isExploding = false;
 
 	void Start ()
 	{
-		ps = GetComponent<ParticleSystem> ();
+		if(!ps) {
+			ps = GetComponent<ParticleSystem> ();
+		}
 		ps.Stop ();
 	}
 
@@ -18,7 +22,7 @@ public class Projectile : MonoBehaviour {
 	void OnCollisionEnter(Collision collision)
 	{
 		if (collision.gameObject.layer == 10) {
-			collision.collider.GetComponent<NPCHealth> ().LoseHealth (collision.relativeVelocity.magnitude * 0.1f);
+			collision.collider.GetComponent<NPCHealth> ().LoseHealth (collision.relativeVelocity.magnitude * damageIntensity);
 		}
 
 		if (collision.gameObject.tag == "Lock") {
@@ -36,7 +40,7 @@ public class Projectile : MonoBehaviour {
 	{
 		if (isExploding) {
 			if (!ps.IsAlive ()) {
-				Destroy (gameObject);
+				Destroy (this.gameObject);
 			}
 		}
 	}
