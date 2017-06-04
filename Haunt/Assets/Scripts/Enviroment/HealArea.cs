@@ -8,7 +8,11 @@ public class HealArea : MonoBehaviour {
 
 	void OnTriggerStay (Collider other)
 	{
-		if (other.gameObject.tag == "Player")
+		if (other.gameObject.CompareTag("Player"))
+		{
+			if(player == null)
+				player = other.gameObject.GetComponent<PlayerController>();
 			player.energy.GainEnergy (0.001f);
+		}
 	}
 }
