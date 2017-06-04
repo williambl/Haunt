@@ -5,10 +5,11 @@ using UnityEngine;
 public class Switch : MonoBehaviour {
 
 	GameManager manager;
-
+	
 	void Start () 
 	{
-		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+		if(manager == null)
+			manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 	}
 
 	void OnTriggerStay (Collider other)

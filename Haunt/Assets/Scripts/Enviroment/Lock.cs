@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,8 +12,8 @@ public class Lock : MonoBehaviour {
 	[SerializeField] Material unlockedMat;
 
 	public void Start () {
-
-		rend = GetComponent<Renderer> ();
+		if(rend == null)
+			rend = GetComponent<Renderer> ();
 	}
 
 	public void ToggleLock () {
