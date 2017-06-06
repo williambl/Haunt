@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Objective1 : MonoBehaviour {
 
-	GameManager manager;
-	ItemComponent itemC;
-	Rigidbody rigid;
-	Collider coll;
+	private GameManager manager;
+	private ItemComponent itemC;
+	private Rigidbody rigid;
+	private Collider coll;
 
 	void Start () {
-		itemC = GetComponent<ItemComponent> ();
+		if(itemC == null)
+			itemC = GetComponent<ItemComponent> ();
 
 		if (!Registry.ItemExistsFromID ("objective1")) {
 			itemC.item = new Item ("objective1", gameObject);
@@ -20,9 +21,12 @@ public class Objective1 : MonoBehaviour {
 			itemC.item = Registry.FindItemByID ("objective1");
 		}
 
-		rigid = GetComponent<Rigidbody> ();
-		coll = GetComponent<Collider> ();
-		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+		if(rigid == null)
+			rigid = GetComponent<Rigidbody> ();
+		if(coll == null)
+			coll = GetComponent<Collider> ();
+		if(manager == null)
+			manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 	}
 
 	void Update () {
