@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InventoryComponent : MonoBehaviour {
 	
-	[Header("Properties:"]
+	[Header("Properties"]
 	public Item holdingitem;
 
 }
