@@ -3,12 +3,13 @@ using System.Collections;
 
 public class Objective : MonoBehaviour {
 
-	ItemComponent itemC;
-	Rigidbody rigid;
-	Collider coll;
+	private ItemComponent itemC;
+	private Rigidbody rigid;
+	private Collider coll;
 
 	void Start () {
-		itemC = GetComponent<ItemComponent> ();
+		if(itemC == null)
+			itemC = GetComponent<ItemComponent> ();
 
 		if (!Registry.ItemExistsFromID ("objective")) {
 			itemC.item = new Item ("objective", gameObject);
@@ -18,8 +19,10 @@ public class Objective : MonoBehaviour {
 			itemC.item = Registry.FindItemByID ("objective");
 		}
 		
-		rigid = GetComponent<Rigidbody> ();
-		coll = GetComponent<Collider> ();
+		if(rigid == null)
+			rigid = GetComponent<Rigidbody> ();
+		if(coll == null)
+			coll = GetComponent<Collider> ();
 	}
 
 	void Update () {
