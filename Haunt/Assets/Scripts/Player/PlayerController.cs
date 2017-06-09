@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour {
 			manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 		if(!invComponent)
 			invComponent = GetComponent<InventoryComponent> ();
-		if(!abailities)
+		if(!abilities)
 			abilities = GetComponent<PlayerAbilities> ();
 		if(!energy)
 			energy = GetComponent<PlayerEnergy> ();
