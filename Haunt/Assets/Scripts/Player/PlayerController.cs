@@ -14,12 +14,12 @@ public class PlayerController : MonoBehaviour {
 	public InventoryComponent invComponent;
 	public PlayerAbilities abilities;
 	public PlayerEnergy energy;
-	public MeshRenderer meshRend;
 	public TrailRenderer trailRend;
 	public Light pointLight;
 	public PlayerSound sound;
 	public PlayerParticles particles;
 	public GameObject projectilePrefab;
+	public ParticleSystem playerParticleSys;
 	
 	[Header("Properties:")]
 	public float moveSpeed;
@@ -54,8 +54,6 @@ public class PlayerController : MonoBehaviour {
 			abilities = GetComponent<PlayerAbilities> ();
 		if(!energy)
 			energy = GetComponent<PlayerEnergy> ();
-		if(!meshRend)
-			meshRend = GetComponent<MeshRenderer> ();
 		if(!trailRend)
 			trailRend = GetComponent<TrailRenderer> ();
 		if(!pointLight)

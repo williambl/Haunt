@@ -12,9 +12,9 @@ public class Invisible : MonoBehaviour {
 	public void BecomeInvisible ()
 	{
 		pc.isInvisible = true;
-		pc.meshRend.enabled = false;
 		pc.trailRend.enabled = false;
 		pc.pointLight.enabled = false;
+		pc.particles.Player (false);
 	}
 
 	/// <summary>
@@ -23,8 +23,8 @@ public class Invisible : MonoBehaviour {
 	public void BecomeVisible ()
 	{
 		pc.isInvisible = false;
-		pc.meshRend.enabled = true;
 		pc.trailRend.enabled = true;
 		pc.pointLight.enabled = true;
+		pc.particles.Player (true);
 	}
 }

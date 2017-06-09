@@ -7,6 +7,7 @@ public class PlayerParticles : MonoBehaviour {
 	[Header("Particle System Types:")]
 	public ParticleSystem blast;
 	public ParticleSystem heal;
+	public ParticleSystem player;
 
 	void Start ()
 	{
@@ -14,6 +15,8 @@ public class PlayerParticles : MonoBehaviour {
 			blast = GameObject.Find ("Player/blastParticles").GetComponent<ParticleSystem> ();
 		if(!heal)
 			heal = GameObject.Find ("Player/healParticles").GetComponent<ParticleSystem> ();
+		if (!player)
+			player = GameObject.Find ("Player/playerParticles").GetComponent<ParticleSystem> ();
 
 		blast.Stop ();
 		heal.Stop ();
@@ -43,5 +46,17 @@ public class PlayerParticles : MonoBehaviour {
 		} else {
 			heal.Stop ();
 		}
+	}
+
+	/// <summary>
+	/// Enable or disable player particles
+	/// </summary>
+	/// <param name="enabled">If set to <c>true</c> enable.</param>
+	public void Player (bool enabled)
+	{
+		if (enabled)
+			player.Play ()
+		else
+			player.Stop ()
 	}
 }
