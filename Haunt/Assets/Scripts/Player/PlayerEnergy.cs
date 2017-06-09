@@ -49,6 +49,13 @@ public class PlayerEnergy : MonoBehaviour {
 			energy = 1;
 		energyBar.rectTransform.sizeDelta = new Vector2(25, energy * 250);
 		energyBar.rectTransform.localPosition = new Vector3(energyBar.rectTransform.localPosition.x, 0f - 0.5f*(250 - energyBar.rectTransform.sizeDelta.y), energyBar.rectTransform.localPosition.z);
+
+		//Energy visual effects
+		controller.transform.localScale = new Vector3(energy, energy, energy);
+		controller.trailRend.startWidth = energy;
+		controller.pointLight.intensity = 6 * energy;
+		controller.pointLight.range = controller.pointLight.intensity * 20f < 2 ? controller.pointLight.intensity * 20 : 2;
+		controller.effectManager.lowEnergy = energy < 0.2 && energy > 0;
 	}
 
 	void DrainEnergy ()
