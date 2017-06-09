@@ -5,20 +5,25 @@ using UnityEngine.UI;
 
 public class PlayerEnergy : MonoBehaviour {
 
-	public float energy = 1;
+	[Header("References:")]
 	public Image energyBar;
-
 	public PlayerController controller;
 
+	[Header("Properties:")]
+	public float energy = 1;
 	public float drainAmount;
 
+	//Private Variables...
 	GameManager manager;
 
 	void Start ()
 	{
-		energyBar = GameObject.Find ("EnergyCanvas/EnergyBackground/Energybar").GetComponent<Image> ();
-		controller = GetComponent<PlayerController> ();
-		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+		if(!energyBar)
+			energyBar = GameObject.Find ("EnergyCanvas/EnergyBackground/Energybar").GetComponent<Image> ();
+		if(!controller)
+			controller = GetComponent<PlayerController> ();
+		if(!manager)		
+			manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
 
 		switch (manager.difficultyLevel) {
 		case Difficulty.EASY:
