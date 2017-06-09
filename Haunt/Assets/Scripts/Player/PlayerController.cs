@@ -4,59 +4,67 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
 
-	public float moveSpeed;
-	public float rotateSpeed;
-
-	public bool isSprinting;
-	public float sprintModifier;
-
-	RaycastHit ground;
-	public float HoverHeight = 1;
-
-	public bool isPossessing;
-	public GameObject target = null;
+	[Header("References:")]
 	public Camera cam;
 	public CameraFollow camFollow;
 	public EffectManager effectManager;
-
+	public GameObject target = null;
 	public List<GameObject> attackers = new List<GameObject>();
-
-	Rigidbody rigid;
-
-	public bool dead;
-
-	GameManager manager;
-
 	public GameObject holding;
-
 	public InventoryComponent invComponent;
-
 	public PlayerAbilities abilities;
 	public PlayerEnergy energy;
-
-	public bool isInvisible;
 	public MeshRenderer meshRend;
 	public TrailRenderer trailRend;
 	public Light pointLight;
-
 	public PlayerSound sound;
 	public PlayerParticles particles;
-
 	public GameObject projectilePrefab;
+	
+	[Header("Properties:")]
+	public float moveSpeed;
+	public float rotateSpeed;
+	public float sprintModifier;
+	public float HoverHeight = 1;
 
+	[Header("Player States:")]
+	public bool isSprinting;
+	public bool isPossessing;
+	public bool dead;
+	public bool isInvisible;
+	
+	//Private Variables...
+	RaycastHit ground;
+	Rigidbody rigid;
+	GameManager manager;
 
 	void Start () {
 		camFollow.target = gameObject;
-		rigid = GetComponent<Rigidbody> ();
-		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
-		invComponent = GetComponent<InventoryComponent> ();
-		abilities = GetComponent<PlayerAbilities> ();
-		energy = GetComponent<PlayerEnergy> ();
-		meshRend = GetComponent<MeshRenderer> ();
-		trailRend = GetComponent<TrailRenderer> ();
-		pointLight = GetComponent<Light> ();
-		sound = GetComponent<PlayerSound> ();
-		particles = GetComponent<PlayerParticles> ();
+		PlayerInit();
+	}
+	
+	private void PlayerInit() {
+		if(!rigid)
+			rigid = GetComponent<Rigidbody>();
+		if(!manager)
+			manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+		if(!invComponent)
+			invComponent = GetComponent<InventoryComponent> ();
+		if(!abailities)
+			abilities = GetComponent<PlayerAbilities> ();
+		if(!energy)
+			energy = GetComponent<PlayerEnergy> ();
+		if(!meshRend)
+			meshRend = GetComponent<MeshRenderer> ();
+		if(!trailRend)
+			trailRend = GetComponent<TrailRenderer> ();
+		if(!pointLight)
+			pointLight = GetComponent<Light> ();
+		if(!sound)
+			sound = GetComponent<PlayerSound> ();
+		if(!particles)
+			particles = GetComponent<PlayerParticles> ();
+	
 	}
 
 	void FixedUpdate ()
