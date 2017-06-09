@@ -56,6 +56,9 @@ public class PlayerEnergy : MonoBehaviour {
 		controller.pointLight.intensity = 6 * energy;
 		controller.pointLight.range = controller.pointLight.intensity * 20f < 2 ? controller.pointLight.intensity * 20 : 2;
 		controller.effectManager.lowEnergy = energy < 0.2 && energy > 0;
+
+		var particles = controller.particles.player.main;
+		particles.startSize = new ParticleSystem.MinMaxCurve (2f * energy, 1.5f * energy);
 	}
 
 	void DrainEnergy ()
