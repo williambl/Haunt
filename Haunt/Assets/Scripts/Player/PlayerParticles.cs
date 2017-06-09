@@ -55,8 +55,8 @@ public class PlayerParticles : MonoBehaviour {
 	public void Player (bool enabled)
 	{
 		if (enabled)
-			player.Play ()
+			player.Play ();
 		else
-			player.Stop ()
+			player.Stop ();
 	}
 }
