@@ -4,22 +4,20 @@ using UnityEngine;
 
 public class PlayerSound : MonoBehaviour {
 
-	public AudioSource source;
-
-	public AudioClip blast;
+	[Header("Properties:")]
+	public AudioSource audioSrc;
+	public AudioClip clipBlast;
 
 	// Use this for initialization
 	void Start () {
-		source = GetComponent<AudioSource> ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+		if(audioSrc == null)
+			audioSrc = GetComponent<AudioSource> ();
 	}
 
 	public void Blast () {
-		source.clip = blast;
-		source.Play ();
+		if(audioSrc != null && clipBlase != null) {
+			audioSrc.clip = clipBlast;
+			audioSrc.Play ();
+		}
 	}
 }

@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class PlayerParticles : MonoBehaviour {
 
+	[Header("Particle System Types:")]
 	public ParticleSystem blast;
 	public ParticleSystem heal;
 
 	void Start ()
 	{
-		blast = GameObject.Find ("Player/blastParticles").GetComponent<ParticleSystem> ();
-		heal = GameObject.Find ("Player/healParticles").GetComponent<ParticleSystem> ();
+		if(!blast)
+			blast = GameObject.Find ("Player/blastParticles").GetComponent<ParticleSystem> ();
+		if(!heal)
+			heal = GameObject.Find ("Player/healParticles").GetComponent<ParticleSystem> ();
 
 		blast.Stop ();
 		heal.Stop ();
