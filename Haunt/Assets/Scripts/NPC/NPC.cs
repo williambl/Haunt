@@ -19,7 +19,7 @@ public class NPC : MonoBehaviour {
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.autoBraking = false;
 		rigid = GetComponent<Rigidbody> ();
-		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+		manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 	}
 
 	protected void Hover (float height)

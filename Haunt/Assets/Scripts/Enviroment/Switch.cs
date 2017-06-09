@@ -9,7 +9,7 @@ public class Switch : MonoBehaviour {
 	void Start () 
 	{
 		if(manager == null)
-			manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+			manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 	}
 
 	void OnTriggerStay (Collider other)

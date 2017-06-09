@@ -18,7 +18,7 @@ public class PlayerAbilities : MonoBehaviour {
 
 	void Start ()
 	{
-		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+		manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 		controller = GetComponent<PlayerController> ();
 
 		if (manager.maxLevelReached > 0)

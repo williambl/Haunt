@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour {
 		if(!rigid)
 			rigid = GetComponent<Rigidbody>();
 		if(!manager)
-			manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+			manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 		if(!invComponent)
 			invComponent = GetComponent<InventoryComponent> ();
 		if(!abilities)

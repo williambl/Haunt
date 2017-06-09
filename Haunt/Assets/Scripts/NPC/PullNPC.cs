@@ -12,7 +12,7 @@ public class PullNPC : HostileNPC {
 		playerController = player.GetComponent<PlayerController> ();
 		line = GetComponent<LineRenderer> ();
 		line.enabled = false;
-		manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+		manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 
 		switch (manager.difficultyLevel) {
 		case Difficulty.EASY:

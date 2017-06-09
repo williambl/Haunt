@@ -23,7 +23,7 @@ public class PlayerEnergy : MonoBehaviour {
 		if(!controller)
 			controller = GetComponent<PlayerController> ();
 		if(!manager)		
-			manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+			manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 
 		switch (manager.difficultyLevel) {
 		case Difficulty.EASY:

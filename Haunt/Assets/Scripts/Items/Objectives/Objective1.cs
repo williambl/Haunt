@@ -26,7 +26,7 @@ public class Objective1 : MonoBehaviour {
 		if(coll == null)
 			coll = GetComponent<Collider> ();
 		if(manager == null)
-			manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+			manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 	}
 
 	void Update () {

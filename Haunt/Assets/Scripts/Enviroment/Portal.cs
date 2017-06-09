@@ -14,7 +14,7 @@ public class Portal : MonoBehaviour {
 	void Start ()
 	{
 		if(manager == null)
-			manager = GameObject.Find ("Manager").GetComponent<GameManager> ();
+			manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 	}
 
 	void OnTriggerEnter(Collider other)
