@@ -57,7 +57,7 @@ public class PlayerEnergy : MonoBehaviour {
 		controller.effectManager.lowEnergy = energy < 0.2 && energy > 0;
 
 		var particles = controller.particles.player.main;
-		particles.startSize = new ParticleSystem.MinMaxCurve (2f * energy, 1.5f * energy);
+		particles.startSize = new ParticleSystem.MinMaxCurve (energy, 0.75f * energy);
 	}
 
 	void DrainEnergy ()
