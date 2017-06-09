@@ -52,7 +52,6 @@ public class PlayerEnergy : MonoBehaviour {
 
 		//Energy visual effects
 		controller.transform.localScale = new Vector3(energy, energy, energy);
-		controller.trailRend.startWidth = energy;
 		controller.pointLight.intensity = 6 * energy;
 		controller.pointLight.range = controller.pointLight.intensity * 20f < 2 ? controller.pointLight.intensity * 20 : 2;
 		controller.effectManager.lowEnergy = energy < 0.2 && energy > 0;

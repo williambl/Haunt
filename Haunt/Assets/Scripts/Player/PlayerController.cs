@@ -14,13 +14,11 @@ public class PlayerController : MonoBehaviour {
 	public InventoryComponent invComponent;
 	public PlayerAbilities abilities;
 	public PlayerEnergy energy;
-	public TrailRenderer trailRend;
 	public Light pointLight;
 	public PlayerSound sound;
 	public PlayerParticles particles;
 	public GameObject projectilePrefab;
-	public ParticleSystem playerParticleSys;
-	
+
 	[Header("Properties:")]
 	public float moveSpeed;
 	public float rotateSpeed;
@@ -54,8 +52,6 @@ public class PlayerController : MonoBehaviour {
 			abilities = GetComponent<PlayerAbilities> ();
 		if(!energy)
 			energy = GetComponent<PlayerEnergy> ();
-		if(!trailRend)
-			trailRend = GetComponent<TrailRenderer> ();
 		if(!pointLight)
 			pointLight = GetComponent<Light> ();
 		if(!sound)
@@ -156,13 +152,6 @@ public class PlayerController : MonoBehaviour {
 		{
 			abilities.blast.BlastInRadius (20);
 		}
-
-		//Energy visual effects
-		transform.localScale = new Vector3(energy.energy, energy.energy, energy.energy);
-		trailRend.startWidth = energy.energy;
-		pointLight.intensity = 6 * energy.energy;
-		pointLight.range = pointLight.intensity * 20f < 2 ? pointLight.intensity * 20 : 2;
-		effectManager.lowEnergy = energy.energy < 0.2 && energy.energy > 0;
 
 		if (Input.GetButtonDown ("FocusedBlast") && !dead && (abilities.abilities & Ability.FOCUSED_BLAST) != 0 && energy.energy > 0.25f) {
 			abilities.focusedBlast.Blast ();

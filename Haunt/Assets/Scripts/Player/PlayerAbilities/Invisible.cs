@@ -12,7 +12,6 @@ public class Invisible : MonoBehaviour {
 	public void BecomeInvisible ()
 	{
 		pc.isInvisible = true;
-		pc.trailRend.enabled = false;
 		pc.pointLight.enabled = false;
 		pc.particles.Player (false);
 	}
@@ -23,7 +22,6 @@ public class Invisible : MonoBehaviour {
 	public void BecomeVisible ()
 	{
 		pc.isInvisible = false;
-		pc.trailRend.enabled = true;
 		pc.pointLight.enabled = true;
 		pc.particles.Player (true);
 	}
