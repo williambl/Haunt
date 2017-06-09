@@ -15,7 +15,7 @@ public class PlayerSound : MonoBehaviour {
 	}
 
 	public void Blast () {
-		if(audioSrc != null && clipBlase != null) {
+		if(audioSrc != null && clipBlast != null) {
 			audioSrc.clip = clipBlast;
 			audioSrc.Play ();
 		}
