@@ -1,3 +1,13 @@
+[![license](https://img.shields.io/github/license/williambl/haunt.svg)]()
+
+[![GitHub contributors](https://img.shields.io/github/contributors/williambl/haunt.svg)]() 
+
+[![GitHub issues](https://img.shields.io/github/issues/williambl/haunt.svg)]()
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/williambl/haunt.svg)]()
+
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/williambl/haunt.svg)]()
+[![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/williambl/haunt.svg)]()
+
 # Haunt
 A game where you are a ghost, and must possess people and haunt things to get to your goal.
 
