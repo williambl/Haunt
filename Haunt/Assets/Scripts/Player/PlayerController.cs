@@ -35,6 +35,9 @@ public class PlayerController : MonoBehaviour {
 	RaycastHit ground;
 	Rigidbody rigid;
 	GameManager manager;
+	Vector3 hoverDestinationLerp;
+	float totalLerpTime;
+	float currentLerpTime;
 
 	void Start () {
 		camFollow.target = gameObject;
@@ -110,10 +113,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Hovering
-		if (Physics.Raycast (transform.position, Vector3.down, out ground, 100, 1 << 8)) 
-		{
-			transform.position = new Vector3 (transform.position.x, ground.point.y + HoverHeight, transform.position.z);
-		}
+		Hover();
 
 		//Stops player from being pushed away after attacking ends
 		if (!isBeingAttacked())
@@ -184,6 +184,27 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (attackers.Contains (attacker)) {
 			attackers.Remove (attacker);
+		}
+	}
+
+	public void Hover ()
+	{
+		//Based on https://chicounity3d.wordpress.com/2014/05/23/how-to-lerp-like-a-pro/
+
+		currentLerpTime += Time.deltaTime;
+		if (currentLerpTime > totalLerpTime) {
+			currentLerpTime = totalLerpTime;
+		}
+		if (Physics.Raycast (transform.position, Vector3.down, out ground, 100, 1 << 8)) {
+			hoverDestinationLerp = new Vector3 (transform.position.x, ground.point.y + HoverHeight, transform.position.z);
+			totalLerpTime = Vector3.Distance (transform.position, hoverDestinationLerp);
+			//Debug.Log (totalLerpTime);
+		} else {
+			currentLerpTime = 0f;
+		}
+		if (currentLerpTime != 0) {
+			float perc = currentLerpTime / totalLerpTime;
+			transform.position = Vector3.Lerp(transform.position, hoverDestinationLerp, perc);
 		}
 	}
 }
