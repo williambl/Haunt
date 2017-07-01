@@ -24,7 +24,7 @@ public class CameraFollow : MonoBehaviour {
 
 
 		//Physics.Raycast (ray, out hit, Vector3.Distance (transform.position, target.transform.position));
-		dist = Vector3.Distance (transform.position, target.transform.position);
+		//dist = Vector3.Distance (transform.position, target.transform.position);
 		//dist = Mathf.Clamp (dist, 0, Vector3.Distance (transform.position, target.transform.position));
 
 		/*if (Physics.Raycast (ray, out hit, 10)) {
@@ -41,13 +41,14 @@ public class CameraFollow : MonoBehaviour {
 		Ray ray = new Ray (transform.position, target.transform.position);
 		RaycastHit hit;
 
-		if (Physics.SphereCast (ray, 0.5f, out hit, dist, ~(1 << 9))) {
-			lerpAmount += 0.01f;
-			offset = Vector3.Lerp (originalOffset, (target.transform.position - transform.position).normalized * 3, lerpAmount);
-		} else
-			lerpAmount = 0;
-		Debug.Log (lerpAmount);
+		Debug.DrawRay (transform.position, target.transform.position);
 
+		if (Physics.SphereCast (ray, 0.5f, out hit, dist, ~(1 << 9))) {
+			dist -= 0.01f;
+		} else
+			dist = originalDist;
+
+		offset = (target.transform.position - transform.position).normalized * dist;
 		float desiredAngle = target.transform.eulerAngles.y;
 		Quaternion rotation = Quaternion.Euler(0, desiredAngle, 0);
 		transform.position = target.transform.position - (rotation * offset);
