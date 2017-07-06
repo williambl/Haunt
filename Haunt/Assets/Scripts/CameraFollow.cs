@@ -9,7 +9,12 @@ public class CameraFollow : MonoBehaviour {
 	Vector3 dir;
 	float originalDist;
 	float dist;
+
+	float moveAmount = 0.1f;
 	float smoothAmount = 0f;
+	float smoothTime = 0.1f;
+
+	float sphereCastRadius = 0.5f;
 
 	int layermask = 1 << 9;
 
@@ -26,8 +31,8 @@ public class CameraFollow : MonoBehaviour {
 		RaycastHit hit;
 
 		// If a 0.5 radius spherecast hitting everything but the player hits anything, reduce distance to player
-		if (Physics.SphereCast (ray, 0.5f, out hit, dist, layermask)) {
-			dist = Mathf.SmoothDamp (dist, dist - 0.1f, ref smoothAmount, 0.1f);
+		if (Physics.SphereCast (ray, sphereCastRadius, out hit, dist, layermask)) {
+			dist = Mathf.SmoothDamp (dist, dist - moveAmount, ref smoothAmount, smoothTime);
 		} else {
 			
 			/* 
@@ -37,7 +42,7 @@ public class CameraFollow : MonoBehaviour {
 			 */
 
 			if (dist < originalDist) {
-				float tmpDist = Mathf.SmoothDamp (dist, dist + 0.1f, ref smoothAmount, 0.1f);
+				float tmpDist = Mathf.SmoothDamp (dist, dist + moveAmount, ref smoothAmount, smoothTime);
 				Vector3 tmpOffset = dir * tmpDist;
 				Vector3 tmpPos = target.transform.position + tmpOffset;
 				Ray tmpRay = new Ray (tmpPos, target.transform.position - transform.position);
@@ -48,7 +53,7 @@ public class CameraFollow : MonoBehaviour {
 				 * then go further.
 				 */
 
-				if (!Physics.SphereCast (tmpRay, 0.5f, out tmpHit, tmpDist, layermask)) {
+				if (!Physics.SphereCast (tmpRay, sphereCastRadius, out tmpHit, tmpDist, layermask)) {
 					dist = tmpDist;
 				}
 			}
