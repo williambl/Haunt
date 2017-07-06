@@ -23,49 +23,40 @@ public class CameraFollow : MonoBehaviour {
 	
 	// LateUpdate is called once per frame, after Update
 	void LateUpdate () {
-		//RaycastHit hit;
-		//Ray ray = new Ray (transform.position, target.transform.position - transform.position);
-		//Debug.DrawRay (transform.position, target.transform.position - transform.position);
-
-
-		//Physics.Raycast (ray, out hit, Vector3.Distance (transform.position, target.transform.position));
-		//dist = Vector3.Distance (transform.position, target.transform.position);
-		//dist = Mathf.Clamp (dist, 0, Vector3.Distance (transform.position, target.transform.position));
-
-		/*if (Physics.Raycast (ray, out hit, 10)) {
-			Debug.Log ("hit");
-			if (!hit.collider.CompareTag ("Player")) {
-				Debug.Log ("not hit player");
-				if (dist > 0)
-					offset = Vector3.Lerp(target.transform.position, transform.position, originalDist / dist);
-				else
-					offset = originalOffset;
-			}
-		}*/
-		//dist = Vector3.Distance (transform.position, target.transform.position);
-
+		//Create a ray to the target
 		Ray ray = new Ray (transform.position, target.transform.position - transform.position);
 		RaycastHit hit;
 
 		Debug.DrawRay (transform.position, target.transform.position - transform.position);
 
 		if (Physics.SphereCast (ray, 0.5f, out hit, dist, layermask)) {
-			dist -= 0.1f;
-			Debug.Log ("something in the way");
+			dist = Mathf.SmoothDamp (dist, dist - 0.1f, ref lerpAmount, 0.2f);
+			Debug.Log ("something in the way, going closer");
 		} else {
-			if (dist < originalDist)
-				dist += 0.1f;
+			Debug.Log ("nothing is in the way"); 
+
+			if (dist < originalDist) {
+				float tmpDist = Mathf.SmoothDamp (dist, dist + 0.1f, ref lerpAmount, 0.2f);
+				Vector3 tmpOffset = originalDir * tmpDist;
+				Vector3 tmpPos = target.transform.position + tmpOffset;
+				Ray tmpRay = new Ray (tmpPos, target.transform.position - transform.position);
+				RaycastHit tmpHit;
+
+				Debug.DrawRay (tmpPos, target.transform.position - transform.position, Color.cyan);
+				if (!Physics.SphereCast (tmpRay, 0.5f, out tmpHit, tmpDist, layermask)) {
+					dist = tmpDist;
+					Debug.Log ("nothing will be in the way, going further");
+				}
+			}
 			else
 				dist = originalDist;
-			Debug.Log ("ayy"); 
 		}
 		Debug.Log ("Dist: " + dist);
 
 		offset = originalDir * dist;
 
 		Debug.Log ("Offset: " + offset); 
-		//float desiredAngle = target.transform.eulerAngles.y;
-		//Quaternion rotation = Quaternion.Euler(0, desiredAngle, 0);
+
 		transform.position = target.transform.position + offset;
 		transform.RotateAround (target.transform.position, Vector3.up, target.transform.eulerAngles.y);
 
