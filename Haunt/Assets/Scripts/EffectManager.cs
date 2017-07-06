@@ -12,7 +12,6 @@ public class EffectManager : MonoBehaviour {
 	public UnityEngine.PostProcessing.PostProcessingProfile profile;
 
 	Color vignetteColour = new Color(0.372f, 0.039f, 0.086f); 
-	Color chromAbbColour = new Color(0f, 1f, 0f);
 
 	void OnEnable () {
 		ppb = GetComponent<UnityEngine.PostProcessing.PostProcessingBehaviour> ();
