@@ -6,14 +6,19 @@ public class CameraFollow : MonoBehaviour {
 	public GameObject target;
 	Vector3 offset;
 	Vector3 originalOffset;
+
+	Vector3 originalDir;
 	float originalDist;
 	float dist;
 	float lerpAmount = 0f;
 
+	int layermask = 1 << 9;
+
 	void Start () {
-		originalOffset = (target.transform.position - transform.position).normalized * 3;
-		offset = originalOffset;
+		originalDir = (transform.position - target.transform.position).normalized;
 		originalDist = Vector3.Distance (transform.position, target.transform.position);
+		originalOffset = originalDir * originalDist;
+		offset = originalOffset;
 	}
 	
 	// LateUpdate is called once per frame, after Update
@@ -37,21 +42,32 @@ public class CameraFollow : MonoBehaviour {
 					offset = originalOffset;
 			}
 		}*/
+		//dist = Vector3.Distance (transform.position, target.transform.position);
 
-		Ray ray = new Ray (transform.position, target.transform.position);
+		Ray ray = new Ray (transform.position, target.transform.position - transform.position);
 		RaycastHit hit;
 
-		Debug.DrawRay (transform.position, target.transform.position);
+		Debug.DrawRay (transform.position, target.transform.position - transform.position);
 
-		if (Physics.SphereCast (ray, 0.5f, out hit, dist, ~(1 << 9))) {
-			dist -= 0.01f;
-		} else
-			dist = originalDist;
+		if (Physics.SphereCast (ray, 0.5f, out hit, dist, layermask)) {
+			dist -= 0.1f;
+			Debug.Log ("something in the way");
+		} else {
+			if (dist < originalDist)
+				dist += 0.1f;
+			else
+				dist = originalDist;
+			Debug.Log ("ayy"); 
+		}
+		Debug.Log ("Dist: " + dist);
 
-		offset = (target.transform.position - transform.position).normalized * dist;
-		float desiredAngle = target.transform.eulerAngles.y;
-		Quaternion rotation = Quaternion.Euler(0, desiredAngle, 0);
-		transform.position = target.transform.position - (rotation * offset);
+		offset = originalDir * dist;
+
+		Debug.Log ("Offset: " + offset); 
+		//float desiredAngle = target.transform.eulerAngles.y;
+		//Quaternion rotation = Quaternion.Euler(0, desiredAngle, 0);
+		transform.position = target.transform.position + offset;
+		transform.RotateAround (target.transform.position, Vector3.up, target.transform.eulerAngles.y);
 
 		transform.LookAt(target.transform);
 	}
