@@ -27,39 +27,45 @@ public class CameraFollow : MonoBehaviour {
 		Ray ray = new Ray (transform.position, target.transform.position - transform.position);
 		RaycastHit hit;
 
-		Debug.DrawRay (transform.position, target.transform.position - transform.position);
-
+		// If a 0.5 radius spherecast hitting everything but the player hits anything, reduce distance to player
 		if (Physics.SphereCast (ray, 0.5f, out hit, dist, layermask)) {
-			dist = Mathf.SmoothDamp (dist, dist - 0.1f, ref lerpAmount, 0.2f);
-			Debug.Log ("something in the way, going closer");
+			dist = Mathf.SmoothDamp (dist, dist - 0.1f, ref lerpAmount, 0.1f);
 		} else {
-			Debug.Log ("nothing is in the way"); 
+			
+			/* 
+			 * If we are closer than we were originally,
+			 * we check whether if we did go further away
+			 * we would just end up with something in the way.
+			 */
 
 			if (dist < originalDist) {
-				float tmpDist = Mathf.SmoothDamp (dist, dist + 0.1f, ref lerpAmount, 0.2f);
+				float tmpDist = Mathf.SmoothDamp (dist, dist + 0.1f, ref lerpAmount, 0.1f);
 				Vector3 tmpOffset = originalDir * tmpDist;
 				Vector3 tmpPos = target.transform.position + tmpOffset;
 				Ray tmpRay = new Ray (tmpPos, target.transform.position - transform.position);
 				RaycastHit tmpHit;
 
-				Debug.DrawRay (tmpPos, target.transform.position - transform.position, Color.cyan);
+				/*
+				 * If we will not end up with anything in the way,
+				 * then go further.
+				 */
+
 				if (!Physics.SphereCast (tmpRay, 0.5f, out tmpHit, tmpDist, layermask)) {
 					dist = tmpDist;
-					Debug.Log ("nothing will be in the way, going further");
 				}
 			}
 			else
 				dist = originalDist;
 		}
-		Debug.Log ("Dist: " + dist);
 
+		// This is the offset between the player and the camera - direction times distance.
 		offset = originalDir * dist;
 
-		Debug.Log ("Offset: " + offset); 
-
+		//Position is target position plus offset between us and player.
 		transform.position = target.transform.position + offset;
-		transform.RotateAround (target.transform.position, Vector3.up, target.transform.eulerAngles.y);
 
+		//Rotate ourselves the players rotation around the player, then look at the player.
+		transform.RotateAround (target.transform.position, Vector3.up, target.transform.eulerAngles.y);
 		transform.LookAt(target.transform);
 	}
 }
