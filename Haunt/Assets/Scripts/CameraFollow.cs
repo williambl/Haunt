@@ -5,20 +5,18 @@ public class CameraFollow : MonoBehaviour {
 	//credit: https://code.tutsplus.com/tutorials/unity3d-third-person-cameras--mobile-11230
 	public GameObject target;
 	Vector3 offset;
-	Vector3 originalOffset;
 
-	Vector3 originalDir;
+	Vector3 dir;
 	float originalDist;
 	float dist;
-	float lerpAmount = 0f;
+	float smoothAmount = 0f;
 
 	int layermask = 1 << 9;
 
 	void Start () {
-		originalDir = (transform.position - target.transform.position).normalized;
+		dir = (transform.position - target.transform.position).normalized;
 		originalDist = Vector3.Distance (transform.position, target.transform.position);
-		originalOffset = originalDir * originalDist;
-		offset = originalOffset;
+		offset = dir * originalDist;
 	}
 	
 	// LateUpdate is called once per frame, after Update
@@ -29,7 +27,7 @@ public class CameraFollow : MonoBehaviour {
 
 		// If a 0.5 radius spherecast hitting everything but the player hits anything, reduce distance to player
 		if (Physics.SphereCast (ray, 0.5f, out hit, dist, layermask)) {
-			dist = Mathf.SmoothDamp (dist, dist - 0.1f, ref lerpAmount, 0.1f);
+			dist = Mathf.SmoothDamp (dist, dist - 0.1f, ref smoothAmount, 0.1f);
 		} else {
 			
 			/* 
@@ -39,8 +37,8 @@ public class CameraFollow : MonoBehaviour {
 			 */
 
 			if (dist < originalDist) {
-				float tmpDist = Mathf.SmoothDamp (dist, dist + 0.1f, ref lerpAmount, 0.1f);
-				Vector3 tmpOffset = originalDir * tmpDist;
+				float tmpDist = Mathf.SmoothDamp (dist, dist + 0.1f, ref smoothAmount, 0.1f);
+				Vector3 tmpOffset = dir * tmpDist;
 				Vector3 tmpPos = target.transform.position + tmpOffset;
 				Ray tmpRay = new Ray (tmpPos, target.transform.position - transform.position);
 				RaycastHit tmpHit;
@@ -59,7 +57,7 @@ public class CameraFollow : MonoBehaviour {
 		}
 
 		// This is the offset between the player and the camera - direction times distance.
-		offset = originalDir * dist;
+		offset = dir * dist;
 
 		//Position is target position plus offset between us and player.
 		transform.position = target.transform.position + offset;
