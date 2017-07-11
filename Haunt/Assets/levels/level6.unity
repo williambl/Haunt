@@ -259,9 +259,31 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 0b16b847c22d745c1996ef879d6f9cfa, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0b16b847c22d745c1996ef879d6f9cfa, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &183532055 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100000, guid: 0b16b847c22d745c1996ef879d6f9cfa, type: 3}
+  m_PrefabInternal: {fileID: 183532054}
+--- !u!64 &183532056
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 183532055}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300002, guid: 0b16b847c22d745c1996ef879d6f9cfa, type: 3}
 --- !u!1001 &232777441
 Prefab:
   m_ObjectHideFlags: 0
