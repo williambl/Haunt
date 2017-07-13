@@ -13,6 +13,8 @@ A game where you are a ghost, and must possess people and haunt things to get to
 
 I'm not sure if this can be compiled from this repo - it should be possible.
 
+This project is for Unity 2017.1.0f3
+
 [Trello](https://trello.com/b/OdL4XRwE/haunt-game)
 
 # License
