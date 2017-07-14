@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotatingDoor : MonoBehaviour {
+public class RotatingDoor : Door {
 
 	[Header("Door Properties")]
 	public bool isOpening = false; //Up = True, Down = False
