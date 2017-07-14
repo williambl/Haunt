@@ -7,27 +7,30 @@ public class RotatingDoor : MonoBehaviour {
 	[Header("Door Properties")]
 	public bool isOpening = false; //Up = True, Down = False
 	public float speed = 0.1f;
-	public float open = 90f;
-	public float closed = 0f;
-    public float currentrotation;
-    public Vector3 rotateoffset;
+	public Vector3 open;
+    public Vector3 closed;
 
-    private Vector3 rotatepoint;
+    public float currentrotation;
+
+
+    public void Start()
+    {
+        closed = transform.rotation.eulerAngles;
+	}
 
 	public void Update ()
 	{
     	Move ();
-		rotatepoint = transform.position + rotateoffset;
 	}
 
 	public void Move ()
 	{
-		if (isOpening && currentrotation < open) {
+		if (isOpening && currentrotation < 1) {
 			currentrotation += speed;
-			transform.RotateAround(rotatepoint, Vector3.up, currentrotation);;
-		} else if (!isOpening && currentrotation > closed) {
+			transform.rotation = Quaternion.Euler(Vector3.Slerp(closed, open, currentrotation));
+		} else if (!isOpening && currentrotation >= 0) {
 			currentrotation -= speed;
-			transform.RotateAround(rotatepoint, Vector3.up, currentrotation);
+			transform.rotation = Quaternion.Euler(Vector3.Slerp(closed, open, currentrotation));
 		}
 	}
 }
