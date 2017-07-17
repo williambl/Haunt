@@ -5,7 +5,7 @@ using UnityEngine;
 public class Lock : MonoBehaviour {
 
 	public bool isLocked;
-	public Door door;
+	public ILock door;
 
 	Renderer rend;
 	[SerializeField] Material lockedMat;

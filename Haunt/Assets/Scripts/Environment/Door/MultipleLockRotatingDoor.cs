@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MultipleLockRotatingDoor : RotatingDoor {
+public class MultipleLockRotatingDoor : RotatingDoor, ILock {
 
 	public List<Lock> locks;
 	public List<bool> lockBools;
+
+	public void Start ()
+	{
+		foreach (Lock l in locks) {
+			l.door = this;
+		}
+	}
 
 	public void CheckLocks ()
 	{

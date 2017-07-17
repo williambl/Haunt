@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KeyDoor : Door {
+public class KeyDoor : Door, IKey {
 
-	void OnTriggerEnter (Collider other)
+	public void OnTriggerEnter (Collider other)
 	{
 		if (other.GetComponent<InventoryComponent> () != null) {
 			if (other.GetComponent<InventoryComponent> ().holdingitem.Equals (Registry.FindItemByID ("objective"))) {
@@ -13,7 +13,7 @@ public class KeyDoor : Door {
 		}
 	}
 
-	void OnTriggerExit (Collider other)
+	public void OnTriggerExit (Collider other)
 	{
 		if (other.GetComponent<InventoryComponent> () != null) {
 			if (other.GetComponent<InventoryComponent> ().holdingitem.Equals (Registry.FindItemByID ("objective"))) {
