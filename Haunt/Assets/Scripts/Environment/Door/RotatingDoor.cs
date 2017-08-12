@@ -11,6 +11,11 @@ public class RotatingDoor : Door {
     public Vector3 unchangingRot;
     public float perc = 0;
 
+    public void Start()
+	{
+		unchangingRot = transform.rotation.eulerAngles;
+	}
+
 	public new void Update ()
 	{
     	Move ();
@@ -24,7 +29,7 @@ public class RotatingDoor : Door {
 		} else if (!isOpening && perc > 0) {
             perc -= speed;
         }
-		changingRot = Mathf.LerpAngle(bottom, top, perc);
-		transform.rotation = Quaternion.Euler(unchangingRot);
+        changingRot = Mathf.LerpAngle(bottom, top, perc);
+		transform.localRotation = Quaternion.Euler(unchangingRot.x, changingRot, unchangingRot.z);
 	}
 }
