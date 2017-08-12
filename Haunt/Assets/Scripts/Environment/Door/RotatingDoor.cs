@@ -6,31 +6,25 @@ public class RotatingDoor : Door {
 
 	[Header("Door Properties")]
 	public bool isOpening = false; //Up = True, Down = False
-	public float speed = 0.1f;
-	public Vector3 open;
-    public Vector3 closed;
 
-    public float currentrotation;
+    public float changingRot;
+    public Vector3 unchangingRot;
+    public float perc = 0;
 
-
-    public void Start()
-    {
-        closed = transform.rotation.eulerAngles;
-	}
-
-	public void Update ()
+	public new void Update ()
 	{
     	Move ();
 	}
 
-	public void Move ()
-	{
-		if (isOpening && currentrotation < 1) {
-			currentrotation += speed;
-			transform.rotation = Quaternion.Euler(Vector3.Slerp(closed, open, currentrotation));
-		} else if (!isOpening && currentrotation >= 0) {
-			currentrotation -= speed;
-			transform.rotation = Quaternion.Euler(Vector3.Slerp(closed, open, currentrotation));
-		}
+	public new void Move ()
+    {
+		perc = Mathf.Clamp(perc, 0, 1);
+		if (isOpening && perc < 1) {
+			perc += speed;
+		} else if (!isOpening && perc > 0) {
+            perc -= speed;
+        }
+		changingRot = Mathf.LerpAngle(bottom, top, perc);
+		transform.rotation = Quaternion.Euler(unchangingRot);
 	}
 }
