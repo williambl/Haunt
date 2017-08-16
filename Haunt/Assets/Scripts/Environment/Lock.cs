@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Lock : MonoBehaviour {
 
-	public bool isLocked;
-	public ILock door;
+	public bool isLocked = true;
+	public List<ILocked> doors = new List<ILocked>();
 
 	Renderer rend;
 	[SerializeField] Material lockedMat;
@@ -18,8 +18,13 @@ public class Lock : MonoBehaviour {
 
 	public void ToggleLock () {
 		isLocked = !isLocked;
-		door.CheckLocks ();
+		foreach (ILocked door in doors)
+			door.CheckLocks ();
 
 		rend.material = isLocked ? lockedMat : unlockedMat;
+	}
+
+	public void AddLockedObject (ILocked item) {
+		doors.Add(item);
 	}
 }

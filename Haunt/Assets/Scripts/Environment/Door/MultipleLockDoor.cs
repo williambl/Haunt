@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MultipleLockDoor : Door, ILock {
+public class MultipleLockDoor : Door, ILocked {
 
 	public List<Lock> locks;
 	public List<bool> lockBools;
@@ -10,7 +10,7 @@ public class MultipleLockDoor : Door, ILock {
 	public void Start ()
 	{
 		foreach (Lock l in locks) {
-			l.door = this;
+			l.AddLockedObject(this);
 		}
 	}
 

@@ -8,7 +8,7 @@ public interface IKey
     void OnTriggerExit (Collider other);
 }
 
-public interface ILock
+public interface ILocked
 {
     void Start ();
     void CheckLocks ();
