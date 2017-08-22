@@ -11,27 +11,49 @@ ModelImporter:
     100006: Heatsink_003
     100008: Reactor
     100010: //RootNode
+    100012: Door
+    100014: Reactor_001
+    100016: Door1
     400000: Heatsink
     400002: Heatsink_001
     400004: Heatsink_002
     400006: Heatsink_003
     400008: Reactor
     400010: //RootNode
+    400012: Door
+    400014: Reactor_001
+    400016: Door1
     2300000: Heatsink
     2300002: Heatsink_001
     2300004: Heatsink_002
     2300006: Heatsink_003
     2300008: Reactor
+    2300010: Door
+    2300012: Reactor_001
+    2300014: Door1
     3300000: Heatsink
     3300002: Heatsink_001
     3300004: Heatsink_002
     3300006: Heatsink_003
     3300008: Reactor
+    3300010: Door
+    3300012: Reactor_001
+    3300014: Door1
     4300000: Heatsink
     4300002: Reactor
     4300004: Heatsink_001
     4300006: Heatsink_002
     4300008: Heatsink_003
+    4300010: Reactor_001
+    4300012: Door
+    4300014: Door1
+    6400000: Door
+    6400002: Door1
+    6400004: Heatsink
+    6400006: Heatsink_001
+    6400008: Heatsink_002
+    6400010: Heatsink_003
+    6400012: Reactor
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -63,7 +85,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
