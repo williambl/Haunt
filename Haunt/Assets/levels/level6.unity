@@ -1354,6 +1354,10 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 947028cf80993415e8298321e7fa7d89, type: 3}
   m_IsPrefabParent: 0
+--- !u!4 &1204931825 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400010, guid: 947028cf80993415e8298321e7fa7d89, type: 3}
+  m_PrefabInternal: {fileID: 1204931824}
 --- !u!1001 &1346781538
 Prefab:
   m_ObjectHideFlags: 0
@@ -1615,6 +1619,60 @@ Transform:
   m_Father: {fileID: 493171793}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1715339417
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1715339418}
+  - component: {fileID: 1715339420}
+  - component: {fileID: 1715339419}
+  m_Layer: 8
+  m_Name: HealArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1715339418
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1715339417}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1204931825}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &1715339419
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1715339417}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 10
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1715339420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1715339417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31f25ff94868d43b7bb11750d9d43b1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1725648125}
 --- !u!1001 &1725648122
 Prefab:
   m_ObjectHideFlags: 0
@@ -1686,6 +1744,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4362048536537496, guid: b3b897d8319374970a6843eccc4eae15,
     type: 2}
   m_PrefabInternal: {fileID: 1725648122}
+--- !u!114 &1725648125 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114012941343814482, guid: b3b897d8319374970a6843eccc4eae15,
+    type: 2}
+  m_PrefabInternal: {fileID: 1725648122}
+  m_Script: {fileID: 11500000, guid: 3033c4c9b023d4195a564265c0622e96, type: 3}
 --- !u!84 &1793081446
 RenderTexture:
   m_ObjectHideFlags: 0
