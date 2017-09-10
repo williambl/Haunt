@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour {
 	/// <param name="hasWon">If set to <c>true</c>, the player has won.</param>
 	/// <param name="hasLost">If set to <c>true</c>, the player has lost.</param>
 	void WinOrLose (bool hasWon, bool hasLost) {
+                GUIManager.endMenu.SetActive(hasWon || hasLost);
 		if (hasWon) {
 			gameState = GameState.WON;
 		} else if (hasLost){
