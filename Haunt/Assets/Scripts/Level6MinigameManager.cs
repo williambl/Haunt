@@ -20,10 +20,12 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
 	
 	// Update is called once per frame
 	void Update () {
-            if (canStart && !hasStarted)
+            if (canStart && !hasStarted) {
                 StartCoroutine(Minigame() );
-            else if (!canStart && hasStarted) {
+                StartCoroutine(MinigameTimer() );
+            } else if (!canStart && hasStarted) {
                 StopCoroutine(Minigame() );
+                StopCoroutine(MinigameTimer() );
                 hasStarted = false;
             }
 	}
@@ -39,6 +41,19 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
                 i = Mathf.Clamp(i, 0.5f, Mathf.Infinity);
                 Debug.Log(i);
                 yield return new WaitForSeconds(i);
+            }
+        }
+
+        IEnumerator MinigameTimer ()
+        {
+            for (int i = 0;; i++) {
+                if (i == 0) {
+                    yield return new WaitForSeconds(20f);
+                } else {
+                    StopCoroutine(Minigame() );
+                    manager.won = true;
+                    yield break;
+                }
             }
         }
 
