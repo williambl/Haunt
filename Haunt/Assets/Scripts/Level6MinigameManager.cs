@@ -20,8 +20,21 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
 	// Update is called once per frame
 	void Update () {
             if (hasStarted)
-                manager.won = true;
+                StartCoroutine(Minigame() );
+            else
+                StopCoroutine(Minigame() );
 	}
+
+        IEnumerator Minigame ()
+        {
+            for (float i = 10;;) {
+                if (Random.value > 0.5) {
+                    locks[Random.Range(0, locks.Count)].ToggleLock();
+                }
+                i += Random.Range(-3f, 2f);
+                yield return new WaitForSeconds(i);
+            }
+        }
 
         public void CheckLocks ()
         {
