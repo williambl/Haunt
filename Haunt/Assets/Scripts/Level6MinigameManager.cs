@@ -6,7 +6,8 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
 
         public List<Lock> locks;
         public List<bool> lockBools;
-        public bool hasStarted = false;
+        public bool canStart = false;
+        bool hasStarted = false;
         GameManager manager;
         
 	// Use this for initialization
@@ -19,19 +20,23 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
 	
 	// Update is called once per frame
 	void Update () {
-            if (hasStarted)
+            if (canStart && !hasStarted)
                 StartCoroutine(Minigame() );
-            else
+            else if (!canStart && hasStarted) {
                 StopCoroutine(Minigame() );
+                hasStarted = false;
+            }
 	}
 
         IEnumerator Minigame ()
         {
+            hasStarted = true;
             for (float i = 10;;) {
                 if (Random.value > 0.5) {
                     locks[Random.Range(0, locks.Count)].ToggleLock();
                 }
                 i += Random.Range(-3f, 2f);
+                Debug.Log(i);
                 yield return new WaitForSeconds(i);
             }
         }
@@ -43,8 +48,8 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
 			lockBools.Add (l.isLocked);
 
 		if (lockBools.Contains (false))
-			hasStarted = true;
+			canStart = true;
 		else
-			hasStarted = false;
+			canStart = false;
         }
 }
