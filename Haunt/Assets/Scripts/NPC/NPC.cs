@@ -10,8 +10,6 @@ public class NPC : MonoBehaviour {
 
 	protected Rigidbody rigid;
 
-	protected GameManager manager;
-
 	public GameObject dropObject;
 
 	protected void Start () 
@@ -19,7 +17,6 @@ public class NPC : MonoBehaviour {
 		agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		agent.autoBraking = false;
 		rigid = GetComponent<Rigidbody> ();
-		manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 	}
 
 	protected void Hover (float height)

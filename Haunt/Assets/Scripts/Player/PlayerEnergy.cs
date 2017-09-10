@@ -13,19 +13,14 @@ public class PlayerEnergy : MonoBehaviour {
 	public float energy = 1;
 	public float drainAmount;
 
-	//Private Variables...
-	GameManager manager;
-
 	void Start ()
 	{
 		if(!energyBar)
 			energyBar = GameObject.Find ("EnergyCanvas/EnergyBackground/Energybar").GetComponent<Image> ();
 		if(!controller)
 			controller = GetComponent<PlayerController> ();
-		if(!manager)		
-			manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 
-		switch (manager.difficultyLevel) {
+		switch (GameManager.difficultyLevel) {
 		case Difficulty.EASY:
 			drainAmount = 1f;
 			break;
@@ -42,7 +37,7 @@ public class PlayerEnergy : MonoBehaviour {
 	{
 		if (energy < 0)
 			energy = 0;
-		else if (manager.gameState == GameState.PLAYING) {
+		else if (GameManager.gameState == GameState.PLAYING) {
 			DrainEnergy ();
 		}
 		if (energy > 1)
@@ -93,7 +88,7 @@ public class PlayerEnergy : MonoBehaviour {
 
 	public void LoseEnergy (float amount)
 	{
-		if (manager.gameState != GameState.PLAYING)
+		if (GameManager.gameState != GameState.PLAYING)
 			return;
 
 		if (energy - amount < 0)
@@ -107,7 +102,7 @@ public class PlayerEnergy : MonoBehaviour {
 
 	public void GainEnergy (float amount)
 	{
-		if (manager.gameState != GameState.PLAYING)
+		if (GameManager.gameState != GameState.PLAYING)
 			return;
 
 		if (energy + amount < 0)

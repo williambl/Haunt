@@ -8,11 +8,9 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
         public List<bool> lockBools;
         public bool canStart = false;
         bool hasStarted = false;
-        GameManager manager;
         
 	// Use this for initialization
 	public new void Start () {
-            manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager> ();
 	    foreach (Lock l in locks) {
                 l.AddLockedObject(this);
             }	
@@ -51,7 +49,7 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
                     yield return new WaitForSeconds(20f);
                 } else {
                     StopCoroutine(Minigame() );
-                    manager.won = true;
+                    GameManager.won = true;
                     yield break;
                 }
             }

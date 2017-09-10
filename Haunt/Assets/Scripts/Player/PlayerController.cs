@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour {
 	//Private Variables...
 	RaycastHit ground;
 	Rigidbody rigid;
-	GameManager manager;
 	Vector3 hoverDestinationLerp;
 	float totalLerpTime;
 	float currentLerpTime;
@@ -47,8 +46,6 @@ public class PlayerController : MonoBehaviour {
 	private void PlayerInit() {
 		if(!rigid)
 			rigid = GetComponent<Rigidbody>();
-		if(!manager)
-			manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 		if(!invComponent)
 			invComponent = GetComponent<InventoryComponent> ();
 		if(!abilities)
@@ -69,7 +66,7 @@ public class PlayerController : MonoBehaviour {
 		float adjustedRotateSpeed = rotateSpeed;
 		float adjustedMoveSpeed = moveSpeed;
 
-		if (manager.gameState == GameState.LOST || manager.gameState == GameState.WON || manager.gameState == GameState.PAUSED)
+		if (GameManager.gameState == GameState.LOST || GameManager.gameState == GameState.WON || GameManager.gameState == GameState.PAUSED)
 			return;
 
 		//Movement
@@ -92,14 +89,14 @@ public class PlayerController : MonoBehaviour {
 	
 	void Update () {
 
-		if (manager.gameState == GameState.LOST || manager.gameState == GameState.WON)
+		if (GameManager.gameState == GameState.LOST || GameManager.gameState == GameState.WON)
 			return;
 
 		//Pausing
 		if (Input.GetButtonDown ("Cancel"))
-			manager.TogglePause ();
+			GameManager.TogglePause ();
 
-		if (manager.gameState == GameState.PAUSED)
+		if (GameManager.gameState == GameState.PAUSED)
 			return;
 
 		//Possesion
@@ -164,7 +161,7 @@ public class PlayerController : MonoBehaviour {
 	public void Die ()
 	{
 		dead = true;
-		manager.lost = true;
+		GameManager.lost = true;
 		energy.energy = 0;
 	}
 
