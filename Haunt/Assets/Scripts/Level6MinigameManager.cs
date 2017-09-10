@@ -31,11 +31,12 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
         IEnumerator Minigame ()
         {
             hasStarted = true;
-            for (float i = 10;;) {
+            for (float i = 7;;) {
                 if (Random.value > 0.5) {
                     locks[Random.Range(0, locks.Count)].ToggleLock();
                 }
                 i += Random.Range(-3f, 2f);
+                i = Mathf.Clamp(i, 0.5f, Mathf.Infinity);
                 Debug.Log(i);
                 yield return new WaitForSeconds(i);
             }
