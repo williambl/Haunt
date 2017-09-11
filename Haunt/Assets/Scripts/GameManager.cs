@@ -84,8 +84,10 @@ public class GameManager : MonoBehaviour {
                 GUIManager.endMenu.SetActive(hasWon || hasLost);
 		if (hasWon) {
 			gameState = GameState.WON;
+                        GUIManager.Win();
 		} else if (hasLost){
 			gameState = GameState.LOST;
+                        GUIManager.Lose();
 		}
 	}
 
