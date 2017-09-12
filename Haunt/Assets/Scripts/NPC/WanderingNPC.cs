@@ -11,7 +11,7 @@ public class WanderingNPC : NPC {
 	void Update () {
 		Hover (HoverHeight);
 
-		if (manager.gameState == GameState.PAUSED || manager.gameState == GameState.WON || manager.gameState == GameState.LOST) {
+		if (GameManager.gameState == GameState.PAUSED || GameManager.gameState == GameState.WON || GameManager.gameState == GameState.LOST) {
 			agent.enabled = false;
 			rigid.velocity = Vector3.zero;
 			return;

@@ -12,9 +12,8 @@ public class PullNPC : HostileNPC {
 		playerController = player.GetComponent<PlayerController> ();
 		line = GetComponent<LineRenderer> ();
 		line.enabled = false;
-		manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 
-		switch (manager.difficultyLevel) {
+		switch (GameManager.difficultyLevel) {
 		case Difficulty.EASY:
 			attackStrength = 2;
 			attackCooldown = 7;
@@ -45,7 +44,7 @@ public class PullNPC : HostileNPC {
 	void Update () {
 		Hover (HoverHeight);
 
-		if (manager.gameState == GameState.PAUSED || manager.gameState == GameState.WON || manager.gameState == GameState.LOST) {
+		if (GameManager.gameState == GameState.PAUSED || GameManager.gameState == GameState.WON || GameManager.gameState == GameState.LOST) {
 			agent.enabled = false;
 			rigid.velocity = Vector3.zero;
 			return;

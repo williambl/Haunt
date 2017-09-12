@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Objective1 : MonoBehaviour {
 
-	private GameManager manager;
 	private ItemComponent itemC;
 	private Rigidbody rigid;
 	private Collider coll;
@@ -25,8 +24,6 @@ public class Objective1 : MonoBehaviour {
 			rigid = GetComponent<Rigidbody> ();
 		if(coll == null)
 			coll = GetComponent<Collider> ();
-		if(manager == null)
-			manager = GameObject.FindGameObjectWithTag ("Manager").GetComponent<GameManager> ();
 	}
 
 	void Update () {
@@ -34,7 +31,7 @@ public class Objective1 : MonoBehaviour {
 		coll.enabled = !itemC.isHeld;
 
 		if (itemC.isHeld) {
-			manager.won = true;
+			GameManager.won = true;
 		}
 	}
 }

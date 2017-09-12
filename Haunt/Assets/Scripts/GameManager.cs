@@ -4,53 +4,22 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
+
+        public static GameManager manager;
 	
-	public bool won;
-	public bool lost;
+	public static bool won;
+	public static bool lost;
 
-	public Text endText;
-	public GameObject endMenu;
-	public Button progressButton;
-	public Button endButton;
+	public static Difficulty difficultyLevel;
 
-	public Difficulty difficultyLevel;
-
-	public Slider diffSlider;
-	public Button startButton;
-	public Button settingsButton;
-	public Button exitButton;
-	public Text difficultyLabel;
-
-	public int level;
+	public static int level;
 
 	public bool existedBefore = false;
 
-	public GameState gameState;
-	public GameState unpausedState;
+	public static GameState gameState;
+	public static GameState unpausedState;
 
-	public GameObject pauseMenu;
-	public Button unpauseButton;
-	public Button saveFromPauseButton;
-	public Button loadFromPauseButton;
-	public Button exitToLobbyFromPauseButton;
-	public Button exitToMenuFromPauseButton;
-
-	public GameObject menuCanvas;
-	public GameObject settingsCanvas;
-	public Button backSettingsButton;
-
-	public GameObject startGameCanvas;
-	public Button backStartGameButton;
-	public Button startNewButton;
-	public Button loadSavedButton;
-
-	public GameObject saveLoadMenu;
-	public Text saveLoadLabel;
-	public Button backFromSaveLoadButton;
-	public InputField saveNameField;
-	public Button saveLoadButton;
-
-	public int maxLevelReached = -1;
+	public static int maxLevelReached = -1;
 
 	void OnEnable () {
 		//Subscribes to the scene loading event
@@ -73,14 +42,14 @@ public class GameManager : MonoBehaviour {
 			
 			gameState = GameState.MENU;
 
-			InitMainMenu ();
+			GUIManager.InitMainMenu ();
 		} else if (SceneManager.GetActiveScene ().name.StartsWith ("level")) {
 			gameState = GameState.PLAYING;
 			won = false;
 			lost = false;
 
-			InitPauseMenu ();
-			InitEndMenu ();
+			GUIManager.InitPauseMenu ();
+			GUIManager.InitEndMenu ();
 
 			if (level > maxLevelReached)
 				maxLevelReached = level;
@@ -89,27 +58,16 @@ public class GameManager : MonoBehaviour {
 			won = false;
 			lost = false;
 
-			InitPauseMenu ();
+			GUIManager.InitPauseMenu ();
 		}
-		InitSaveLoadMenu ();
+		GUIManager.InitSaveLoadMenu ();
 		existedBefore = true;
+                GameManager.manager = this;
 	}
 	
 	void Update () {
 		if (SceneManager.GetActiveScene ().name == "menu") {
-			difficultyLevel = (Difficulty)diffSlider.value;
-
-			switch (difficultyLevel) {
-			case Difficulty.EASY:
-				difficultyLabel.text = "EASY";
-				break;
-			case Difficulty.NORMAL:
-				difficultyLabel.text = "NORMAL";
-				break;
-			case Difficulty.HARD:
-				difficultyLabel.text = "HARD";
-				break;
-			}
+		    difficultyLevel = GUIManager.GetDifficultyFromSlider();
 		} 
 		else if (SceneManager.GetActiveScene ().name.StartsWith ("level")) {
 			WinOrLose (won, lost);
@@ -123,20 +81,13 @@ public class GameManager : MonoBehaviour {
 	/// <param name="hasWon">If set to <c>true</c>, the player has won.</param>
 	/// <param name="hasLost">If set to <c>true</c>, the player has lost.</param>
 	void WinOrLose (bool hasWon, bool hasLost) {
-		endMenu.SetActive (hasWon || hasLost);
-		endText.gameObject.SetActive (hasWon || hasLost);
+                GUIManager.endMenu.SetActive(hasWon || hasLost);
 		if (hasWon) {
 			gameState = GameState.WON;
-			endText.GetComponent<Text> ().text = "You win!";
-			progressButton.GetComponentInChildren<Text> ().text = "Next Level";
-			progressButton.GetComponent<Button> ().onClick.RemoveListener (NextLevel);
-			progressButton.GetComponent<Button> ().onClick.AddListener (NextLevel);
+                        GUIManager.Win();
 		} else if (hasLost){
 			gameState = GameState.LOST;
-			endText.GetComponent<Text> ().text = "You lose!";
-			progressButton.GetComponentInChildren<Text> ().text = "Restart Level";
-			progressButton.GetComponent<Button> ().onClick.RemoveListener (RestartLevel);
-			progressButton.GetComponent<Button> ().onClick.AddListener (RestartLevel);
+                        GUIManager.Lose();
 		}
 	}
 
@@ -149,7 +100,7 @@ public class GameManager : MonoBehaviour {
 	/// <summary>
 	/// Starts the game.
 	/// </summary>
-	public void StartGame () {
+	public static void StartGame () {
 		level = -1;
 		GotoLobby ();
 	}
@@ -158,14 +109,14 @@ public class GameManager : MonoBehaviour {
 	/// Changes the difficulty.
 	/// </summary>
 	/// <param name="value">Difficulty value.</param>
-	public void ChangeDifficulty (int value) {
+	public static void SetDifficultyLevel (int value) {
 		difficultyLevel = (Difficulty)value;
 	}
 
 	/// <summary>
 	/// Switches to the next level.
 	/// </summary>
-	public void NextLevel () {
+	public static void NextLevel () {
 		gameState = GameState.LOADING;
 		level++;
 		SceneManager.LoadScene ("level" + level);
@@ -174,7 +125,7 @@ public class GameManager : MonoBehaviour {
 	/// <summary>
 	/// Restarts the level.
 	/// </summary>
-	public void RestartLevel () {
+	public static void RestartLevel () {
 		gameState = GameState.LOADING;
 		SceneManager.LoadScene ("level" + level);
 	}
@@ -183,7 +134,7 @@ public class GameManager : MonoBehaviour {
 	/// Goes to the specified level.
 	/// </summary>
 	/// <param name="level">Level to go to.</param>
-	public void GotoLevel (int targetLevel) {
+	public static void GotoLevel (int targetLevel) {
 		gameState = GameState.LOADING;
 		level = targetLevel;
 		SceneManager.LoadScene ("level" + targetLevel);
@@ -192,7 +143,7 @@ public class GameManager : MonoBehaviour {
 	/// <summary>
 	/// Exits to the main menu.
 	/// </summary>
-	public void ExitToMainMenu () {
+	public static void ExitToMainMenu () {
 		gameState = GameState.LOADING;
 		SceneManager.LoadScene ("menu");
 	}
@@ -200,7 +151,7 @@ public class GameManager : MonoBehaviour {
 	/// <summary>
 	/// Goes to the lobby.
 	/// </summary>
-	public void GotoLobby () {
+	public static void GotoLobby () {
 		gameState = GameState.LOADING;
 		SceneManager.LoadScene ("lobby");
 	}
@@ -218,179 +169,48 @@ public class GameManager : MonoBehaviour {
 	/// <summary>
 	/// Toggles the pause.
 	/// </summary>
-	public void TogglePause ()
+	public static void TogglePause ()
 	{
+            GUIManager.TogglePauseCanvas();
 		if (gameState == GameState.PAUSED) {
 			gameState = unpausedState;
-			pauseMenu.SetActive (false);
 		} else {
 			unpausedState = gameState;
 			gameState = GameState.PAUSED;
-			pauseMenu.SetActive (true);
 		}
-	}
-
-	void InitEndMenu ()
-	{
-
-		endText = GameObject.Find ("EndCanvas/End Menu/endText").GetComponent<Text> ();
-		endMenu = GameObject.Find ("EndCanvas/End Menu");
-		progressButton = GameObject.Find ("EndCanvas/End Menu/Progress").GetComponent<Button> ();
-		endButton = GameObject.Find ("EndCanvas/End Menu/End").GetComponent<Button> ();
-		progressButton.onClick.RemoveAllListeners ();
-		endButton.onClick.AddListener (ExitToMainMenu);
-	}
-
-	void InitPauseMenu ()
-	{
-		pauseMenu = GameObject.Find ("PauseCanvas/Pause Menu");
-		unpauseButton = GameObject.Find ("PauseCanvas/Pause Menu/Unpause").GetComponent<Button> ();
-		saveFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/Save").GetComponent<Button> ();
-		loadFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/Load").GetComponent<Button> ();
-		exitToLobbyFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/ExitToLobby").GetComponent<Button> ();
-		exitToMenuFromPauseButton = GameObject.Find ("PauseCanvas/Pause Menu/ExitToMainMenu").GetComponent<Button> ();
-
-		unpauseButton.onClick.AddListener (TogglePause);
-		saveFromPauseButton.onClick.AddListener (ToggleSaveCanvas);
-		loadFromPauseButton.onClick.AddListener (ToggleLoadCanvas);
-		exitToLobbyFromPauseButton.onClick.AddListener (GotoLobby);
-		exitToMenuFromPauseButton.onClick.AddListener (ExitToMainMenu);
-
-		pauseMenu.SetActive (false);
-	}
-
-	void InitMainMenu ()
-	{
-		menuCanvas = GameObject.Find ("MainMenuCanvas");
-		settingsButton = GameObject.Find ("MainMenuCanvas/settings").GetComponent<Button> ();
-		exitButton = GameObject.Find ("MainMenuCanvas/exit").GetComponent<Button> ();
-		startButton = GameObject.Find ("MainMenuCanvas/start").GetComponent<Button> ();
-
-		settingsCanvas = GameObject.Find ("SettingsCanvas");
-		backSettingsButton = GameObject.Find ("SettingsCanvas/back").GetComponent<Button> ();
-
-		startGameCanvas = GameObject.Find ("StartGameCanvas");
-		difficultyLabel = GameObject.Find ("StartGameCanvas/difficultySlider/Handle Slide Area/Handle/difficultyLabel").GetComponent<Text> ();
-		diffSlider = GameObject.Find ("StartGameCanvas/difficultySlider").GetComponent<Slider> ();
-		startNewButton = GameObject.Find ("StartGameCanvas/startnew").GetComponent<Button> ();
-		loadSavedButton = GameObject.Find ("StartGameCanvas/loadsaved").GetComponent<Button> ();
-		backStartGameButton = GameObject.Find ("StartGameCanvas/back").GetComponent<Button> ();
-
-		startButton.onClick.AddListener (ToggleStartCanvas);
-		exitButton.onClick.AddListener (ExitGame);
-
-		settingsButton.onClick.AddListener (ToggleSettings);
-		backSettingsButton.onClick.AddListener (ToggleSettings);
-
-		startNewButton.onClick.AddListener (StartGame);
-		loadSavedButton.onClick.AddListener (ToggleLoadCanvas);
-		backStartGameButton.onClick.AddListener (ToggleStartCanvas);
-
-		startGameCanvas.SetActive (false);
-	}
-
-	void InitSaveLoadMenu()
-	{
-		saveLoadMenu = GameObject.Find ("SaveLoadCanvas/SaveLoad Menu");
-		saveLoadLabel = GameObject.Find ("SaveLoadCanvas/SaveLoad Menu/SAVELOAD").GetComponent<Text> ();
-		backFromSaveLoadButton = GameObject.Find ("SaveLoadCanvas/SaveLoad Menu/Back").GetComponent<Button> ();
-		saveNameField = GameObject.Find ("SaveLoadCanvas/SaveLoad Menu/SaveName").GetComponent<InputField> ();
-		saveLoadButton = GameObject.Find ("SaveLoadCanvas/SaveLoad Menu/SaveLoad").GetComponent<Button> ();
-
-		backFromSaveLoadButton.onClick.AddListener (ToggleSaveLoadCanvas);
-		saveLoadButton.onClick.AddListener (ToggleSaveLoadCanvas);
-
-		saveLoadMenu.SetActive (false);
 	}
 
 	/// <summary>
 	/// Exits the game.
 	/// </summary>
-	public void ExitGame ()
+	public static void ExitGame ()
 	{
 		Application.Quit ();
 	}
 
-	/// <summary>
-	/// Toggles the settings menu.
-	/// </summary>
-	public void ToggleSettings ()
-	{
-		settingsCanvas.SetActive (!settingsCanvas.activeInHierarchy);
-		menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
-	}
 
-	/// <summary>
-	/// Toggles the start canvas visibility.
-	/// </summary>
-	public void ToggleStartCanvas ()
-	{
-		startGameCanvas.SetActive (!startGameCanvas.activeInHierarchy);
-		menuCanvas.SetActive (!menuCanvas.activeInHierarchy);
-	}
-		
-	/// <summary>
-	/// Toggles the save canvas visibility.
-	/// </summary>
-	public void ToggleSaveCanvas ()
-	{
-		saveLoadMenu.SetActive (!saveLoadMenu.activeInHierarchy);
-		if (saveLoadMenu.activeInHierarchy) {
-			saveLoadButton.onClick.RemoveListener (LoadGameFromMenu);
-			saveLoadButton.onClick.RemoveListener (SaveGameFromMenu);
-
-			saveLoadLabel.text = "SAVE";
-			saveLoadButton.GetComponentInChildren<Text> ().text = "Save";
-			saveLoadButton.onClick.AddListener (SaveGameFromMenu);
-		}
-	}
-
-	/// <summary>
-	/// Toggles the load canvas visibility.
-	/// </summary>
-	public void ToggleLoadCanvas ()
-	{
-		saveLoadMenu.SetActive (!saveLoadMenu.activeInHierarchy);
-		if (saveLoadMenu.activeInHierarchy) {
-			saveLoadButton.onClick.RemoveListener (LoadGameFromMenu);
-			saveLoadButton.onClick.RemoveListener (SaveGameFromMenu);
-
-			saveLoadLabel.text = "LOAD";
-			saveLoadButton.GetComponentInChildren<Text> ().text = "Load";
-			saveLoadButton.onClick.AddListener (LoadGameFromMenu);
-		}
-	}
-
-	/// <summary>
-	/// Toggles the save or load canvas visibility.
-	/// </summary>
-	public void ToggleSaveLoadCanvas ()
-	{
-		saveLoadMenu.SetActive (!saveLoadMenu.activeInHierarchy);
-	}
-
-	public void SaveGame (string saveName)
+	public static void SaveGame (string saveName)
 	{
 		Game game = new Game (level, gameState, level);
 		SaverLoader.Save (saveName, game);
 	}
 
-	public void LoadGame (string saveName)
+	public static void LoadGame (string saveName)
 	{
 		Game game = SaverLoader.Load (saveName);
 		GotoLevel (game.level);
 		gameState = game.gameState;
 	}
 
-	public void SaveGameFromMenu ()
+	public static void SaveGameFromMenu ()
 	{
-		string saveName = saveNameField.text + ".hsv";
+		string saveName = GUIManager.saveNameField.text + ".hsv";
 		SaveGame (saveName);
 	}
 
-	public void LoadGameFromMenu ()
+	public static void LoadGameFromMenu ()
 	{
-		string saveName = saveNameField.text + ".hsv";
+		string saveName = GUIManager.saveNameField.text + ".hsv";
 		LoadGame (saveName);
 	}
 }
