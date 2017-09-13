@@ -8,14 +8,14 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
         public List<bool> lockBools;
         public bool canStart = false;
         bool hasStarted = false;
-        
+
 	// Use this for initialization
-	public new void Start () {
+	public void Start () {
 	    foreach (Lock l in locks) {
                 l.AddLockedObject(this);
-            }	
+            }
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
             if (canStart && !hasStarted) {
