@@ -38,7 +38,7 @@ public static class GUIManager {
 	public static InputField saveNameField;
 	public static Button saveLoadButton;
 
-        public static textPrefab;
+        public static Text textPrefab;
 
         
         public static void Win () {
@@ -220,8 +220,8 @@ public static class GUIManager {
         }
 
         public static Text ShowText(string toShow) {
-            Text text = Instantiate(textPrefab).GetComponentInChildren<Text>();
+            Text text = GameObject.Instantiate(textPrefab).GetComponentInChildren<Text>();
             text.text = toShow;
-            return Text;
+            return text;
         }
 }
