@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour {
 
 	public static int maxLevelReached = -1;
 
+        public GameObject textPrefab;
+
 	void OnEnable () {
 		//Subscribes to the scene loading event
 		SceneManager.sceneLoaded += OnLevelFinishedLoading;
@@ -61,6 +63,7 @@ public class GameManager : MonoBehaviour {
 			GUIManager.InitPauseMenu ();
 		}
 		GUIManager.InitSaveLoadMenu ();
+                GUIManager.textPrefab = textPrefab;
 		existedBefore = true;
                 GameManager.manager = this;
 	}
