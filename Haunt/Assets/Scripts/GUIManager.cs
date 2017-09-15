@@ -38,7 +38,7 @@ public static class GUIManager {
 	public static InputField saveNameField;
 	public static Button saveLoadButton;
 
-        public static Text textPrefab;
+        public static GameObject textPrefab;
 
         
         public static void Win () {
