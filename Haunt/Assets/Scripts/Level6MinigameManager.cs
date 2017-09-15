@@ -21,6 +21,7 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
             if (canStart && !hasStarted) {
                 StartCoroutine(Minigame() );
                 StartCoroutine(MinigameTimer() );
+                GUIManager.ShowText("Started Minigame");
             } else if (!canStart && hasStarted) {
                 StopCoroutine(Minigame() );
                 StopCoroutine(MinigameTimer() );
