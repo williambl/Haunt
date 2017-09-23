@@ -38,6 +38,8 @@ public static class GUIManager {
 	public static InputField saveNameField;
 	public static Button saveLoadButton;
 
+        public static GameObject textPrefab;
+
         
         public static void Win () {
     	    endMenu.SetActive (true);
@@ -215,5 +217,16 @@ public static class GUIManager {
 	        break;
             }
 	    return (Difficulty)diffSlider.value;
+        }
+
+        public static Text ShowText(string toShow) {
+            Text text = GameObject.Instantiate(textPrefab).GetComponentInChildren<Text>();
+            text.text = toShow;
+            return text;
+        }
+
+        public static void RemoveText(Text toRemove) {
+            Canvas canvas = toRemove.GetComponentInParent<Canvas>();
+            GameObject.Destroy(canvas.gameObject);
         }
 }
