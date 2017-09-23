@@ -224,4 +224,9 @@ public static class GUIManager {
             text.text = toShow;
             return text;
         }
+
+        public static void RemoveText(Text toRemove) {
+            Canvas canvas = toRemove.GetComponentInParent<Canvas>();
+            GameObject.Destroy(canvas.gameObject);
+        }
 }

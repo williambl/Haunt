@@ -8,6 +8,7 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
         public List<bool> lockBools;
         public bool canStart = false;
         bool hasStarted = false;
+        UnityEngine.UI.Text minigameText;
 
 	// Use this for initialization
 	public void Start () {
@@ -21,11 +22,12 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
             if (canStart && !hasStarted) {
                 StartCoroutine(Minigame() );
                 StartCoroutine(MinigameTimer() );
-                GUIManager.ShowText("Started Minigame");
+                minigameText = GUIManager.ShowText("Started Minigame");
             } else if (!canStart && hasStarted) {
                 StopCoroutine(Minigame() );
                 StopCoroutine(MinigameTimer() );
                 hasStarted = false;
+                GUIManager.RemoveText(minigameText);
             }
 	}
 
@@ -51,6 +53,7 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
                 } else {
                     StopCoroutine(Minigame() );
                     GameManager.won = true;
+                    GUIManager.RemoveText(minigameText);
                     yield break;
                 }
             }
