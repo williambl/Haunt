@@ -20,18 +20,17 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
 	// Update is called once per frame
 	void Update () {
             if (canStart && !hasStarted) {
-                StartCoroutine(Minigame() );
-                StartCoroutine(MinigameTimer() );
-                minigameText = GUIManager.ShowText("Started Minigame");
+                StartCoroutine(ToggleLockMinigame() );
+                StartCoroutine(MainMinigameTimer() );
             } else if (!canStart && hasStarted) {
-                StopCoroutine(Minigame() );
-                StopCoroutine(MinigameTimer() );
+                StopCoroutine(ToggleLockMinigame() );
+                StopCoroutine(MainMinigameTimer() );
                 hasStarted = false;
                 GUIManager.RemoveText(minigameText);
             }
 	}
 
-        IEnumerator Minigame ()
+        IEnumerator ToggleLockMinigame ()
         {
             hasStarted = true;
             for (float i = 7;;) {
@@ -45,15 +44,25 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
             }
         }
 
-        IEnumerator MinigameTimer ()
+        IEnumerator BlastMinigameTimer (int iterations)
         {
             for (int i = 0;; i++) {
-                if (i == 0) {
+                if (i == iterations)
+                    yield break;
+
+                //TODO: Check if blast action is happening, and then win the game
+                yield return new WaitForSeconds(0.01f);
+            }
+        }
+
+        IEnumerator MainMinigameTimer ()
+        {
+            for (int i = 0;; i++) {
+                if (i == 0) { //Wait for 20sec if on first iteration
                     yield return new WaitForSeconds(20f);
                 } else {
-                    StopCoroutine(Minigame() );
-                    GameManager.won = true;
-                    GUIManager.RemoveText(minigameText);
+                    StopCoroutine(ToggleLockMinigame() );
+                    StartCoroutine(BlastMinigame(Random.Range(3, 5)) );
                     yield break;
                 }
             }
