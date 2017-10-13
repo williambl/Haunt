@@ -9,6 +9,7 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
         public bool canStart = false;
         bool hasStarted = false;
         UnityEngine.UI.Text minigameText;
+        bool blastReady = false;
 
 	// Use this for initialization
 	public void Start () {
@@ -19,6 +20,10 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
 
 	// Update is called once per frame
 	void Update () {
+            if (!lockBools.Contains(true) && Input.GetButton("Blast")) {
+                GameManager.won = true;
+            }
+
             if (canStart && !hasStarted) {
                 StartCoroutine(ToggleLockMinigame() );
                 StartCoroutine(MainMinigameTimer() );
@@ -26,7 +31,6 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
                 StopCoroutine(ToggleLockMinigame() );
                 StopCoroutine(MainMinigameTimer() );
                 hasStarted = false;
-                GUIManager.RemoveText(minigameText);
             }
 	}
 
@@ -44,17 +48,6 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
             }
         }
 
-        IEnumerator BlastMinigameTimer (int iterations)
-        {
-            for (int i = 0;; i++) {
-                if (i == iterations)
-                    yield break;
-
-                //TODO: Check if blast action is happening, and then win the game
-                yield return new WaitForSeconds(0.01f);
-            }
-        }
-
         IEnumerator MainMinigameTimer ()
         {
             for (int i = 0;; i++) {
@@ -62,7 +55,6 @@ public class Level6MinigameManager : MonoBehaviour, ILocked {
                     yield return new WaitForSeconds(20f);
                 } else {
                     StopCoroutine(ToggleLockMinigame() );
-                    StartCoroutine(BlastMinigame(Random.Range(3, 5)) );
                     yield break;
                 }
             }
